@@ -1,0 +1,24 @@
+# Build folders
+bin/
+obj/
+Output/
+artifacts/
+
+# .NET
+.dotnet/
+
+# Debug / logs
+*.log
+*.pdb
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private build script
+Build-Setup.ps1

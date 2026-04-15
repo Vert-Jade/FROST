@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>FROST</AssemblyName>
+    <RootNamespace>FROST</RootNamespace>
+    <ApplicationIcon>Ressources\Icones\frost.ico</ApplicationIcon>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Ressources\Icones\frost.ico" />
+    <!-- Inclut automatiquement TOUTES les images PNG (racine + sous-dossiers des thèmes) -->
+    <Resource Include="Ressources\**\*.png" />
+    <!-- On inclut aussi le dossier Icones s'il a été mis à la racine -->
+    <Resource Include="Icones\**\*.png" />
+  </ItemGroup>
+</Project>

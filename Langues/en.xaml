@@ -1,0 +1,137 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <system:String x:Key="TxtOrientation">STARTING ORIENTATION</system:String>
+    <system:String x:Key="TxtThreshold">PLAYER HP THRESHOLD</system:String>
+    <system:String x:Key="TxtAdvanced">ADVANCED MECHANICS</system:String>
+    <system:String x:Key="TxtTarget">Hit:</system:String>
+    <system:String x:Key="TooltipMob">Classic Monster</system:String>
+    <system:String x:Key="TooltipBoss">Count Harebourg (Teleportation)</system:String>
+    <system:String x:Key="TxtCurrentTurn">Current Turn:</system:String>
+    <system:String x:Key="TxtOdd">Odd</system:String>
+    <system:String x:Key="TxtEven">Even</system:String>
+    <system:String x:Key="TxtMelee">MELEE HITS</system:String>
+    <system:String x:Key="TxtRotation">Rotation:</system:String>
+    <system:String x:Key="TxtCW">Clockwise</system:String>
+    <system:String x:Key="TxtCCW">C. Clockwise</system:String>
+    <system:String x:Key="TxtHitCount">Hit count:</system:String>
+    <system:String x:Key="StatusReady">Ready. Waiting...</system:String>
+    <system:String x:Key="StatusStep1">Step 1: Click on YOUR character.</system:String>
+    <system:String x:Key="StatusStep2">Step 2: Click on the MONSTER.</system:String>
+    <system:String x:Key="StatusHidden">Overlay hidden.</system:String>
+    <system:String x:Key="StatusActive">Overlay active.</system:String>
+    <system:String x:Key="StatusCalculated">Target calculated! Focus released.</system:String>
+    
+    <system:String x:Key="TxtSettingsHeader">SETTINGS</system:String>
+    <system:String x:Key="TxtOpacity">Application Opacity</system:String>
+    <system:String x:Key="TxtLanguage">Language</system:String>
+    <system:String x:Key="TxtColorblind">Colorblind Mode</system:String>
+    <system:String x:Key="TxtCbNormal">Disabled (Normal)</system:String>
+    <system:String x:Key="TxtCbProtanopia">Protanopia (Red/Green)</system:String>
+    <system:String x:Key="TxtCbDeuteranopia">Deuteranopia (Red/Green)</system:String>
+    <system:String x:Key="TxtCbTritanopia">Tritanopia (Blue/Yellow)</system:String>
+    <system:String x:Key="TxtIconTheme">Icon Theme</system:String>
+    <system:String x:Key="TxtThemeDefault">Default (Official)</system:String>
+    <system:String x:Key="TxtThemeHarebourg">Reversed (Harebourg)</system:String>
+    <system:String x:Key="TxtThemeMinimalist">Minimalist</system:String>
+    <system:String x:Key="TxtThemeDark">Dark</system:String>
+    <system:String x:Key="TxtMainColor">Main Color</system:String>
+    <system:String x:Key="TxtLargeText">Large Text</system:String>
+
+    <!-- Categories -->
+    <system:String x:Key="TxtCatDisplay">🖥️ DISPLAY</system:String>
+    <system:String x:Key="TxtCatAppearance">🎨 APPEARANCE</system:String>
+    <system:String x:Key="TxtCatLanguage">🌍 LANGUAGE</system:String>
+    <system:String x:Key="TxtCatAccessibility">👁️ ACCESSIBILITY</system:String>
+    <system:String x:Key="TxtCatCalibration">📐 CALIBRATION</system:String>
+    <system:String x:Key="TxtCatShortcuts">⌨️ SHORTCUTS</system:String>
+    <system:String x:Key="TxtCatLegend">📚 LEGEND</system:String>
+
+    <system:String x:Key="TxtScreenSelect">Screen selection</system:String>
+    <system:String x:Key="TxtScreen">Screen</system:String>
+    <system:String x:Key="TxtPrimary">Primary</system:String>
+
+    <system:String x:Key="TxtWelcome">WELCOME TO FROST</system:String>
+    <system:String x:Key="TxtOnbLang">Let's start with language / Commençons par la langue</system:String>
+    <system:String x:Key="TxtOnbScreen">On which screen do you want to display FROST?</system:String>
+    <system:String x:Key="TxtOnbCb">Are you colorblind (Optional)?</system:String>
+    <system:String x:Key="TxtOnbColor">Choose your favorite interface color</system:String>
+    <system:String x:Key="TxtOnbIcons">Which threshold icon style do you prefer?</system:String>
+    <system:String x:Key="TxtOnbWelcomeDesc">Configure FROST in a few simple steps to fit your needs.</system:String>
+    <system:String x:Key="TxtOnbSlogan">The app that keeps you from freezing.</system:String>
+    <system:String x:Key="TxtOnbByPlayer">By a player, for the players.</system:String>
+    <system:String x:Key="TxtNext">Next ➔</system:String>
+    <system:String x:Key="TxtFinish">Finish</system:String>
+    <system:String x:Key="TxtContinue">Continue ➔</system:String>
+    <system:String x:Key="TxtNoticeBubble">💡 Click here to read the guide before starting!</system:String>
+    <system:String x:Key="TxtCalibShortcutsTitle">Calibration shortcuts:</system:String>
+    <system:String x:Key="TxtCalibShortcut1">• Scroll + Ctrl: Global Zoom</system:String>
+    <system:String x:Key="TxtCalibShortcut2">• Scroll + Shift: Width</system:String>
+    <system:String x:Key="TxtCalibShortcut3">• Scroll + Alt: Height</system:String>
+    <system:String x:Key="TxtCalibShortcut4">• Right Click: Move grid</system:String>
+    <system:String x:Key="TxtShortcutStart">Start / Confirm:</system:String>
+    <system:String x:Key="TxtShortcutHide">Show / Hide:</system:String>
+    <system:String x:Key="TxtShortcutClear">Clear selection:</system:String>
+    
+    <!-- Interface Descriptions & Tooltips -->
+    <system:String x:Key="TxtCalibDesc">Adjust the FROST grid to match your game screen.</system:String>
+    <system:String x:Key="TxtBtnCalibOn">Enable Calibration mode</system:String>
+    <system:String x:Key="TxtBtnCalibOff">Exit Calibration mode</system:String>
+    <system:String x:Key="TxtCalibStatus">Drag | Scroll + Ctrl (Size) / Shift (Width) / Alt (Height)</system:String>
+    <system:String x:Key="TxtShortcutsDesc">Click on the box and press a key.</system:String>
+    <system:String x:Key="TxtNoticeSummaryTitle">📖 SUMMARY</system:String>
+    <system:String x:Key="TxtNoticeBack">Back to summary</system:String>
+    <system:String x:Key="TxtTooltipNotice">User Guide</system:String>
+    <system:String x:Key="TxtTooltipSettings">Settings</system:String>
+    <system:String x:Key="TxtTooltipMinimize">Minimize menu</system:String>
+    <system:String x:Key="TxtTooltipClose">Close application</system:String>
+    <system:String x:Key="TxtTooltipLog">Paste the combat log line here...</system:String>
+    <system:String x:Key="TxtLogPlaceholder">Ex: 82% or [16:12] Clockwise confusion...</system:String>
+    <system:String x:Key="TxtTooltipResize">Resize menu</system:String>
+    <system:String x:Key="TxtTooltipOpacity">Minimum opacity locked at 40% for safety</system:String>
+    <system:String x:Key="TxtTooltipBack">Back to menu</system:String>
+    <system:String x:Key="TxtBtnResetCalib">Reset to default</system:String>
+    <system:String x:Key="TxtCenter">Center</system:String>
+    <system:String x:Key="TxtOnbFinishedTitle">FROST - Completed</system:String>
+    <system:String x:Key="TxtOnbFinishedMsg">Configuration completed! Settings have been applied.&#x0a;If the interface is not fully displayed in the menu, simply restart FROST.</system:String>
+
+    <!-- Noms des Langues -->
+    <system:String x:Key="TxtLangFr">French</system:String>
+    <system:String x:Key="TxtLangEn">English</system:String>
+    <system:String x:Key="TxtLangPt">Portuguese</system:String>
+    <system:String x:Key="TxtLangEs">Spanish</system:String>
+    <system:String x:Key="TxtLangIt">Italian</system:String>
+    <system:String x:Key="TxtLangDe">German</system:String>
+    <system:String x:Key="TxtLangAr">Arabic</system:String>
+    <system:String x:Key="TxtLangNl">Dutch</system:String>
+    <system:String x:Key="TxtLangPl">Polish</system:String>
+    <system:String x:Key="TxtLangRu">Russian</system:String>
+    <system:String x:Key="TxtLangSv">Swedish</system:String>
+    <system:String x:Key="TxtLangTr">Turkish</system:String>
+
+    <!-- Cell Labels -->
+    <system:String x:Key="TxtLabelPlayer">Player</system:String>
+    <system:String x:Key="TxtLabelBoss">Opponent</system:String>
+    <system:String x:Key="TxtLabelTarget">Hit</system:String>
+    <system:String x:Key="TxtLabelTPPlayer">Player TP</system:String>
+    <system:String x:Key="TxtLabelTPBoss">Count TP</system:String>
+
+    <!-- Notice -->
+    <system:String x:Key="TxtNoticeHeader">USER GUIDE</system:String>
+    <system:String x:Key="TxtNotice1Title">1. HOW IT WORKS</system:String>
+    <system:String x:Key="TxtNotice1Desc">This application calculates Count Harebourg's confusion mechanic instantly and without errors. The overlay safely displays on top of your game (no screen reading).</system:String>
+    <system:String x:Key="TxtNotice2Title">2. CALIBRATION &amp; USE</system:String>
+    <system:String x:Key="TxtNotice2Desc">📐 Calibration: In Settings, activate "Calibration Mode". Drag the grid to align the center. Adjust size with Scroll + Ctrl (Zoom), Shift (Width) or Alt (Height).&#x0a;&#x0a;⚔️ How to Use:&#x0a;1. Set your HP % or paste the combat log line.&#x0a;2. Press F2 to target.&#x0a;3. Click on yourself, then on your target.</system:String>
+    <system:String x:Key="TxtNotice3Title">3. ADVANCED MECHANICS</system:String>
+    <system:String x:Key="TxtNotice3Desc">🔄 Gusset Effect (Boss):&#x0a;Odd Turn: YOU are teleported symmetrically to the Count.&#x0a;Even Turn: THE COUNT is teleported symmetrically to you.&#x0a;&#x0a;🗡️ Melee Hits:&#x0a;Each hit rotates the target 90°. Adjust the direction (Clockwise / Counter-Clockwise) and the number of hits (+/-) in the menu to anticipate the result.</system:String>
+    <system:String x:Key="TxtNotice4Title">4. SHORTCUTS &amp; TIPS</system:String>
+    <system:String x:Key="TxtNotice4Desc">• F2: Start / Restart targeting.&#x0a;• F3: Show / Hide overlay.&#x0a;• F4: Clear tiles (resets melee hits to 0).&#x0a;&#x0a;• Interface: Double-click the top of the menu to minimize it.</system:String>
+    <system:String x:Key="TxtNotice4Tip">💡 Tip: FROST tiles are 100% click-through. You can target or move in-game by clicking directly through them!</system:String>
+    <system:String x:Key="TxtNotice5Title">5. LEGEND &amp; COLORBLINDNESS</system:String>
+    <system:String x:Key="TxtNotice5Desc">FROST adapts to your vision! The legend colors below change automatically if you activate a Colorblind mode (Protanopia, Deuteranopia, Tritanopia) in the Settings.</system:String>
+    <system:String x:Key="TxtLegendPlayer">Your Position</system:String>
+    <system:String x:Key="TxtLegendBoss">Opponent Position</system:String>
+    <system:String x:Key="TxtLegendTarget">Hit (Where you must hit)</system:String>
+    <system:String x:Key="TxtLegendTP">Teleportation (Gusset Effect)</system:String>
+</ResourceDictionary>

@@ -1,0 +1,141 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <system:String x:Key="TxtOrientation">ORIENTACIÓN INICIAL</system:String>
+    <system:String x:Key="TxtThreshold">UMBRAL DE HP DEL JUGADOR</system:String>
+    <system:String x:Key="TxtAdvanced">MECÁNICAS AVANZADAS</system:String>
+    <system:String x:Key="TxtTarget">Golpe:</system:String>
+    <system:String x:Key="TooltipMob">Monstruo clásico</system:String>
+    <system:String x:Key="TooltipBoss">Conde Harebourg (Teletransporte)</system:String>
+    <system:String x:Key="TxtCurrentTurn">Turno actual:</system:String>
+    <system:String x:Key="TxtOdd">Impar</system:String>
+    <system:String x:Key="TxtEven">Par</system:String>
+    <system:String x:Key="TxtMelee">GOLPES CUERPO A CUERPO</system:String>
+    <system:String x:Key="TxtRotation">Rotación:</system:String>
+    <system:String x:Key="TxtCW">Horario</system:String>
+    <system:String x:Key="TxtCCW">Antihorario</system:String>
+    <system:String x:Key="TxtHitCount">Número de golpes:</system:String>
+    <system:String x:Key="StatusReady">Listo. Esperando...</system:String>
+    <system:String x:Key="StatusStep1">Paso 1: Haz clic en TU personaje.</system:String>
+    <system:String x:Key="StatusStep2">Paso 2: Haz clic en el MONSTRUO.</system:String>
+    <system:String x:Key="StatusHidden">Overlay oculto.</system:String>
+    <system:String x:Key="StatusActive">Overlay activo.</system:String>
+    <system:String x:Key="StatusCalculated">¡Objetivo calculado! Foco liberado.</system:String>
+    
+    <system:String x:Key="TxtSettingsHeader">AJUSTES</system:String>
+    <system:String x:Key="TxtOpacity">Opacidad de la aplicación</system:String>
+    <system:String x:Key="TxtLanguage">Idioma</system:String>
+    <system:String x:Key="TxtColorblind">Modo Daltonismo</system:String>
+    <system:String x:Key="TxtCbNormal">Desactivado (Normal)</system:String>
+    <system:String x:Key="TxtCbProtanopia">Protanopía (Rojo/Verde)</system:String>
+    <system:String x:Key="TxtCbDeuteranopia">Deuteranopía (Rojo/Verde)</system:String>
+    <system:String x:Key="TxtCbTritanopia">Tritanopía (Azul/Amarillo)</system:String>
+    <system:String x:Key="TxtIconTheme">Tema de iconos (Umbrales)</system:String>
+    <system:String x:Key="TxtThemeDefault">Por Defecto (Oficial)</system:String>
+    <system:String x:Key="TxtThemeHarebourg">Invertido (Harebourg)</system:String>
+    <system:String x:Key="TxtThemeMinimalist">Minimalista</system:String>
+    <system:String x:Key="TxtThemeDark">Oscuro</system:String>
+    <system:String x:Key="TxtMainColor">Color Principal</system:String>
+    <system:String x:Key="TxtLargeText">Texto Ampliado</system:String>
+
+    <!-- Categorías -->
+    <system:String x:Key="TxtCatDisplay">🖥️ PANTALLA</system:String>
+    <system:String x:Key="TxtCatAppearance">🎨 APARIENCIA</system:String>
+    <system:String x:Key="TxtCatLanguage">🌍 IDIOMA</system:String>
+    <system:String x:Key="TxtCatAccessibility">👁️ ACCESIBILIDAD</system:String>
+    <system:String x:Key="TxtCatCalibration">📐 CALIBRACIÓN</system:String>
+    <system:String x:Key="TxtCatShortcuts">⌨️ ATAJOS</system:String>
+    <system:String x:Key="TxtCatLegend">📚 LEYENDA</system:String>
+
+    <system:String x:Key="TxtScreenSelect">Selección de pantalla</system:String>
+    <system:String x:Key="TxtScreen">Pantalla</system:String>
+    <system:String x:Key="TxtPrimary">Principal</system:String>
+
+    <system:String x:Key="TxtWelcome">BIENVENIDO A FROST</system:String>
+    <system:String x:Key="TxtOnbLang">Empecemos con el idioma / Let's start with language</system:String>
+    <system:String x:Key="TxtOnbScreen">¿En qué pantalla quieres mostrar FROST?</system:String>
+    <system:String x:Key="TxtOnbCb">¿Tienes daltonismo (Opcional)?</system:String>
+    <system:String x:Key="TxtOnbColor">Elige tu color de interfaz favorito</system:String>
+    <system:String x:Key="TxtOnbIcons">¿Qué estilo de iconos de umbral prefieres?</system:String>
+    <system:String x:Key="TxtOnbWelcomeDesc">Configura FROST en unos sencillos pasos para adaptarlo a tus necesidades.</system:String>
+    <system:String x:Key="TxtOnbSlogan">La aplicación que evita que te quedes congelado.</system:String>
+    <system:String x:Key="TxtOnbByPlayer">De un jugador, para los jugadores.</system:String>
+    <system:String x:Key="TxtNext">Siguiente ➔</system:String>
+    <system:String x:Key="TxtFinish">Terminar</system:String>
+    <system:String x:Key="TxtContinue">Continuar ➔</system:String>
+    <system:String x:Key="TxtNoticeBubble">💡 ¡Haz clic aquí para leer la guía antes de empezar!</system:String>
+    <system:String x:Key="TxtCalibShortcutsTitle">Atajos de calibración:</system:String>
+    <system:String x:Key="TxtCalibShortcut1">• Rueda + Ctrl: Zoom global</system:String>
+    <system:String x:Key="TxtCalibShortcut2">• Rueda + Shift: Ancho</system:String>
+    <system:String x:Key="TxtCalibShortcut3">• Rueda + Alt: Alto</system:String>
+    <system:String x:Key="TxtCalibShortcut4">• Clic Derecho: Mover cuadrícula</system:String>
+    <system:String x:Key="TxtShortcutStart">Iniciar / Confirmar:</system:String>
+    <system:String x:Key="TxtShortcutHide">Mostrar / Ocultar:</system:String>
+    <system:String x:Key="TxtShortcutClear">Borrar selección:</system:String>
+    
+    <!-- Interface Descriptions & Tooltips -->
+    <system:String x:Key="TxtCalibDesc">Ajusta la cuadrícula de FROST a tu pantalla de juego.</system:String>
+    <system:String x:Key="TxtBtnCalibOn">Activar modo Calibración</system:String>
+    <system:String x:Key="TxtBtnCalibOff">Salir del modo Calibración</system:String>
+    <system:String x:Key="TxtCalibStatus">Arrastra | Rueda + Ctrl (Tamaño) / Shift (Ancho) / Alt (Alto)</system:String>
+    <system:String x:Key="TxtShortcutsDesc">Haz clic en la casilla y presiona una tecla.</system:String>
+    <system:String x:Key="TxtNoticeSummaryTitle">📖 ÍNDICE</system:String>
+    <system:String x:Key="TxtNoticeBack">Volver al índice</system:String>
+    <system:String x:Key="TxtTooltipNotice">Guía de uso</system:String>
+    <system:String x:Key="TxtTooltipSettings">Ajustes</system:String>
+    <system:String x:Key="TxtTooltipMinimize">Minimizar menú</system:String>
+    <system:String x:Key="TxtTooltipClose">Cerrar aplicación</system:String>
+    <system:String x:Key="TxtTooltipLog">Pega aquí la línea del registro de combate...</system:String>
+    <system:String x:Key="TxtLogPlaceholder">Ej: 82% o [16:12] Confusión horaria...</system:String>
+    <system:String x:Key="TxtTooltipResize">Redimensionar menú</system:String>
+    <system:String x:Key="TxtTooltipOpacity">Opacidad mínima bloqueada al 40% por seguridad</system:String>
+    <system:String x:Key="TxtTooltipBack">Volver al menú</system:String>
+    <system:String x:Key="TxtBtnResetCalib">Restablecer por defecto</system:String>
+    <system:String x:Key="TxtCenter">Centro</system:String>
+    <system:String x:Key="TxtOnbFinishedTitle">FROST - Terminado</system:String>
+    <system:String x:Key="TxtOnbFinishedMsg">¡Configuración completada! Se han aplicado los ajustes.&#x0a;Si la interfaz no se muestra completamente en el menú, simplemente reinicia FROST.</system:String>
+    
+    <system:String x:Key="TxtViewMode">MODO DE VISUALIZACIÓN</system:String>
+    <system:String x:Key="TxtViewFull">Completo</system:String>
+    <system:String x:Key="TxtViewCompact">Compacto</system:String>
+    
+    <!-- Noms des Langues -->
+    <system:String x:Key="TxtLangFr">Francés</system:String>
+    <system:String x:Key="TxtLangEn">Inglés</system:String>
+    <system:String x:Key="TxtLangPt">Portugués</system:String>
+    <system:String x:Key="TxtLangEs">Español</system:String>
+    <system:String x:Key="TxtLangIt">Italiano</system:String>
+    <system:String x:Key="TxtLangDe">Alemán</system:String>
+    <system:String x:Key="TxtLangAr">Árabe</system:String>
+    <system:String x:Key="TxtLangNl">Neerlandés</system:String>
+    <system:String x:Key="TxtLangPl">Polaco</system:String>
+    <system:String x:Key="TxtLangRu">Ruso</system:String>
+    <system:String x:Key="TxtLangSv">Sueco</system:String>
+    <system:String x:Key="TxtLangTr">Turco</system:String>
+
+    <!-- Etiquetas de Casillas -->
+    <system:String x:Key="TxtLabelPlayer">Jugador</system:String>
+    <system:String x:Key="TxtLabelBoss">Adversario</system:String>
+    <system:String x:Key="TxtLabelTarget">Golpe</system:String>
+    <system:String x:Key="TxtLabelTPPlayer">TP Jugador</system:String>
+    <system:String x:Key="TxtLabelTPBoss">TP Conde</system:String>
+    
+    <!-- Notice -->
+    <system:String x:Key="TxtNoticeHeader">GUÍA DE USO</system:String>
+    <system:String x:Key="TxtNotice1Title">1. CÓMO FUNCIONA</system:String>
+    <system:String x:Key="TxtNotice1Desc">Esta aplicación calcula la mecánica de confusión del Conde Harebourg al instante y sin errores. El overlay se superpone de forma segura sobre tu juego (sin lectura de pantalla).</system:String>
+    <system:String x:Key="TxtNotice2Title">2. CALIBRACIÓN Y USO</system:String>
+    <system:String x:Key="TxtNotice2Desc">📐 Calibración: En los Ajustes, activa el "Modo Calibración". Arrastra la cuadrícula para alinear el centro. Ajusta el tamaño con Rueda + Ctrl (Zoom), Shift (Ancho) o Alt (Alto).&#x0a;&#x0a;⚔️ Uso:&#x0a;1. Ajusta tu % de HP o pega la línea del registro de combate.&#x0a;2. Pulsa F2 para apuntar.&#x0a;3. Haz clic en ti, luego en tu objetivo.</system:String>
+    <system:String x:Key="TxtNotice3Title">3. MECÁNICAS AVANZADAS</system:String>
+    <system:String x:Key="TxtNotice3Desc">🔄 Efecto Fuelle (Jefe):&#x0a;Turno Impar: TÚ te teletransportas simétricamente al Conde.&#x0a;Turno Par: EL CONDE se teletransporta simétricamente a ti.&#x0a;&#x0a;🗡️ Golpes Cuerpo a Cuerpo:&#x0a;Cada golpe rota el objetivo 90°. Ajusta la dirección (Horario / Antihorario) y el número de golpes (+/-) en el menú para anticipar el resultado.</system:String>
+    <system:String x:Key="TxtNotice4Title">4. ATAJOS Y CONSEJOS</system:String>
+    <system:String x:Key="TxtNotice4Desc">• F2: Iniciar / Reiniciar apuntado.&#x0a;• F3: Mostrar / Ocultar overlay.&#x0a;• F4: Borrar casillas (reinicia los golpes a 0).&#x0a;&#x0a;• Interfaz: Haz doble clic en la parte superior del menú para minimizarlo.</system:String>
+    <system:String x:Key="TxtNotice4Tip">💡 Consejo: Las casillas de FROST son 100% transparentes a los clics. ¡Puedes hacer clic a través de ellas para jugar directamente!</system:String>
+    <system:String x:Key="TxtNotice5Title">5. LEYENDA Y DALTONISMO</system:String>
+    <system:String x:Key="TxtNotice5Desc">¡FROST se adapta a tu visión! Los colores de la leyenda a continuación cambian automáticamente si activas un modo Daltonismo (Protanopía, Deuteranopía, Tritanopía) en los Ajustes.</system:String>
+    <system:String x:Key="TxtLegendPlayer">Tu Posición</system:String>
+    <system:String x:Key="TxtLegendBoss">Posición del Adversario</system:String>
+    <system:String x:Key="TxtLegendTarget">Golpe (Dónde debes golpear)</system:String>
+    <system:String x:Key="TxtLegendTP">Teletransporte (Efecto Fuelle)</system:String>
+</ResourceDictionary>
