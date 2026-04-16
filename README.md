@@ -157,4 +157,4 @@ https://www.virustotal.com/gui/file/e1fe3640fb07fe502cd3532053ed865909a8c2e556af
 Aucune activité malveillante significative n'a été détectée.
 
 > ⚠️ Note : certains antivirus peuvent générer des faux positifs sur des applications peu connues ou récemment compilées.  
-FROST ne contient aucun code malveillant et respecte strictement les règles d'utilisation du jeu.
+FROST ne contient aucun code malveillant.
