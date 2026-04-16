@@ -143,3 +143,18 @@ Si le projet t’aide, n’hésite pas à :
 - ⭐ laisser une étoile sur le repo
 - 🐛 signaler un bug
 - 💡 proposer des améliorations
+
+
+---
+
+## 🔐 Analyse de sécurité (VirusTotal)
+
+Le fichier a été analysé via VirusTotal afin de garantir son intégrité et sa sécurité.
+
+👉 Résultat de l'analyse :  
+https://www.virustotal.com/gui/file/e1fe3640fb07fe502cd3532053ed865909a8c2e556af32cf5b3cc1f6e7f141d4
+
+Aucune activité malveillante significative n'a été détectée.
+
+> ⚠️ Note : certains antivirus peuvent générer des faux positifs sur des applications peu connues ou récemment compilées.  
+FROST ne contient aucun code malveillant et respecte strictement les règles d'utilisation du jeu.
