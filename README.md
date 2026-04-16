@@ -4,6 +4,9 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
 ![Status](https://img.shields.io/badge/status-stable-green)
 ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
+
+---
+
 **FROST** est une application d'overlay (superposition d'écran) conçue pour aider les joueurs de **Dofus** à comprendre et calculer instantanément la mécanique de **"Confusion"** lors du combat contre le boss **Comte Harebourg**.
 
 👉 Conçu par des joueurs, pour les joueurs, FROST est **rapide, précis, personnalisable et 100% sécurisé**.
