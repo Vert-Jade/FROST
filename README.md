@@ -15,8 +15,12 @@
 
 ## 📥 Téléchargement
 
-👉 **Télécharger la dernière version :**  
-https://github.com/Vert-Jade/FROST/releases/latest
+Deux options sont disponibles :
+
+- **Version prête à l'emploi (setup.exe)** :  
+  https://github.com/Vert-Jade/FROST/releases/latest
+- **Code source du projet** :  
+  `git clone https://github.com/Vert-Jade/FROST.git`
 
 ---
 
@@ -61,6 +65,8 @@ Toutes les actions sont effectuées **manuellement par le joueur**.
 
 ## 🚀 Installation & Lancement
 
+### Option 1 - Installer la version prête à l'emploi
+
 1. Télécharge la dernière version depuis :  
    https://github.com/Vert-Jade/FROST/releases
 
@@ -70,6 +76,36 @@ Toutes les actions sont effectuées **manuellement par le joueur**.
    - écran
    - langue
    - couleurs
+
+### Option 2 - Cloner et lancer le projet depuis le code source
+
+Prérequis :
+
+- Windows
+- .NET 8 SDK
+- Visual Studio 2022 (recommandé) ou la CLI `dotnet`
+
+1. Clone le dépôt :
+
+```powershell
+git clone https://github.com/Vert-Jade/FROST.git
+cd FROST
+```
+
+2. Lance le projet :
+
+- **Avec Visual Studio** : ouvre `FROST.sln`, puis démarre le projet
+- **Avec la CLI** :
+
+```powershell
+dotnet run --project FROST.csproj -c Release
+```
+
+3. Pour générer les binaires sans lancer l'application :
+
+```powershell
+dotnet build FROST.sln -c Release
+```
 
 ---
 
