@@ -59,6 +59,14 @@ Toutes les actions sont effectuées **manuellement par le joueur**.
 
 > 🧠 FROST = l'équivalent d'un papier + crayon, directement sur ton écran.
 
+### 🔐 Analyse VirusTotal
+
+Le binaire publié peut être consulté sur VirusTotal ici :
+
+https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f37f9a75f6307a81cc8484?nocache=1
+
+À ce stade, un moteur de détection **IA** isolé peut signaler le fichier de manière prudente, sans consensus global de détection malveillante. Cela correspond au type de faux positif que l'on peut parfois voir sur une application récente, peu diffusée et compilée récemment.
+
 ---
 
 ## ✨ Fonctionnalités principales
