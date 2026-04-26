@@ -1,6 +1,6 @@
 # ❄️ FROST - Assistant Tactique pour le Comte Harebourg
 
-![Version](https://img.shields.io/badge/version-1.0.1-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
+![Version](https://img.shields.io/badge/version-1.0.2-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey) ![Status](https://img.shields.io/badge/status-stable-green)
 
 **FROST** est une application d'overlay conçue pour aider les joueurs de **Dofus** à lire et calculer instantanément la mécanique de **Confusion** contre **le Comte Harebourg**, sans perturber le gameplay.
@@ -9,22 +9,19 @@
 
 ---
 
-## ✨ Nouveautés v1.0.1
+## ✨ Nouveautés v1.0.2
 
-- 🪟 **Suivi de fenêtre renforcé**
-  FROST se recale plus proprement sur Dofus pendant les resizes et les changements d'état de la fenêtre.
+- 🚀 **Démarrage plus fiable**
+  FROST gère maintenant proprement le tout premier lancement, y compris quand Dofus n'est pas encore ouvert.
 
-- 👻 **Masquage automatique amélioré**
-  Quand Dofus est réduit ou indisponible, FROST se masque proprement tout en restant accessible via la barre des tâches.
+- 📘 **Notice obligatoire fiabilisée**
+  Le parcours de notice ne peut plus laisser l'application dans un état visible mais bloqué côté interactions.
 
-- 🧹 **Interface simplifiée**
-  Les anciens boutons de calibration et de mode d'affichage ont été retirés de l'UI pour laisser une expérience plus plug and play.
+- 🪟 **Tracking de fenêtre consolidé**
+  Les améliorations de la v1.0.1 sont conservées et stabilisées pour les cas de masquage, restauration et resize de Dofus.
 
-- 🌍 **Notice, traductions et onboarding remis au propre**
-  Le contenu embarqué est maintenant aligné avec le comportement réel de l'application.
-
-- 🔄 **Mises à jour automatiques**
-  À partir de la **v1.0.1**, FROST peut vérifier les nouvelles releases GitHub au démarrage, télécharger l'installateur et proposer la mise à jour.
+- 🔄 **Mises à jour prêtes pour la suite**
+  L'auto-update introduit en **v1.0.1** reste en place pour détecter automatiquement les prochaines releases GitHub.
 
 ---
 
@@ -61,7 +58,7 @@ Toutes les actions sont effectuées **manuellement par le joueur**.
 
 ### 🔐 Analyse VirusTotal
 
-Le binaire publié peut être consulté sur VirusTotal ici :
+La dernière analyse publique disponible peut être consultée sur VirusTotal ici :
 
 https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f37f9a75f6307a81cc8484?nocache=1
 
@@ -103,7 +100,7 @@ https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f3
 ### Option 1 - Installer la version prête à l'emploi
 
 1. Télécharge la dernière release.
-2. Lance l'installateur Windows `FROST_v1.0.1_setup.exe`.
+2. Lance l'installateur Windows `FROST_v1.0.2_setup.exe`.
 3. Suis l'assistant de configuration.
 
 💡 Les **mises à jour automatiques sont disponibles à partir de la v1.0.1** pour les prochaines versions.

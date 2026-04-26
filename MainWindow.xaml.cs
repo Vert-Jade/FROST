@@ -1680,6 +1680,58 @@ namespace FROST
             Log("Action ignorée tant que la Notice obligatoire n'est pas terminée.");
             return true;
         }
+
+        private void RestoreWindowForInteractiveFlow()
+        {
+            bool needsRestore = _isAutoHiddenBecauseGameWindowUnavailable ||
+                                Visibility != Visibility.Visible ||
+                                Opacity <= 0.01;
+            if (!needsRestore)
+            {
+                return;
+            }
+
+            _isAutoHiddenBecauseGameWindowUnavailable = false;
+            _shouldRestoreWindowAfterGameWindowReturns = false;
+            _trackedWindowInteractionSuppressionUntilUtc = DateTime.UtcNow.AddMilliseconds(250);
+
+            DisplayScreen? targetScreen = GetSelectedOrPrimaryScreen();
+            RunWithoutLayoutPersistence(() =>
+            {
+                if (Visibility != Visibility.Visible)
+                {
+                    Visibility = Visibility.Visible;
+                }
+
+                ApplySavedWindowBounds();
+                if (targetScreen != null)
+                {
+                    ClampWindowToScreen(targetScreen);
+                }
+
+                ApplySavedControlPanelBounds();
+                ClampControlPanelToWindow();
+                UpdateLayout();
+                ClampControlPanelToWindow();
+
+                Opacity = 1.0;
+                Topmost = true;
+            });
+
+            SetWindowClickThrough(false);
+        }
+
+        private bool EnsureMandatoryNoticeFlowVisible()
+        {
+            if (!_isMandatoryNoticeFlowActive)
+            {
+                return false;
+            }
+
+            RestoreWindowForInteractiveFlow();
+            ShowMandatoryNoticeStep(_mandatoryNoticeStep);
+            return true;
+        }
         // --- CONVERSIONS MATHÉMATIQUES ABSOLUES ---
         private Point PointToCell(Point p)
         {
@@ -2473,6 +2525,8 @@ namespace FROST
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
+            if (EnsureMandatoryNoticeFlowVisible()) return;
+
             PanelContent.Visibility = Visibility.Collapsed;
             NoticeContent.Visibility = Visibility.Collapsed;
             SettingsContent.Visibility = Visibility.Visible;
@@ -2482,6 +2536,8 @@ namespace FROST
 
         private void BtnBackSettings_Click(object sender, RoutedEventArgs e)
         {
+            if (EnsureMandatoryNoticeFlowVisible()) return;
+
             SettingsContent.Visibility = Visibility.Collapsed;
             PanelContent.Visibility = Visibility.Visible;
             QueueAutoFitControlPanelHeight();
@@ -2650,6 +2706,7 @@ namespace FROST
             _isMandatoryNoticeFlowActive = true;
             _mandatoryNoticeStep = 1;
             SuccessOverlay.Visibility = Visibility.Collapsed;
+            RestoreWindowForInteractiveFlow();
             RestoreControlPanelAfterOnboarding(saveAfterFit: false);
             ShowMandatoryNoticeStep(_mandatoryNoticeStep);
         }
@@ -3201,7 +3258,7 @@ namespace FROST
             if (allowAutoHide && _isOverlayEnabled && !_isAutoHiddenBecauseGameWindowUnavailable)
             {
                 _isAutoHiddenBecauseGameWindowUnavailable = true;
-                _shouldRestoreWindowAfterGameWindowReturns = Visibility == Visibility.Visible && Opacity > 0.01;
+                _shouldRestoreWindowAfterGameWindowReturns = Visibility == Visibility.Visible;
                 _trackedWindowInteractionSuppressionUntilUtc = DateTime.UtcNow.AddMilliseconds(250);
 
                 RunWithoutLayoutPersistence(() =>
@@ -3232,7 +3289,8 @@ namespace FROST
                 return false;
             }
 
-            if ((OnboardingOverlay != null && OnboardingOverlay.Visibility == Visibility.Visible) ||
+            if (_isMandatoryNoticeFlowActive ||
+                (OnboardingOverlay != null && OnboardingOverlay.Visibility == Visibility.Visible) ||
                 (SuccessOverlay != null && SuccessOverlay.Visibility == Visibility.Visible))
             {
                 return false;
@@ -4102,6 +4160,8 @@ namespace FROST
 
         private void TogglePanelCollapse()
         {
+            if (EnsureMandatoryNoticeFlowVisible()) return;
+
             if (PanelContent.Visibility == Visibility.Visible || SettingsContent.Visibility == Visibility.Visible || NoticeContent.Visibility == Visibility.Visible)
             {
                 _savedPanelHeight = GetCurrentControlPanelHeight();
