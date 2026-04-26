@@ -3,9 +3,11 @@ bin/
 obj/
 Output/
 artifacts/
+release/
 
 # .NET
 .dotnet/
+.dotnetcli/
 
 # Debug / logs
 *.log

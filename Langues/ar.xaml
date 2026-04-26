@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    
+
     <system:String x:Key="TxtOrientation">الاتجاه الأولي</system:String>
     <system:String x:Key="TxtThreshold">عتبة نقاط حياة اللاعب</system:String>
     <system:String x:Key="TxtAdvanced">آليات متقدمة</system:String>
@@ -18,11 +18,11 @@
     <system:String x:Key="TxtHitCount">عدد الضربات:</system:String>
     <system:String x:Key="StatusReady">جاهز. قيد الانتظار...</system:String>
     <system:String x:Key="StatusStep1">الخطوة 1: انقر على شخصيتك.</system:String>
-    <system:String x:Key="StatusStep2">الخطوة 2: انقر على الوحش.</system:String>
+    <system:String x:Key="StatusStep2">الخطوة 2: انقر على الهدف.</system:String>
     <system:String x:Key="StatusHidden">العرض مخفي.</system:String>
     <system:String x:Key="StatusActive">العرض نشط.</system:String>
     <system:String x:Key="StatusCalculated">تم حساب الهدف! تم تحرير التركيز.</system:String>
-    
+
     <system:String x:Key="TxtSettingsHeader">الإعدادات</system:String>
     <system:String x:Key="TxtOpacity">شفافية التطبيق</system:String>
     <system:String x:Key="TxtLanguage">اللغة</system:String>
@@ -44,41 +44,40 @@
     <system:String x:Key="TxtCatAppearance">🎨 المظهر</system:String>
     <system:String x:Key="TxtCatLanguage">🌍 اللغة</system:String>
     <system:String x:Key="TxtCatAccessibility">👁️ إمكانية الوصول (عمى الألوان)</system:String>
-    <system:String x:Key="TxtCatCalibration">📐 المعايرة</system:String>
+    <system:String x:Key="TxtCatUsage">الاستخدام</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ الاختصارات</system:String>
     <system:String x:Key="TxtCatLegend">📚 الأسطورة (المفتاح)</system:String>
 
     <system:String x:Key="TxtScreenSelect">تحديد الشاشة</system:String>
     <system:String x:Key="TxtScreen">الشاشة</system:String>
     <system:String x:Key="TxtPrimary">الرئيسية</system:String>
+    <system:String x:Key="TxtOnbScreenSection">شاشة العرض</system:String>
+    <system:String x:Key="TxtOnbViewModeSection">وضع التطبيق</system:String>
 
     <system:String x:Key="TxtWelcome">مرحبًا بك في FROST</system:String>
     <system:String x:Key="TxtOnbLang">لنبدأ باختيار اللغة / Let's start with language</system:String>
-    <system:String x:Key="TxtOnbScreen">على أي شاشة تريد عرض FROST؟</system:String>
+    <system:String x:Key="TxtOnbScreen">اختر الشاشة وأوضاع العرض التي سيتم استخدامها عند التشغيل.</system:String>
     <system:String x:Key="TxtOnbCb">هل تعاني من عمى الألوان (اختياري)؟</system:String>
     <system:String x:Key="TxtOnbColor">اختر لون الواجهة المفضل لديك</system:String>
     <system:String x:Key="TxtOnbIcons">ما هو نمط أيقونات العتبة المفضل لديك؟</system:String>
-    <system:String x:Key="TxtOnbWelcomeDesc">قم بإعداد FROST في بضع خطوات بسيطة لتكييفه مع احتياجاتك.</system:String>
+
     <system:String x:Key="TxtOnbSlogan">التطبيق الذي يمنعك من أن تصبح متجمداً.</system:String>
+
     <system:String x:Key="TxtOnbByPlayer">من لاعب، إلى اللاعبين.</system:String>
+
     <system:String x:Key="TxtNext">التالي ➔</system:String>
+
     <system:String x:Key="TxtFinish">إنهاء</system:String>
+
     <system:String x:Key="TxtContinue">متابعة ➔</system:String>
-    <system:String x:Key="TxtNoticeBubble">💡 انقر هنا لقراءة الدليل قبل البدء!</system:String>
-    <system:String x:Key="TxtCalibShortcutsTitle">اختصارات المعايرة:</system:String>
-    <system:String x:Key="TxtCalibShortcut1">• عجلة الماوس + Ctrl: تكبير عام</system:String>
-    <system:String x:Key="TxtCalibShortcut2">• عجلة الماوس + Shift: العرض</system:String>
-    <system:String x:Key="TxtCalibShortcut3">• عجلة الماوس + Alt: الارتفاع</system:String>
-    <system:String x:Key="TxtCalibShortcut4">• كليك يمين: تحريك الشبكة</system:String>
+
+    <system:String x:Key="TxtUpdateReadyTitle">تحديث FROST</system:String>
+    <system:String x:Key="TxtUpdateReadyMessage">تم تنزيل التحديث {0}. هل تريد تشغيل أداة التثبيت الآن؟ سيتم الاحتفاظ بإعداداتك وبالـ Notice التي سبق تأكيدها.</system:String>
     <system:String x:Key="TxtShortcutStart">بدء / تأكيد:</system:String>
     <system:String x:Key="TxtShortcutHide">إظهار / إخفاء:</system:String>
     <system:String x:Key="TxtShortcutClear">مسح التحديد:</system:String>
-    
+
     <!-- Descriptions d'interface et Infobulles -->
-    <system:String x:Key="TxtCalibDesc">قم بضبط شبكة FROST لتطابق شاشة اللعبة الخاصة بك.</system:String>
-    <system:String x:Key="TxtBtnCalibOn">تفعيل وضع المعايرة</system:String>
-    <system:String x:Key="TxtBtnCalibOff">الخروج من وضع المعايرة</system:String>
-    <system:String x:Key="TxtCalibStatus">اسحب | عجلة الماوس + Ctrl (الحجم) / Shift (العرض) / Alt (الارتفاع)</system:String>
     <system:String x:Key="TxtShortcutsDesc">انقر على المربع واضغط على أي مفتاح.</system:String>
     <system:String x:Key="TxtNoticeSummaryTitle">📖 الفهرس</system:String>
     <system:String x:Key="TxtNoticeBack">العودة إلى الفهرس</system:String>
@@ -89,17 +88,15 @@
     <system:String x:Key="TxtTooltipLog">الصق سطر سجل القتال هنا...</system:String>
     <system:String x:Key="TxtLogPlaceholder">مثال: 82% أو [16:12] اتجاه عقارب الساعة...</system:String>
     <system:String x:Key="TxtTooltipResize">تغيير حجم القائمة</system:String>
-    <system:String x:Key="TxtTooltipOpacity">الحد الأدنى للشفافية مقفل عند 40٪ للأمان</system:String>
+    <system:String x:Key="TxtTooltipOpacity">الحد الأدنى للشفافية مضبوط على 80٪ للحفاظ على وضوح الواجهة</system:String>
     <system:String x:Key="TxtTooltipBack">العودة إلى القائمة</system:String>
-    <system:String x:Key="TxtBtnResetCalib">استعادة الافتراضيات</system:String>
     <system:String x:Key="TxtCenter">المركز</system:String>
     <system:String x:Key="TxtOnbFinishedTitle">FROST - مكتمل</system:String>
     <system:String x:Key="TxtOnbFinishedMsg">اكتمل التكوين! تم تطبيق الإعدادات.&#x0a;إذا لم تظهر الواجهة بالكامل في القائمة، فما عليك سوى إعادة تشغيل FROST.</system:String>
-    
     <system:String x:Key="TxtViewMode">وضع العرض</system:String>
     <system:String x:Key="TxtViewFull">كامل</system:String>
-    <system:String x:Key="TxtViewCompact">مدمج</system:String>
-    
+    <system:String x:Key="TxtViewCompact">مضغوط</system:String>
+
     <!-- Noms des Langues -->
     <system:String x:Key="TxtLangFr">الفرنسية</system:String>
     <system:String x:Key="TxtLangEn">الإنجليزية</system:String>
@@ -116,24 +113,49 @@
 
     <!-- Labels sur les cases -->
     <system:String x:Key="TxtLabelPlayer">اللاعب</system:String>
-    <system:String x:Key="TxtLabelBoss">الخصم</system:String>
+    <system:String x:Key="TxtLabelBoss">الهدف</system:String>
     <system:String x:Key="TxtLabelTarget">الضربة</system:String>
     <system:String x:Key="TxtLabelTPPlayer">انتقال اللاعب</system:String>
     <system:String x:Key="TxtLabelTPBoss">انتقال الكونت</system:String>
-    
+    <system:String x:Key="TxtDescPlayer">الخانة الأولى</system:String>
+    <system:String x:Key="TxtDescBoss">الهدف المحدد</system:String>
+    <system:String x:Key="TxtDescTarget">خانة الضرب</system:String>
+    <system:String x:Key="TxtDescTPPlayer">وصول اللاعب</system:String>
+    <system:String x:Key="TxtDescTPBoss">وصول الكونت</system:String>
+
     <!-- Notice -->
     <system:String x:Key="TxtNoticeHeader">دليل المستخدم</system:String>
     <system:String x:Key="TxtNotice1Title">1. كيف يعمل</system:String>
     <system:String x:Key="TxtNotice1Desc">يحسب هذا التطبيق ميكانيكية الارتباك للكونت هاربوروغ بشكل فوري وبدون أخطاء. تتراكب الواجهة بشكل آمن فوق لعبتك (بدون قراءة الشاشة).</system:String>
-    <system:String x:Key="TxtNotice2Title">2. المعايرة والاستخدام</system:String>
-    <system:String x:Key="TxtNotice2Desc">📐 المعايرة: في الإعدادات، قم بتفعيل "وضع المعايرة". اسحب الشبكة لمحاذاة المركز. اضبط الحجم باستخدام عجلة الماوس + Ctrl (التكبير)، Shift (العرض) أو Alt (الارتفاع).&#x0a;&#x0a;⚔️ الاستخدام:&#x0a;1. اضبط نسبة نقاط الحياة الخاصة بك أو الصق سطر سجل القتال.&#x0a;2. اضغط F2 للتصويب.&#x0a;3. انقر على نفسك، ثم على هدفك.</system:String>
+    <system:String x:Key="TxtNotice1IntroCardTitle">نظرة عامة</system:String>
+    <system:String x:Key="TxtNotice1SafetyCardTitle">ضمانات</system:String>
+    <system:String x:Key="TxtNotice1SafetyLine1">حساب بصري ويدوي 100٪ لآلية الكونت.</system:String>
+    <system:String x:Key="TxtNotice1SafetyLine2">لا قراءة للذاكرة ولا فحص للشاشة ولا أي أتمتة.</system:String>
+    <system:String x:Key="TxtNotice1SafetyLine3">يبقى التراكب شفافاً للنقرات حتى تتمكن من اللعب بشكل طبيعي.</system:String>
+    <system:String x:Key="TxtNotice2Title">2. الاستخدام</system:String>
+    <system:String x:Key="TxtNotice2InputLine1">الصق 82٪ أو سطراً صالحاً من سجل القتال: يقوم FROST بضبط العتبة والاتجاه الابتدائي تلقائياً.</system:String>
+    <system:String x:Key="TxtNotice2InputLine2">نوع الهدف يبقى يدوياً: عليك اختيار الزعيم أو الوحش بنفسك.</system:String>
+    <system:String x:Key="TxtNotice2InputLine3">عدد ضربات القتال القريب يبقى يدوياً عبر زري + / -.</system:String>
     <system:String x:Key="TxtNotice3Title">3. آليات متقدمة</system:String>
-    <system:String x:Key="TxtNotice3Desc">🔄 تأثير المنفاخ (الزعيم):&#x0a;الدور الفردي: يتم انتقالك تناظرياً بالنسبة للكونت.&#x0a;الدور الزوجي: يتم انتقال الكونت تناظرياً بالنسبة لك.&#x0a;&#x0a;🗡️ ضربات قريبة (CÀC):&#x0a;كل ضربة تدور الهدف 90 درجة. اضبط الاتجاه (مع / عكس عقارب الساعة) وعدد الضربات (+/-) في القائمة لتوقع النتيجة.</system:String>
+    <system:String x:Key="TxtNotice3Desc">تأثير المنفاخ (الزعيم):&#x0a;الدور الفردي: يتم نقلك تناظرياً بالنسبة للكونت.&#x0a;الدور الزوجي: يتم نقل الكونت تناظرياً بالنسبة لك.&#x0a;&#x0a;ضربات القتال القريب:&#x0a;كل ضربة تدير الهدف 90° إلى اليمين. اضبط فقط عدد الضربات (+/-) في القائمة لتوقّع النتيجة.</system:String>
+    <system:String x:Key="TxtNotice3BossCardTitle">تأثير المنفاخ (الزعيم)</system:String>
+    <system:String x:Key="TxtNotice3OddTurn">الدور الفردي: يتم نقلك تناظرياً بالنسبة للكونت.</system:String>
+    <system:String x:Key="TxtNotice3EvenTurn">الدور الزوجي: يتم نقل الكونت تناظرياً بالنسبة لك.</system:String>
+    <system:String x:Key="TxtNotice3MeleeCardTitle">ضربات القتال القريب</system:String>
+    <system:String x:Key="TxtNotice3MeleeDesc">كل ضربة تدير الهدف 90° إلى اليمين. اضبط فقط عدد الضربات (+/-) في القائمة لتوقّع النتيجة.</system:String>
     <system:String x:Key="TxtNotice4Title">4. اختصارات ونصائح</system:String>
     <system:String x:Key="TxtNotice4Desc">• F2: بدء / إعادة تشغيل التصويب.&#x0a;• F3: إظهار / إخفاء الواجهة.&#x0a;• F4: مسح المربعات (يعيد الضربات إلى 0).&#x0a;&#x0a;• الواجهة: انقر مرتين على الجزء العلوي من القائمة لتصغيرها.</system:String>
+    <system:String x:Key="TxtNotice4ShortcutsCardTitle">الاختصارات</system:String>
+    <system:String x:Key="TxtNotice4ShortcutF2">بدء / إعادة بدء الاستهداف.</system:String>
+    <system:String x:Key="TxtNotice4ShortcutF3">إظهار / إخفاء التراكب.</system:String>
+    <system:String x:Key="TxtNotice4ShortcutF4">مسح الخانات (يعيد عدد ضربات القتال القريب إلى 0).</system:String>
+    <system:String x:Key="TxtNotice4InterfaceCardTitle">الواجهة</system:String>
+    <system:String x:Key="TxtNotice4InterfaceDesc">انقر نقراً مزدوجاً على أعلى القائمة لتصغيرها.</system:String>
     <system:String x:Key="TxtNotice4Tip">💡 نصيحة: مربعات FROST شفافة للنقرات بنسبة 100٪. يمكنك النقر من خلالها للعب مباشرة!</system:String>
     <system:String x:Key="TxtNotice5Title">5. المفتاح وعمى الألوان</system:String>
     <system:String x:Key="TxtNotice5Desc">يتكيف FROST مع رؤيتك! تتغير ألوان المفتاح أدناه تلقائيًا إذا قمت بتفعيل وضع عمى الألوان (Protanopia, Deuteranopia, Tritanopia) في الإعدادات.</system:String>
+    <system:String x:Key="TxtNotice5VisualCardTitle">تكيّف بصري</system:String>
+    <system:String x:Key="TxtNotice5LegendCardTitle">العلامات المعروضة</system:String>
     <system:String x:Key="TxtLegendPlayer">موقعك</system:String>
     <system:String x:Key="TxtLegendBoss">موقع الخصم</system:String>
     <system:String x:Key="TxtLegendTarget">الضربة (أين يجب أن تضرب)</system:String>

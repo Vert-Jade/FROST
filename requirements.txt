@@ -1,0 +1,4 @@
+# FROST source setup requirements
+# Windows 10/11 is required.
+# setup.ps1 uses the winget package IDs below to install the missing dependencies automatically.
+Microsoft.DotNet.SDK.8

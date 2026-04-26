@@ -1,199 +1,151 @@
-# ❄️ FROST - Assistant Tactique pour le Comte Harebourg
+# FROST - Assistant Tactique pour le Comte Harebourg
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
+![Version](https://img.shields.io/badge/version-1.0.1-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
 ![Status](https://img.shields.io/badge/status-stable-green)
 ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
 
----
+FROST est un overlay Windows pour Dofus qui aide a lire et calculer instantanement la mecanique de Confusion du Comte Harebourg.
 
-**FROST** est une application d'overlay (superposition d'écran) conçue pour aider les joueurs de **Dofus** à comprendre et calculer instantanément la mécanique de **"Confusion"** lors du combat contre le boss **Comte Harebourg**.
+L'application reste 100% manuelle et 100% visuelle :
 
-👉 Conçu par des joueurs, pour les joueurs, FROST est **rapide, précis, personnalisable et 100% sécurisé**.
+- aucune lecture memoire
+- aucune analyse d'ecran
+- aucune automatisation
 
----
+## Telechargement
 
-## 📥 Téléchargement
-
-Deux options sont disponibles :
-
-- **Version prête à l'emploi (setup.exe)** :  
-  https://github.com/Vert-Jade/FROST/releases/latest
-- **Code source du projet** :  
-  `git clone https://github.com/Vert-Jade/FROST.git`
-
----
-
-## 🛡️ Sécurité & Conformité
-
-- ❌ Aucune lecture mémoire du jeu (pas d'injection)
-- ❌ Aucune analyse d'écran (pas d'OCR / pixel scanning)
-- ❌ Aucune automatisation (pas de macro / bot)
-
-👉 L'application est une **simple surcouche visuelle (overlay)**.  
-Toutes les actions sont effectuées **manuellement par le joueur**.
-
-> 🧠 FROST = l'équivalent d'un papier + crayon, mais directement sur ton écran.
-
----
-
-## ✨ Fonctionnalités principales
-
-- 🎯 **Calcul instantané**  
-  Détermine la case exacte en fonction du seuil de vitalité (Pi, Pi/2, etc.)
-
-- 🧠 **Gestion avancée (Gousset)**  
-  - Rotation des frappes au corps-à-corps (90° par coup)  
-  - Téléportation symétrique selon la parité du tour (Pair / Impair)
-
-- 🖱️ **Overlay transparent**  
-  Interaction possible à travers l’interface (aucune gêne en jeu)
-
-- 🌍 **Multilingue**  
-  Disponible en 12 langues (FR, EN, ES, PT, DE, IT…)
-
-- 👁️ **Accessibilité**  
-  Support du daltonisme :
-  - Protanopie  
-  - Deutéranopie  
-  - Tritanopie  
-
-- 📏 **Calibration personnalisée**  
-  Compatible avec toutes les résolutions et configurations d’écran
-
----
-
-## 🚀 Installation & Lancement
-
-### Option 1 - Installer la version prête à l'emploi
-
-1. Télécharge la dernière version depuis :  
-   https://github.com/Vert-Jade/FROST/releases
-
-2. Lance : FROST_v1.0.0_Setup.exe
-
-3. Suis l’assistant de configuration :
-   - écran
-   - langue
-   - couleurs
-
-### Option 2 - Cloner et lancer le projet depuis le code source
-
-Prérequis :
-
-- Windows
-- .NET 8 SDK
-- Visual Studio 2022 (recommandé) ou la CLI `dotnet`
-
-1. Clone le dépôt :
+- Derniere version prete a l'emploi : https://github.com/Vert-Jade/FROST/releases/latest
+- Code source :
 
 ```powershell
 git clone https://github.com/Vert-Jade/FROST.git
 cd FROST
 ```
 
-2. Lance le projet :
+## Fonctionnalites
 
-- **Avec Visual Studio** : ouvre `FROST.sln`, puis démarre le projet
-- **Avec la CLI** :
+- Calcul instantane de la case a jouer selon le seuil de vitalite
+- Gestion du Gousset avec teleports symetriques pair / impair
+- Gestion du Pandultimatum : chaque coup au cac tourne la cible de 90 degres vers la droite
+- Saisie manuelle du seuil ou collage direct d'une ligne de log de combat
+- Overlay transparent qui suit la fenetre Dofus et se recale pendant les resizes
+- Masquage automatique de FROST quand Dofus est reduit ou indisponible
+- Panneau compact / complet, selection d'ecran, onboarding et notice integree
+- Multi-langue et profils daltonisme
+- Verification automatique des nouvelles releases GitHub au demarrage
+- Telechargement automatique de l'installeur de mise a jour
+- Configuration locale conservee entre les mises a jour
+
+## Installation
+
+### Option 1 - Setup Windows
+
+1. Telecharge la derniere release GitHub.
+2. Lance l'installateur Windows.
+3. Suis l'assistant.
+4. Les prochaines versions plus recentes pourront etre detectees et proposees automatiquement au demarrage.
+
+### Option 2 - Source plug and play
+
+Le depot contient les scripts utiles pour preparer le projet sans configuration manuelle :
+
+- `requirements.txt` : dependance source principale attendue par `setup.ps1`
+- `setup.ps1` : verifie le SDK .NET 8, le restore et le build
+- `setup.bat` : lance `setup.ps1` en double-clic
+
+Depuis le dossier clone :
+
+```powershell
+.\setup.bat
+```
+
+Ou en PowerShell :
+
+```powershell
+.\setup.ps1 -Configuration Release -Run
+```
+
+## Lancement manuel
+
+Pour lancer l'application :
 
 ```powershell
 dotnet run --project FROST.csproj -c Release
 ```
 
-3. Pour générer les binaires sans lancer l'application :
+Pour compiler uniquement :
 
 ```powershell
 dotnet build FROST.sln -c Release
 ```
 
----
+## Build installateur
 
-## 📖 Utilisation
+Un script de build Inno Setup est inclus :
 
-### 🔧 1. Calibration (une seule fois)
+```powershell
+.\build-installer.ps1 -Configuration Release -Runtime win-x64
+```
 
-Dans les paramètres :
+Le script :
 
-- Clique sur **Activer le mode Calibration**
+1. publie l'application en self-contained
+2. installe Inno Setup via `winget` si besoin
+3. genere un installateur `FROST_vX.Y.Z_setup.exe`
 
-Contrôles :
-- **Clic droit maintenu** → déplacer la grille
-- **Ctrl + molette** → zoom
-- **Shift + molette** → largeur des cases
-- **Alt + molette** → hauteur des cases
+## Utilisation rapide
 
----
+1. Selectionne ton seuil de vitalite ou colle une ligne de log de combat.
+2. Appuie sur `F2`.
+3. Clique ton personnage puis la cible.
+4. Ajuste si besoin le type de cible et le nombre de frappes au cac.
 
-### ⚔️ 2. En combat
+FROST affiche immediatement la case finale a jouer.
 
-1. Sélectionne ton **seuil de vitalité**
-   - ou colle le message du chat Dofus  
-     *(ex: `[16:12] Nom du joueur Confusion horaire`)*
+## Raccourcis
 
-2. Appuie sur **F2**
+| Action | Touche |
+| --- | --- |
+| Lancer / Valider | `F2` |
+| Afficher / Masquer | `F3` |
+| Effacer | `F4` |
 
-3. Clique :
-   - ton personnage
-   - puis la cible
+## Mises a jour
 
-👉 FROST affiche immédiatement la case de frappe optimale
+- FROST verifie `releases/latest` sur GitHub au demarrage.
+- Si une version strictement plus recente existe, l'installateur est telecharge puis propose a l'utilisateur.
+- Pour forcer une vraie mise a jour chez les utilisateurs, il faut publier une nouvelle version plus haute que l'actuelle.
 
----
+## Prerequis source
 
-## ⌨️ Raccourcis clavier
+- Windows 10 ou 11
+- .NET 8 SDK
+- `winget` si tu veux que les scripts installent automatiquement les dependances manquantes
 
-| Action | Touche | Description |
-|------|------|------------|
-| Lancer / Valider | `F2` | Démarre le ciblage |
-| Afficher / Masquer | `F3` | Toggle visibilité |
-| Effacer | `F4` | Reset complet |
+## Stack technique
 
-> 💡 Astuce : double-clique sur la fenêtre pour activer le mode compact
+- C#
+- .NET 8
+- WPF
+- Overlay Windows avec `user32.dll`
+- GitHub Releases pour la distribution et les mises a jour
 
----
+## Credits
 
-## 🛠️ Stack technique
+Projet developpe pour la communaute Dofus.
 
-- **Langage** : C#  
-- **Framework** : .NET 8.0 / WPF  
-- **Architecture** : Overlay Windows (User32.dll) avec Click-Through dynamique  
+- Luframe
+- Vert-Jade
 
----
+## Disclaimer
 
-## 👥 Crédits
+FROST n'est ni affilie, ni soutenu, ni sponsorise par Ankama.
 
-Projet développé avec passion pour la communauté **Dofus**.
+## Support
 
-- 👤 Luframe
-- 👤 Vert-Jade
+Si le projet t'aide :
 
----
-
-## ⚠️ Disclaimer
-
-FROST n'est **pas affilié**, **ni soutenu**, **ni sponsorisé** par Ankama.
-
----
-
-## ⭐ Support
-
-Si le projet t’aide, n’hésite pas à :
-- ⭐ laisser une étoile sur le repo
-- 🐛 signaler un bug
-- 💡 proposer des améliorations
-
-
----
-
-## 🔐 Analyse de sécurité (VirusTotal)
-
-Le fichier a été analysé via VirusTotal afin de garantir son intégrité et sa sécurité.
-
-👉 Résultat de l'analyse :  
-https://www.virustotal.com/gui/file/e1fe3640fb07fe502cd3532053ed865909a8c2e556af32cf5b3cc1f6e7f141d4
-
-Aucune activité malveillante significative n'a été détectée.
-
-> ⚠️ Note : certains antivirus peuvent générer des faux positifs sur des applications peu connues ou récemment compilées.  
-FROST ne contient aucun code malveillant.
+- laisse une etoile sur le repo
+- ouvre une issue en cas de bug
+- propose des ameliorations
