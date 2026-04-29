@@ -21,6 +21,8 @@
     <system:String x:Key="StatusHidden">Оверлей скрыт.</system:String>
     <system:String x:Key="StatusActive">Оверлей активен.</system:String>
     <system:String x:Key="StatusCalculated">Цель рассчитана! Фокус снят.</system:String>
+    <system:String x:Key="StatusStep1Target">Шаг 1: Нажмите ЦЕЛЬ.</system:String>
+    <system:String x:Key="StatusStep2Player">Шаг 2: Нажмите ВАШЕГО персонажа.</system:String>
     <system:String x:Key="TxtSettingsHeader">НАСТРОЙКИ</system:String>
     <system:String x:Key="TxtOpacity">Прозрачность приложения</system:String>
     <system:String x:Key="TxtLanguage">Язык</system:String>
@@ -36,6 +38,10 @@
     <system:String x:Key="TxtThemeDark">Темная</system:String>
     <system:String x:Key="TxtMainColor">Основной цвет</system:String>
     <system:String x:Key="TxtLargeText">Увеличенный текст</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">ПОРЯДОК ВЫБОРА</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Выберите, должен ли FROST сначала отмечать игрока, а затем цель, или наоборот начинать с противника.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Игрок -&gt; Цель</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Цель -&gt; Игрок</system:String>
     <system:String x:Key="TxtCatDisplay">🖥️ ЭКРАН</system:String>
     <system:String x:Key="TxtCatAppearance">🎨 ВНЕШНИЙ ВИД</system:String>
     <system:String x:Key="TxtCatLanguage">🌍 ЯЗЫК</system:String>
@@ -146,4 +152,10 @@
     <system:String x:Key="TxtLegendBoss">Позиция противника</system:String>
     <system:String x:Key="TxtLegendTarget">Цель (Куда бить)</system:String>
     <system:String x:Key="TxtLegendTP">Телепортация</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Нажмите на цветной квадрат, чтобы изменить его цвет.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">ПОЛЬЗОВАТЕЛЬСКИЙ ЦВЕТ</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Введите шестнадцатеричный цвет, например #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Выбрать цвет</system:String>
+    <system:String x:Key="TxtLegendColorReset">Сбросить</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Неверный код цвета. Используйте шестнадцатеричный формат, например #20CFFF.</system:String>
 </ResourceDictionary>

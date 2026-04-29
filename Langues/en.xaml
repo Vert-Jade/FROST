@@ -22,6 +22,8 @@
     <system:String x:Key="StatusHidden">Overlay hidden.</system:String>
     <system:String x:Key="StatusActive">Overlay active.</system:String>
     <system:String x:Key="StatusCalculated">Target calculated! Focus released.</system:String>
+    <system:String x:Key="StatusStep1Target">Step 1: Click the TARGET.</system:String>
+    <system:String x:Key="StatusStep2Player">Step 2: Click on YOUR character.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">SETTINGS</system:String>
     <system:String x:Key="TxtOpacity">Application Opacity</system:String>
@@ -38,6 +40,10 @@
     <system:String x:Key="TxtThemeDark">Dark</system:String>
     <system:String x:Key="TxtMainColor">Main Color</system:String>
     <system:String x:Key="TxtLargeText">Large Text</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">SELECTION ORDER</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Choose whether FROST should mark the player first and the target second, or reverse the order by starting with the enemy.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Player -&gt; Target</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Target -&gt; Player</system:String>
 
     <!-- Categories -->
     <system:String x:Key="TxtCatDisplay">🖥️ DISPLAY</system:String>
@@ -160,4 +166,10 @@
     <system:String x:Key="TxtLegendBoss">Opponent Position</system:String>
     <system:String x:Key="TxtLegendTarget">Hit (Where you must hit)</system:String>
     <system:String x:Key="TxtLegendTP">Teleportation (Gusset Effect)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Click a colored marker to customize its color.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">CUSTOM COLOR</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Enter a hexadecimal color code, for example #20CFFF.</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Pick a color</system:String>
+    <system:String x:Key="TxtLegendColorReset">Reset</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Invalid color code. Use a hexadecimal format like #20CFFF.</system:String>
 </ResourceDictionary>

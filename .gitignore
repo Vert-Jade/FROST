@@ -12,6 +12,8 @@ release/
 # Debug / logs
 *.log
 *.pdb
+grid_config.txt
+grid_config.backup.txt
 
 # Visual Studio
 .vs/

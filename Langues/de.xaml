@@ -22,6 +22,8 @@
     <system:String x:Key="StatusHidden">Overlay versteckt.</system:String>
     <system:String x:Key="StatusActive">Overlay aktiv.</system:String>
     <system:String x:Key="StatusCalculated">Ziel berechnet! Fokus freigegeben.</system:String>
+    <system:String x:Key="StatusStep1Target">Schritt 1: Klicken Sie auf das ZIEL.</system:String>
+    <system:String x:Key="StatusStep2Player">Schritt 2: Klicken Sie auf IHREN Charakter.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">EINSTELLUNGEN</system:String>
     <system:String x:Key="TxtOpacity">Deckkraft der Anwendung</system:String>
@@ -38,6 +40,10 @@
     <system:String x:Key="TxtThemeDark">Dunkel</system:String>
     <system:String x:Key="TxtMainColor">Hauptfarbe</system:String>
     <system:String x:Key="TxtLargeText">Großer Text</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">AUSWAHLREIHENFOLGE</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Wahlen Sie, ob FROST zuerst den Spieler und dann das Ziel markieren soll oder die Reihenfolge umkehrt und mit dem Gegner beginnt.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Spieler -&gt; Ziel</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Ziel -&gt; Spieler</system:String>
 
     <!-- Kategorien -->
     <system:String x:Key="TxtCatDisplay">🖥️ ANZEIGE</system:String>
@@ -160,4 +166,10 @@
     <system:String x:Key="TxtLegendBoss">Gegnerposition</system:String>
     <system:String x:Key="TxtLegendTarget">Schlag (Wo Sie treffen müssen)</system:String>
     <system:String x:Key="TxtLegendTP">Teleportation (Gusset-Effekt)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Klicken Sie auf ein farbiges Feld, um seine Farbe anzupassen.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">BENUTZERDEFINIERTE FARBE</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Geben Sie eine Hex-Farbe wie #20CFFF ein</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Farbe wählen</system:String>
+    <system:String x:Key="TxtLegendColorReset">Zurücksetzen</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Ungültiger Farbcode. Verwenden Sie ein Hex-Format wie #20CFFF.</system:String>
 </ResourceDictionary>

@@ -21,6 +21,8 @@
     <system:String x:Key="StatusHidden">Arayüz gizlendi.</system:String>
     <system:String x:Key="StatusActive">Arayüz aktif.</system:String>
     <system:String x:Key="StatusCalculated">Hedef hesaplandı! Odak serbest.</system:String>
+    <system:String x:Key="StatusStep1Target">Adim 1: HEDEFE tiklayin.</system:String>
+    <system:String x:Key="StatusStep2Player">Adim 2: KENDI karakterinize tiklayin.</system:String>
     <system:String x:Key="TxtSettingsHeader">AYARLAR</system:String>
     <system:String x:Key="TxtOpacity">Uygulama Saydamlığı</system:String>
     <system:String x:Key="TxtLanguage">Dil</system:String>
@@ -36,6 +38,10 @@
     <system:String x:Key="TxtThemeDark">Karanlık</system:String>
     <system:String x:Key="TxtMainColor">Ana Renk</system:String>
     <system:String x:Key="TxtLargeText">Büyük Metin</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">SECIM SIRASI</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">FROST&apos;un once oyuncuyu sonra hedefi isaretlemesini mi, yoksa sirayi ters cevirip dusmanla baslamasini mi istediginizi secin.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Oyuncu -&gt; Hedef</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Hedef -&gt; Oyuncu</system:String>
     <system:String x:Key="TxtCatDisplay">🖥️ EKRAN</system:String>
     <system:String x:Key="TxtCatAppearance">🎨 GÖRÜNÜM</system:String>
     <system:String x:Key="TxtCatLanguage">🌍 DİL</system:String>
@@ -146,4 +152,10 @@
     <system:String x:Key="TxtLegendBoss">Rakibin Konumu</system:String>
     <system:String x:Key="TxtLegendTarget">Vuruş (Hedef)</system:String>
     <system:String x:Key="TxtLegendTP">Işınlanma</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Rengini özelleştirmek için renkli kutuya tıklayın.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">ÖZEL RENK</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">#20CFFF gibi bir onaltılık renk girin</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Renk seç</system:String>
+    <system:String x:Key="TxtLegendColorReset">Sıfırla</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Geçersiz renk kodu. #20CFFF gibi onaltılık bir biçim kullanın.</system:String>
 </ResourceDictionary>

@@ -38,6 +38,10 @@
     <system:String x:Key="TxtThemeDark">Sombre</system:String>
     <system:String x:Key="TxtMainColor">Couleur Principale</system:String>
     <system:String x:Key="TxtLargeText">Texte Agrandi</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">ORDRE DE S?LECTION</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Choisissez si FROST doit vous faire marquer d&apos;abord le joueur puis la cible, ou l&apos;inverse en commen?ant par l&apos;ennemi.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Joueur -&gt; Cible</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Cible -&gt; Joueur</system:String>
 
     <!-- Catégories -->
     <system:String x:Key="TxtCatDisplay">🖥️ AFFICHAGE</system:String>
@@ -160,4 +164,10 @@
     <system:String x:Key="TxtLegendBoss">Position de l'Adversaire</system:String>
     <system:String x:Key="TxtLegendTarget">Frappe (Où vous devez taper)</system:String>
     <system:String x:Key="TxtLegendTP">Téléportation (Effet Gousset)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Cliquez sur une case color&#233;e pour personnaliser sa couleur.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">COULEUR PERSONNALIS&#201;E</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Saisissez un code hexad&#233;cimal, par exemple #20CFFF.</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Valider</system:String>
+    <system:String x:Key="TxtLegendColorReset">R&#233;initialiser</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Code couleur invalide. Utilisez un format hexad&#233;cimal comme #20CFFF.</system:String>
 </ResourceDictionary>

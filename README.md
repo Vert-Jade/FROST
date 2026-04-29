@@ -1,27 +1,33 @@
 # ❄️ FROST - Assistant Tactique pour le Comte Harebourg
 
-![Version](https://img.shields.io/badge/version-1.0.2-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
+![Version](https://img.shields.io/badge/version-1.0.3-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey) ![Status](https://img.shields.io/badge/status-stable-green)
 
-**FROST** est une application d'overlay conçue pour aider les joueurs de **Dofus** à lire et calculer instantanément la mécanique de **Confusion** contre **le Comte Harebourg**, sans perturber le gameplay.
+**FROST** est un overlay tactique pour **Dofus** pensé pour lire et calculer instantanément la mécanique de **Confusion** du **Comte Harebourg**, sans automatisation et sans perturber le gameplay.
 
-👉 Pensé par des joueurs, pour des joueurs, FROST reste **rapide, précis, lisible et 100% manuel**.
+👉 Pensé par des joueurs, pour des joueurs, FROST reste **rapide, lisible, précis et 100% manuel**.
 
 ---
 
-## ✨ Nouveautés v1.0.2
+## ✨ Nouveautés v1.0.3
 
-- 🚀 **Démarrage plus fiable**
-  FROST gère maintenant proprement le tout premier lancement, y compris quand Dofus n'est pas encore ouvert.
+- 🎯 **Ordre de sélection configurable**
+  FROST permet maintenant de choisir entre **Joueur -> Cible** et **Cible -> Joueur**. Le mode par défaut passe en **Cible -> Joueur**, et la légende ainsi que les calculs suivent automatiquement cet ordre.
 
-- 📘 **Notice obligatoire fiabilisée**
-  Le parcours de notice ne peut plus laisser l'application dans un état visible mais bloqué côté interactions.
+- 🎮 **Focus jeu préservé pendant la séquence**
+  Le ciblage rend proprement la main à **Dofus** pour éviter de devoir recliquer la fenêtre avant de rejouer ses sorts et raccourcis.
 
-- 🪟 **Tracking de fenêtre consolidé**
-  Les améliorations de la v1.0.2 sont conservées et stabilisées pour les cas de masquage, restauration et resize de Dofus.
+- 🪟 **Overlay mieux attaché à Dofus**
+  Le suivi de fenêtre a été consolidé pour garder FROST lié à la page Dofus suivie, sans détachement visuel intempestif.
 
-- 🔄 **Mises à jour prêtes pour la suite**
-  L'auto-update introduit en **v1.0.2** reste en place pour détecter automatiquement les prochaines releases GitHub.
+- 🎨 **Couleurs de légende personnalisables**
+  Chaque case colorée peut maintenant être personnalisée avec un sélecteur intégré à l'UI FROST et un code HEX. L'affichage suit les changements dans les modes **Joueur -> Cible**, **Cible -> Joueur** et les profils **daltoniens**.
+
+- 🔄 **Mises à jour plus visibles**
+  En plus de la vérification automatique au démarrage, un bouton permet désormais de **rechercher une mise à jour** directement depuis les paramètres.
+
+- 📐 **UI plus propre au resize**
+  Les seuils et certains blocs de paramètres ont été rééquilibrés pour éviter les écrasements visuels quand la fenêtre est redimensionnée.
 
 ---
 
@@ -33,7 +39,7 @@
 
 ## 📥 Téléchargement
 
-- **Dernière version prête à l'emploi :**  
+- **Dernière version prête à l'emploi :**
   https://github.com/Vert-Jade/FROST/releases/latest
 
 - **Code source :**
@@ -51,18 +57,16 @@ cd FROST
 - ❌ Aucune analyse d'écran
 - ❌ Aucune automatisation
 
-👉 FROST est une **surcouche visuelle**.  
+👉 FROST est une **surcouche visuelle**.
 Toutes les actions sont effectuées **manuellement par le joueur**.
 
 > 🧠 FROST = l'équivalent d'un papier + crayon, directement sur ton écran.
 
 ### 🔐 Analyse VirusTotal
 
-La dernière analyse publique disponible peut être consultée sur VirusTotal ici :
+Quand une analyse publique récente est disponible, elle peut être partagée depuis la page de release correspondante.
 
-https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f37f9a75f6307a81cc8484?nocache=1
-
-À ce stade, un moteur de détection **IA** isolé peut signaler le fichier de manière prudente, sans consensus global de détection malveillante. Cela correspond au type de faux positif que l'on peut parfois voir sur une application récente, peu diffusée et compilée récemment.
+À ce stade, un moteur de détection **IA** isolé peut parfois signaler le fichier de manière prudente, sans consensus global de détection malveillante. Cela correspond au type de faux positif que l'on peut voir sur une application récente, peu diffusée et compilée récemment.
 
 ---
 
@@ -71,6 +75,9 @@ https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f3
 - 🎯 **Calcul instantané**
   Détermine la case à jouer selon le seuil de vitalité et l'état du combat.
 
+- 🔀 **Ordre de sélection configurable**
+  Permet de cibler soit **le joueur puis la cible**, soit **la cible puis le joueur** selon tes habitudes.
+
 - 🧠 **Gestion avancée des mécaniques**
   Gère le **Gousset** et les téléportations symétriques pair / impair.
 
@@ -78,17 +85,20 @@ https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f3
   Chaque coup au corps-à-corps fait tourner la cible de **90° vers la droite**, avec ajustement manuel du nombre de frappes.
 
 - 🪟 **Overlay intelligent**
-  L'overlay suit la fenêtre Dofus, s'adapte aux resizes et se masque automatiquement si besoin.
+  L'overlay suit la fenêtre Dofus, reste attaché au client suivi et se masque automatiquement si besoin.
 
 - 🖱️ **Overlay transparent**
   L'interface laisse jouer normalement, avec click-through dynamique hors du panneau.
 
-- 🌍 **Multilingue**
-  Disponible en **12 langues**.
+- 🎨 **Couleurs personnalisées**
+  Les couleurs de légende et de repères peuvent être adaptées avec un sélecteur intégré et un code HEX.
 
 - 👁️ **Accessibilité**
   Support des profils daltoniens :
   **Protanopie**, **Deutéranopie**, **Tritanopie**.
+
+- 🌍 **Multilingue**
+  Disponible en **12 langues**.
 
 - 📘 **Notice intégrée**
   Onboarding, aide embarquée et progression conservée localement.
@@ -100,16 +110,16 @@ https://www.virustotal.com/gui/file/179fb57452206823f7f57f73306890409784047171f3
 ### Option 1 - Installer la version prête à l'emploi
 
 1. Télécharge la dernière release.
-2. Lance l'installateur Windows `FROST_v1.0.2_setup.exe`.
+2. Lance l'installateur Windows `FROST_v1.0.3_setup.exe`.
 3. Suis l'assistant de configuration.
 
-💡 Les **mises à jour automatiques sont disponibles à partir de la v1.0.1** pour les prochaines versions.
+💡 FROST vérifie automatiquement les nouvelles releases au démarrage et peut aussi les rechercher manuellement depuis les paramètres.
 
 ### Option 2 - Cloner et lancer le projet source
 
-Le dépôt contient maintenant tout le nécessaire pour préparer le projet sans bricolage :
+Le dépôt contient tout le nécessaire pour préparer le projet sans bricolage :
 
-- `requirements.txt` : dépendance source principale attendue par `setup.ps1`
+- `requirements.txt` : dépendances source attendues par `setup.ps1`
 - `setup.ps1` : vérifie le SDK .NET 8, restore et build le projet
 - `setup.bat` : lance `setup.ps1` en double-clic
 
@@ -133,20 +143,28 @@ Ou en PowerShell :
 
 1. Sélectionne ton **seuil de vitalité** ou colle une ligne de log de combat valide.
 2. Appuie sur **F2**.
-3. Clique :
-   - ton personnage
-   - puis la cible
-4. Ajuste si nécessaire :
+3. Clique par défaut :
+   - la cible
+   - puis ton personnage
+4. Si besoin, inverse cet ordre dans les paramètres avec le mode **Joueur -> Cible**.
+5. Ajuste ensuite :
    - le type de cible
    - le nombre de frappes au corps-à-corps
 
 👉 FROST affiche immédiatement la case finale à jouer.
+
+### 🎨 Personnalisation visuelle
+
+- Clique sur une **case colorée** dans la légende des paramètres.
+- Saisis un **code HEX** ou utilise la **palette intégrée**.
+- Valide pour enregistrer, ou réinitialise pour revenir à la couleur cohérente du mode actif.
 
 ### 🪟 Comportement de l'overlay
 
 - FROST suit automatiquement la fenêtre Dofus
 - FROST se recale pendant les redimensionnements
 - FROST se masque quand Dofus est réduit ou indisponible
+- FROST relâche le focus vers le jeu pendant la séquence de ciblage
 
 ---
 
@@ -164,11 +182,10 @@ Ou en PowerShell :
 
 ## 🔄 Mises à jour
 
-À partir de la **v1.0.1** :
-
 - FROST vérifie `releases/latest` sur GitHub au démarrage
 - télécharge automatiquement l'installateur si une version plus récente existe
-- propose ensuite de lancer la mise à jour
+- propose ensuite d'installer la mise à jour
+- permet aussi une **recherche manuelle** via le bouton dédié en bas des paramètres
 
 ⚠️ Pour qu'une mise à jour soit détectée, la prochaine release doit avoir une **version strictement supérieure** à celle déjà installée.
 

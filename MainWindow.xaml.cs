@@ -53,6 +53,14 @@ namespace FROST
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+        [DllImport("user32.dll")]
         private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -93,6 +101,13 @@ namespace FROST
 
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_TRANSPARENT = 0x00000020;
+        private static readonly IntPtr HWND_TOP = IntPtr.Zero;
+        private const uint GW_HWNDPREV = 3;
+        private const uint SWP_NOSIZE = 0x0001;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint SWP_NOACTIVATE = 0x0010;
+        private const uint SWP_SHOWWINDOW = 0x0040;
+        private const uint SWP_NOOWNERZORDER = 0x0200;
         private const int HOTKEY_ID_F2 = 9002;
         private const int HOTKEY_ID_F3 = 9003;
         private const int HOTKEY_ID_F4 = 9004;
@@ -105,7 +120,7 @@ namespace FROST
         private const string GitHubOwner = "Vert-Jade";
         private const string GitHubRepo = "FROST";
         private const string GitHubApiVersion = "2022-11-28";
-        private const int GridConfigFormatVersion = 10;
+        private const int GridConfigFormatVersion = 12;
         private const double MinPanelOpacity = 0.8;
         private const double MaxPanelOpacity = 1.0;
         private const int GameWindowRescanTickInterval = 15;
@@ -123,6 +138,7 @@ namespace FROST
         // État de l'application
         private enum AppState { Idle, WaitingForPlayer, WaitingForMonster }
         private enum GameDisplayMode { Fullscreen, Windowed }
+        private enum LegendColorSlot { Player, Boss, Target, Teleport }
 
         private sealed class GridCalibrationProfile
         {
@@ -409,6 +425,24 @@ namespace FROST
         private int _iconIdx = 0;
         private Color _themeColor = Color.FromRgb(77, 168, 218); // Bleu glace FROST (#4DA8DA)
         private bool _isLargeText = false;
+        private bool _isTargetFirstSelectionOrder = true;
+        private LegendColorSlot _selectedLegendColorSlot = LegendColorSlot.Player;
+        private LegendColorSlot? _previewLegendColorSlot;
+        private bool _isUpdatingLegendColorEditor = false;
+        private bool _isLegendColorSvDragging = false;
+        private bool _isLegendColorHueDragging = false;
+        private double _legendColorPickerHue = 192.0;
+        private double _legendColorPickerSaturation = 0.84;
+        private double _legendColorPickerValue = 1.0;
+        private Color? _previewLegendColor;
+        private Color? _customPlayerColor;
+        private Color? _customBossColor;
+        private Color? _customTargetColor;
+        private Color? _customTpColor;
+        private const double LegendColorPickerSurfaceSize = 160.0;
+        private const double LegendColorPickerHueStripHeight = 160.0;
+        private const double LegendColorPickerSvHandleSize = 14.0;
+        private const double LegendColorPickerHueHandleHeight = 6.0;
         private const double PanelDefaultX = 0.0;
         private const double PanelDefaultY = 0.0;
         private const double CompactPanelDefaultWidth = 216.0;
@@ -437,6 +471,7 @@ namespace FROST
         private const double ResponsiveCompactExitWidth = 350.0;
         private const double ResponsiveCompactEnterHeight = 430.0;
         private const double ResponsiveCompactExitHeight = 500.0;
+        private const double ThresholdFullLayoutMinimumWidth = 298.0;
         private double _panelX = PanelDefaultX;
         private double _panelY = PanelDefaultY;
         private double _panelWidth = CompactPanelDefaultWidth;
@@ -1051,14 +1086,14 @@ namespace FROST
                 finally
                 {
                     _isApplyingInitialLayout = false;
+                    TrySnapToTrackedGameWindow(allowAutoHide: shouldDelayInitialReveal);
 
                     if (shouldDelayInitialReveal)
                     {
-                        UpdateTrackedGameWindowAnchor();
                         if (!_isAutoHiddenBecauseGameWindowUnavailable && Opacity <= 0.01)
                         {
                             Opacity = 1.0;
-                            Topmost = true;
+                            Topmost = false;
                         }
                     }
 
@@ -1407,6 +1442,52 @@ namespace FROST
             catch { }
         }
 
+        private bool TryPreparePendingDownloadedUpdate()
+        {
+            try
+            {
+                string knownReleaseTag = !string.IsNullOrWhiteSpace(_pendingUpdateReleaseTag)
+                    ? _pendingUpdateReleaseTag
+                    : _lastDownloadedReleaseTag;
+
+                if (!string.IsNullOrWhiteSpace(knownReleaseTag) &&
+                    !string.IsNullOrWhiteSpace(_pendingUpdateInstallerPath) &&
+                    File.Exists(_pendingUpdateInstallerPath) &&
+                    IsReleaseNewerThanCurrent(knownReleaseTag))
+                {
+                    if (string.IsNullOrWhiteSpace(_pendingUpdateReleaseTag))
+                        _pendingUpdateReleaseTag = knownReleaseTag;
+
+                    if (string.IsNullOrWhiteSpace(_pendingUpdateReleaseName))
+                        _pendingUpdateReleaseName = knownReleaseTag;
+
+                    return true;
+                }
+
+                if (string.IsNullOrWhiteSpace(_lastDownloadedReleaseTag) ||
+                    string.IsNullOrWhiteSpace(_lastDownloadedInstallerName) ||
+                    !IsReleaseNewerThanCurrent(_lastDownloadedReleaseTag))
+                {
+                    return false;
+                }
+
+                string installerPath = GetInstallerDownloadPath(_lastDownloadedInstallerName);
+                if (!File.Exists(installerPath))
+                    return false;
+
+                _pendingUpdateReleaseTag = _lastDownloadedReleaseTag;
+                if (string.IsNullOrWhiteSpace(_pendingUpdateReleaseName))
+                    _pendingUpdateReleaseName = _lastDownloadedReleaseTag;
+                _pendingUpdateInstallerPath = installerPath;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log($"Impossible de préparer la mise à jour déjà téléchargée : {ex.Message}");
+                return false;
+            }
+        }
+
         private void QueuePreviouslyDownloadedUpdateIfNeeded()
         {
             try
@@ -1540,6 +1621,157 @@ namespace FROST
             {
                 _hasShownUpdatePromptThisSession = false;
                 Log($"Impossible de lancer l'installeur de mise à jour : {ex.Message}");
+            }
+        }
+
+        private bool CanShowManualUpdatePrompt()
+        {
+            if (string.IsNullOrWhiteSpace(_pendingUpdateInstallerPath) ||
+                !File.Exists(_pendingUpdateInstallerPath))
+            {
+                return false;
+            }
+
+            if (_isMandatoryNoticeFlowActive)
+                return false;
+
+            if (OnboardingOverlay?.Visibility == Visibility.Visible || SuccessOverlay?.Visibility == Visibility.Visible)
+                return false;
+
+            if (ControlPanel == null || ControlPanel.Visibility != Visibility.Visible || !ControlPanel.IsVisible)
+                return false;
+
+            if (PanelContent == null || PanelContent.Visibility != Visibility.Visible)
+                return false;
+
+            return true;
+        }
+
+        private void PromptForDownloadedUpdateManually()
+        {
+            if (!CanShowManualUpdatePrompt())
+                return;
+
+            _hasShownUpdatePromptThisSession = true;
+
+            string releaseLabel = !string.IsNullOrWhiteSpace(_pendingUpdateReleaseName)
+                ? _pendingUpdateReleaseName
+                : _pendingUpdateReleaseTag;
+            string title = Application.Current?.Resources["TxtUpdateReadyTitle"] as string ?? "Mise à jour FROST";
+            string template = Application.Current?.Resources["TxtUpdateReadyMessage"] as string
+                ?? "La mise à jour {0} a été téléchargée. Voulez-vous lancer l'installeur maintenant ? Votre configuration et la Notice déjà validée seront conservées.";
+            string message = string.Format(System.Globalization.CultureInfo.CurrentCulture, template, releaseLabel);
+
+            MessageBoxResult result = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                LaunchDownloadedInstallerAndExit();
+            }
+        }
+
+        private void SetUpdateCheckButtonBusy(bool isBusy)
+        {
+            if (BtnCheckUpdates == null)
+                return;
+
+            BtnCheckUpdates.IsEnabled = !isBusy;
+            BtnCheckUpdates.Opacity = isBusy ? 0.7 : 1.0;
+        }
+
+        private async Task CheckForUpdatesManuallyAsync()
+        {
+            if (_isUpdateCheckInProgress)
+            {
+                SetStatus(GetUiText("StatusUpdateCheckAlreadyRunning", "Une vérification de mise à jour est déjà en cours."), Brushes.Orange);
+                return;
+            }
+
+            if (TryPreparePendingDownloadedUpdate())
+            {
+                PromptForDownloadedUpdateManually();
+                return;
+            }
+
+            _isUpdateCheckInProgress = true;
+            SetUpdateCheckButtonBusy(true);
+
+            string title = Application.Current?.Resources["TxtUpdateReadyTitle"] as string ?? "Mise à jour FROST";
+            try
+            {
+                SetStatus(GetUiText("StatusUpdateChecking", "Recherche d'une mise à jour..."), Brushes.DeepSkyBlue);
+
+                GitHubReleaseInfo? release = await FetchLatestReleaseAsync();
+                if (release == null || release.Draft || release.Prerelease)
+                {
+                    string noReleaseMessage = GetUiText(
+                        "TxtUpdateCheckNoReleaseMessage",
+                        "Impossible de vérifier les mises à jour pour le moment.\n\nAucune release exploitable n'a été trouvée.");
+                    SetStatus(GetUiText("StatusUpdateCheckError", "Vérification de mise à jour impossible."), Brushes.OrangeRed);
+                    MessageBox.Show(noReleaseMessage, title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!IsReleaseNewerThanCurrent(release.TagName))
+                {
+                    string noUpdateMessage = GetUiText("TxtUpdateNoUpdateMessage", "FROST est déjà à jour.");
+                    SetStatus(noUpdateMessage, Brushes.LightGreen);
+                    MessageBox.Show(noUpdateMessage, title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                GitHubReleaseAssetInfo? installerAsset = SelectInstallerAsset(release);
+                if (installerAsset == null || string.IsNullOrWhiteSpace(installerAsset.BrowserDownloadUrl))
+                {
+                    string installerMissingMessage = string.Format(
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        GetUiText("TxtUpdateCheckErrorMessage", "Impossible de vérifier les mises à jour pour le moment.\n\n{0}"),
+                        "Aucun installeur compatible n'a été trouvé dans la dernière release.");
+                    SetStatus(GetUiText("StatusUpdateCheckError", "Vérification de mise à jour impossible."), Brushes.OrangeRed);
+                    MessageBox.Show(installerMissingMessage, title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                string installerName = string.IsNullOrWhiteSpace(installerAsset.Name)
+                    ? BuildDefaultInstallerName(release.TagName)
+                    : installerAsset.Name;
+                string installerPath = GetInstallerDownloadPath(installerName);
+
+                if (!IsInstallerAlreadyDownloaded(installerPath, installerAsset.Size))
+                {
+                    await DownloadInstallerAsync(installerAsset.BrowserDownloadUrl, installerPath, installerAsset.Size);
+                    Log($"Mise à jour téléchargée manuellement : {installerPath}");
+                }
+                else
+                {
+                    Log($"Installeur déjà téléchargé : {installerPath}");
+                }
+
+                CleanupOldDownloadedInstallers(installerPath);
+
+                _lastDownloadedReleaseTag = release.TagName ?? "";
+                _lastDownloadedInstallerName = System.IO.Path.GetFileName(installerPath);
+                _pendingUpdateReleaseTag = release.TagName ?? "";
+                _pendingUpdateReleaseName = string.IsNullOrWhiteSpace(release.Name) ? (release.TagName ?? string.Empty) : release.Name;
+                _pendingUpdateInstallerPath = installerPath;
+
+                SaveGridConfig(rememberBounds: false);
+                SetStatus(GetUiText("TxtUpdateReadyTitle", "Mise à jour FROST"), Brushes.LightGreen);
+                PromptForDownloadedUpdateManually();
+            }
+            catch (Exception ex)
+            {
+                Log($"Vérification manuelle de mise à jour impossible : {ex.Message}");
+                string errorMessage = string.Format(
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    GetUiText("TxtUpdateCheckErrorMessage", "Impossible de vérifier les mises à jour pour le moment.\n\n{0}"),
+                    ex.Message);
+                SetStatus(GetUiText("StatusUpdateCheckError", "Vérification de mise à jour impossible."), Brushes.OrangeRed);
+                MessageBox.Show(errorMessage, title, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                _isUpdateCheckInProgress = false;
+                SetUpdateCheckButtonBusy(false);
             }
         }
 
@@ -1715,9 +1947,10 @@ namespace FROST
                 ClampControlPanelToWindow();
 
                 Opacity = 1.0;
-                Topmost = true;
+                Topmost = false;
             });
 
+            SyncWindowAboveTrackedGameWindow();
             SetWindowClickThrough(false);
         }
 
@@ -1871,20 +2104,168 @@ namespace FROST
             button.Background = isSelected ? selectedBackground : defaultBackground;
         }
 
+        private void RefreshSelectionOrderButtons()
+        {
+            ApplySelectionButtonState(BtnSelectionOrderPlayerFirst, !_isTargetFirstSelectionOrder);
+            ApplySelectionButtonState(BtnSelectionOrderTargetFirst, _isTargetFirstSelectionOrder);
+            RefreshLegendOrder();
+        }
+
+        private void RefreshLegendOrder()
+        {
+            ReorderLegendRows(LegendPanel, 0, LegendRowPlayer, LegendRowBoss, LegendRowTarget, LegendRowTP);
+            ReorderLegendRows(NoticeLegendPanel, 1, NoticeLegendRowPlayer, NoticeLegendRowBoss, NoticeLegendRowTarget, NoticeLegendRowTP);
+        }
+
+        private void ReorderLegendRows(
+            Panel? panel,
+            int insertIndex,
+            UIElement? playerRow,
+            UIElement? bossRow,
+            UIElement? targetRow,
+            UIElement? teleportRow)
+        {
+            if (panel == null || playerRow == null || targetRow == null || bossRow == null || teleportRow == null)
+                return;
+
+            panel.Children.Remove(playerRow);
+            panel.Children.Remove(bossRow);
+            panel.Children.Remove(targetRow);
+            panel.Children.Remove(teleportRow);
+
+            UIElement firstRow = _isTargetFirstSelectionOrder ? bossRow : playerRow;
+            UIElement secondRow = _isTargetFirstSelectionOrder ? playerRow : bossRow;
+
+            panel.Children.Insert(insertIndex++, firstRow);
+            panel.Children.Insert(insertIndex++, secondRow);
+            panel.Children.Insert(insertIndex++, targetRow);
+            panel.Children.Insert(insertIndex, teleportRow);
+        }
+
+        private void UpdateSelectionStatus()
+        {
+            if (_currentState == AppState.WaitingForPlayer)
+            {
+                string text = _isTargetFirstSelectionOrder
+                    ? GetUiText("StatusStep2Player", "Etape 2 : Cliquez sur VOTRE personnage.")
+                    : GetUiText("StatusStep1", "Etape 1 : Cliquez sur VOTRE personnage.");
+                SetStatus(text, new SolidColorBrush(GetLegendColor(LegendColorSlot.Player)));
+                return;
+            }
+
+            if (_currentState == AppState.WaitingForMonster)
+            {
+                string text = _isTargetFirstSelectionOrder
+                    ? GetUiText("StatusStep1Target", "Etape 1 : Cliquez sur la CIBLE.")
+                    : GetUiText("StatusStep2", "Etape 2 : Cliquez sur la CIBLE.");
+                SetStatus(text, new SolidColorBrush(GetLegendColor(LegendColorSlot.Boss)));
+                return;
+            }
+
+            SetStatus(GetUiText("StatusReady", "Pret. En attente..."), Brushes.Gray);
+        }
+
+        private bool IsWaitingForSecondSelection()
+        {
+            return (_currentState == AppState.WaitingForMonster && _isPlayerSet) ||
+                   (_currentState == AppState.WaitingForPlayer && _isMonsterSet);
+        }
+
+        private Point ResolveCurrentSelectionCell(MouseButtonEventArgs e)
+        {
+            if (IsWaitingForSecondSelection() && !IsSameCell(_lastHoveredCell, InvalidCell))
+                return _lastHoveredCell;
+
+            return PointToCell(e.GetPosition(OverlayCanvas));
+        }
+
+        private bool TryGetPreviewSelection(out Point playerCell, out Point monsterCell, out bool hoveredIsPlayer)
+        {
+            playerCell = InvalidCell;
+            monsterCell = InvalidCell;
+            hoveredIsPlayer = false;
+
+            if (IsSameCell(_lastHoveredCell, InvalidCell))
+                return false;
+
+            if (_currentState == AppState.WaitingForMonster && _isPlayerSet)
+            {
+                playerCell = _playerCell;
+                monsterCell = _lastHoveredCell;
+                return IsValidMapCell(monsterCell);
+            }
+
+            if (_currentState == AppState.WaitingForPlayer && _isMonsterSet)
+            {
+                playerCell = _lastHoveredCell;
+                monsterCell = _monsterCell;
+                hoveredIsPlayer = true;
+                return IsValidMapCell(playerCell);
+            }
+
+            return false;
+        }
+
+        private void QueueRestoreTrackedGameWindowFocus()
+        {
+            if (_trackedGameWindowHandle == IntPtr.Zero || !IsWindow(_trackedGameWindowHandle))
+            {
+                UpdateTrackedGameWindowAnchor();
+            }
+
+            if (_trackedGameWindowHandle == IntPtr.Zero || !IsWindow(_trackedGameWindowHandle) || IsIconic(_trackedGameWindowHandle))
+                return;
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (_trackedGameWindowHandle == IntPtr.Zero || !IsWindow(_trackedGameWindowHandle) || IsIconic(_trackedGameWindowHandle))
+                    return;
+
+                try { Keyboard.ClearFocus(); } catch { }
+                SetForegroundWindow(_trackedGameWindowHandle);
+            }), DispatcherPriority.Input);
+        }
+
+        private void AdvanceOrCompleteSelection()
+        {
+            if (_isPlayerSet && _isMonsterSet)
+            {
+                _currentState = AppState.Idle;
+                OverlayCanvas.Background = null;
+                OverlayCanvas.IsHitTestVisible = false;
+                OverlayCanvas.Cursor = Cursors.Arrow;
+
+                SetStatus(GetUiText("StatusCalculated", "Cible calculee ! Focus libere."), new SolidColorBrush(GetLegendColor(LegendColorSlot.Target)));
+                RefreshOverlay();
+                QueueRestoreTrackedGameWindowFocus();
+                Log($"Selection terminee. Joueur ({_playerCell.X}, {_playerCell.Y}), monstre ({_monsterCell.X}, {_monsterCell.Y}).");
+                return;
+            }
+
+            _currentState = _isPlayerSet ? AppState.WaitingForMonster : AppState.WaitingForPlayer;
+            UpdateSelectionStatus();
+            RefreshOverlay();
+            QueueRestoreTrackedGameWindowFocus();
+        }
+
         private void StartSequence()
         {
             if (IsInteractionLockedByMandatoryNotice()) return;
 
-            _currentState = AppState.WaitingForPlayer;
+            TrySnapToTrackedGameWindow(allowAutoHide: false);
+            _currentState = _isTargetFirstSelectionOrder ? AppState.WaitingForMonster : AppState.WaitingForPlayer;
             _isPlayerSet = false;
             _isMonsterSet = false;
-            SetStatus(Application.Current?.Resources["StatusStep1"] as string ?? "Étape 1 : Cliquez sur VOTRE personnage.", Brushes.DeepSkyBlue);
-
+            _playerCell = InvalidCell;
+            _monsterCell = InvalidCell;
+            _lastHoveredCell = InvalidCell;
+            UpdateSelectionStatus();
             OverlayCanvas.Visibility = Visibility.Visible;
             OverlayCanvas.IsHitTestVisible = true;
             OverlayCanvas.Children.Clear();
             OverlayCanvas.Background = new SolidColorBrush(Color.FromArgb((byte)1, (byte)0, (byte)0, (byte)0));
             OverlayCanvas.Cursor = Cursors.Hand;
+            QueueRestoreTrackedGameWindowFocus();
             RefreshOverlay();
             Log("Séquence de ciblage démarrée.");
         }
@@ -1904,6 +2285,7 @@ namespace FROST
             }
             else
             {
+                TrySnapToTrackedGameWindow(allowAutoHide: false);
                 this.Visibility = Visibility.Visible;
                 SetStatus(Application.Current?.Resources["StatusActive"] as string ?? "Affichage actif.", Brushes.LightGreen);
                 Log("Application affichée manuellement.");
@@ -1920,6 +2302,9 @@ namespace FROST
             OverlayCanvas.Children.Clear();
             _isPlayerSet = false;
             _isMonsterSet = false;
+            _playerCell = InvalidCell;
+            _monsterCell = InvalidCell;
+            _lastHoveredCell = InvalidCell;
             OverlayCanvas.Background = null;
             OverlayCanvas.IsHitTestVisible = false;
             OverlayCanvas.Visibility = Visibility.Visible;
@@ -1962,48 +2347,46 @@ namespace FROST
 
             if (_currentState == AppState.WaitingForPlayer)
             {
-                Point clickedCell = PointToCell(e.GetPosition(OverlayCanvas));
-                if (!IsValidMapCell(clickedCell))
+                Point selectedCell = ResolveCurrentSelectionCell(e);
+                if (!IsValidMapCell(selectedCell))
                     return;
 
-                _playerCell = clickedCell;
+                _playerCell = selectedCell;
                 _isPlayerSet = true;
-                _lastHoveredCell = InvalidCell; // Réinitialise le survol
-
-                _currentState = AppState.WaitingForMonster;
-                SetStatus(Application.Current?.Resources["StatusStep2"] as string ?? "Étape 2 : Cliquez sur la CIBLE.", Brushes.Crimson);
-                RefreshOverlay();
-                Log($"Joueur placé en ({_playerCell.X}, {_playerCell.Y})");
+                _lastHoveredCell = InvalidCell;
+                Log($"Joueur place en ({_playerCell.X}, {_playerCell.Y})");
+                AdvanceOrCompleteSelection();
+                return;
             }
             else if (_currentState == AppState.WaitingForMonster)
             {
-                if (!IsSameCell(_lastHoveredCell, InvalidCell))
-                    _monsterCell = _lastHoveredCell;
-                else
-                {
-                    Point clickedCell = PointToCell(e.GetPosition(OverlayCanvas));
-                    if (!IsValidMapCell(clickedCell))
-                        return;
+                Point selectedCell = ResolveCurrentSelectionCell(e);
+                if (!IsValidMapCell(selectedCell))
+                    return;
 
-                    _monsterCell = clickedCell;
-                }
-
+                _monsterCell = selectedCell;
                 _isMonsterSet = true;
-                _currentState = AppState.Idle;
-                OverlayCanvas.Background = null; // Libère le focus pour jouer !
-                OverlayCanvas.IsHitTestVisible = false;
-                OverlayCanvas.Cursor = Cursors.Arrow; // Remet la souris normale
-
-                SetStatus(Application.Current?.Resources["StatusCalculated"] as string ?? "Cible calculée ! Focus libéré.", new SolidColorBrush(Color.FromRgb(108, 14, 186)));
-                RefreshOverlay();
-                Log($"Monstre placé en ({_monsterCell.X}, {_monsterCell.Y}). Calcul terminé.");
+                _lastHoveredCell = InvalidCell;
+                Log($"Monstre place en ({_monsterCell.X}, {_monsterCell.Y})");
+                AdvanceOrCompleteSelection();
+                return;
             }
         }
 
         private void OverlayCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+            if (!IsWaitingForSecondSelection())
+            {
+                if (!IsSameCell(_lastHoveredCell, InvalidCell))
+                {
+                    _lastHoveredCell = InvalidCell;
+                    RefreshOverlay();
+                }
+                return;
+            }
+
             // Logique de survol
-            if (_currentState == AppState.WaitingForMonster)
+            if (_currentState == AppState.WaitingForMonster || _currentState == AppState.WaitingForPlayer)
             {
                 Point cell = PointToCell(e.GetPosition(OverlayCanvas));
                 if (!IsValidMapCell(cell))
@@ -2056,6 +2439,413 @@ namespace FROST
             return Color.FromRgb(255, 106, 179); // Normal (Rose)
         }
 
+        private static string FormatColorHex(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
+        private static string SerializeOptionalColor(Color? color)
+        {
+            return color.HasValue ? FormatColorHex(color.Value) : string.Empty;
+        }
+
+        private static Color? ParseOptionalColor(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            return TryParseHexColor(value, out Color color) ? color : null;
+        }
+
+        private static bool TryParseHexColor(string? value, out Color color)
+        {
+            color = Colors.Transparent;
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
+            string normalized = value.Trim();
+            if (!normalized.StartsWith("#", StringComparison.Ordinal))
+            {
+                normalized = "#" + normalized;
+            }
+
+            try
+            {
+                object? converted = ColorConverter.ConvertFromString(normalized);
+                if (converted is Color parsed)
+                {
+                    color = parsed;
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+
+            return false;
+        }
+
+        private static void ConvertColorToHsv(Color color, out double hue, out double saturation, out double value)
+        {
+            double r = color.R / 255.0;
+            double g = color.G / 255.0;
+            double b = color.B / 255.0;
+
+            double max = Math.Max(r, Math.Max(g, b));
+            double min = Math.Min(r, Math.Min(g, b));
+            double delta = max - min;
+
+            value = max;
+            saturation = max <= 0.0 ? 0.0 : delta / max;
+
+            if (delta <= 0.0)
+            {
+                hue = 0.0;
+                return;
+            }
+
+            if (Math.Abs(max - r) < double.Epsilon)
+            {
+                hue = 60.0 * (((g - b) / delta) % 6.0);
+            }
+            else if (Math.Abs(max - g) < double.Epsilon)
+            {
+                hue = 60.0 * (((b - r) / delta) + 2.0);
+            }
+            else
+            {
+                hue = 60.0 * (((r - g) / delta) + 4.0);
+            }
+
+            if (hue < 0.0)
+                hue += 360.0;
+        }
+
+        private static Color ColorFromHsv(double hue, double saturation, double value)
+        {
+            hue = ((hue % 360.0) + 360.0) % 360.0;
+            saturation = Math.Clamp(saturation, 0.0, 1.0);
+            value = Math.Clamp(value, 0.0, 1.0);
+
+            if (saturation <= 0.0)
+            {
+                byte gray = (byte)Math.Round(value * 255.0);
+                return Color.FromRgb(gray, gray, gray);
+            }
+
+            double chroma = value * saturation;
+            double segment = hue / 60.0;
+            double x = chroma * (1.0 - Math.Abs((segment % 2.0) - 1.0));
+            double match = value - chroma;
+
+            double r1;
+            double g1;
+            double b1;
+
+            if (segment < 1.0)
+            {
+                r1 = chroma; g1 = x; b1 = 0.0;
+            }
+            else if (segment < 2.0)
+            {
+                r1 = x; g1 = chroma; b1 = 0.0;
+            }
+            else if (segment < 3.0)
+            {
+                r1 = 0.0; g1 = chroma; b1 = x;
+            }
+            else if (segment < 4.0)
+            {
+                r1 = 0.0; g1 = x; b1 = chroma;
+            }
+            else if (segment < 5.0)
+            {
+                r1 = x; g1 = 0.0; b1 = chroma;
+            }
+            else
+            {
+                r1 = chroma; g1 = 0.0; b1 = x;
+            }
+
+            return Color.FromRgb(
+                (byte)Math.Round((r1 + match) * 255.0),
+                (byte)Math.Round((g1 + match) * 255.0),
+                (byte)Math.Round((b1 + match) * 255.0));
+        }
+
+        private Color? GetCustomLegendColor(LegendColorSlot slot)
+        {
+            return slot switch
+            {
+                LegendColorSlot.Player => _customPlayerColor,
+                LegendColorSlot.Boss => _customBossColor,
+                LegendColorSlot.Target => _customTargetColor,
+                LegendColorSlot.Teleport => _customTpColor,
+                _ => null
+            };
+        }
+
+        private void SetCustomLegendColor(LegendColorSlot slot, Color? color)
+        {
+            switch (slot)
+            {
+                case LegendColorSlot.Player:
+                    _customPlayerColor = color;
+                    break;
+                case LegendColorSlot.Boss:
+                    _customBossColor = color;
+                    break;
+                case LegendColorSlot.Target:
+                    _customTargetColor = color;
+                    break;
+                case LegendColorSlot.Teleport:
+                    _customTpColor = color;
+                    break;
+            }
+        }
+
+        private Color GetDefaultLegendColor(LegendColorSlot slot)
+        {
+            Color? customColor = GetCustomLegendColor(slot);
+            if (customColor.HasValue)
+                return customColor.Value;
+
+            return slot switch
+            {
+                LegendColorSlot.Player => GetPlayerColor(),
+                LegendColorSlot.Boss => GetBossColor(),
+                LegendColorSlot.Target => GetTargetColor(),
+                LegendColorSlot.Teleport => GetTPColor(),
+                _ => GetPlayerColor()
+            };
+        }
+
+        private Color GetLegendColor(LegendColorSlot slot)
+        {
+            if (_previewLegendColorSlot.HasValue &&
+                _previewLegendColor.HasValue &&
+                _previewLegendColorSlot.Value == slot)
+            {
+                return _previewLegendColor.Value;
+            }
+
+            return GetDefaultLegendColor(slot);
+        }
+
+        private void SetLegendColorPreview(Color color)
+        {
+            _previewLegendColorSlot = _selectedLegendColorSlot;
+            _previewLegendColor = color;
+        }
+
+        private void ClearLegendColorPreview()
+        {
+            _previewLegendColorSlot = null;
+            _previewLegendColor = null;
+        }
+
+        private void RefreshLegendDrivenVisuals()
+        {
+            UpdateLegendColors();
+
+            if (_currentState != AppState.Idle)
+            {
+                UpdateSelectionStatus();
+            }
+
+            RefreshOverlay();
+        }
+
+        private Border? GetLegendBorder(LegendColorSlot slot)
+        {
+            return slot switch
+            {
+                LegendColorSlot.Player => LegendPlayer,
+                LegendColorSlot.Boss => LegendBoss,
+                LegendColorSlot.Target => LegendTarget,
+                LegendColorSlot.Teleport => LegendTP,
+                _ => null
+            };
+        }
+
+        private string GetLegendColorDisplayName(LegendColorSlot slot)
+        {
+            return slot switch
+            {
+                LegendColorSlot.Player => GetUiText("TxtLegendPlayer", "Votre Position"),
+                LegendColorSlot.Boss => GetUiText("TxtLegendBoss", "Position de l'Adversaire"),
+                LegendColorSlot.Target => GetUiText("TxtLegendTarget", "Frappe"),
+                LegendColorSlot.Teleport => GetUiText("TxtLegendTP", "Téléportation"),
+                _ => GetUiText("TxtLegendPlayer", "Votre Position")
+            };
+        }
+
+        private Color GetLegendColorPickerColor()
+        {
+            return ColorFromHsv(_legendColorPickerHue, _legendColorPickerSaturation, _legendColorPickerValue);
+        }
+
+        private void SetLegendColorPickerFromColor(Color color)
+        {
+            ConvertColorToHsv(color, out _legendColorPickerHue, out _legendColorPickerSaturation, out _legendColorPickerValue);
+            UpdateLegendColorPickerVisuals();
+        }
+
+        private void UpdateLegendColorPickerVisuals()
+        {
+            if (LegendColorSvBase != null)
+            {
+                LegendColorSvBase.Fill = new SolidColorBrush(ColorFromHsv(_legendColorPickerHue, 1.0, 1.0));
+            }
+
+            Color selectedColor = GetLegendColorPickerColor();
+
+            if (LegendColorPopupPreview != null)
+            {
+                UpdateLegend(LegendColorPopupPreview, selectedColor);
+            }
+
+            if (LegendColorSvHandle != null)
+            {
+                double x = (_legendColorPickerSaturation * LegendColorPickerSurfaceSize) - (LegendColorPickerSvHandleSize / 2.0);
+                double y = ((1.0 - _legendColorPickerValue) * LegendColorPickerSurfaceSize) - (LegendColorPickerSvHandleSize / 2.0);
+                Canvas.SetLeft(LegendColorSvHandle, Math.Clamp(x, 0.0, LegendColorPickerSurfaceSize - LegendColorPickerSvHandleSize));
+                Canvas.SetTop(LegendColorSvHandle, Math.Clamp(y, 0.0, LegendColorPickerSurfaceSize - LegendColorPickerSvHandleSize));
+            }
+
+            if (LegendColorHueHandle != null)
+            {
+                double y = ((_legendColorPickerHue / 360.0) * LegendColorPickerHueStripHeight) - (LegendColorPickerHueHandleHeight / 2.0);
+                Canvas.SetTop(LegendColorHueHandle, Math.Clamp(y, 0.0, LegendColorPickerHueStripHeight - LegendColorPickerHueHandleHeight));
+            }
+        }
+
+        private void UpdateLegendSelectionState()
+        {
+            foreach (LegendColorSlot slot in Enum.GetValues(typeof(LegendColorSlot)))
+            {
+                Border? border = GetLegendBorder(slot);
+                if (border == null)
+                    continue;
+
+                bool isSelected = slot == _selectedLegendColorSlot;
+                border.BorderThickness = new Thickness(isSelected ? 2.0 : 1.0);
+                border.RenderTransformOrigin = new Point(0.5, 0.5);
+                border.RenderTransform = new ScaleTransform(isSelected ? 1.12 : 1.0, isSelected ? 1.12 : 1.0);
+            }
+        }
+
+        private void UpdateLegendColorEditor()
+        {
+            UpdateLegendSelectionState();
+
+            if (TxtLegendColorSelectionLabel == null || TxtLegendColorHex == null || LegendColorPreview == null)
+                return;
+
+            Color currentColor = GetLegendColor(_selectedLegendColorSlot);
+            TxtLegendColorSelectionLabel.Text = GetLegendColorDisplayName(_selectedLegendColorSlot);
+            SetLegendColorEditorValue(currentColor);
+
+            if (LegendColorPickerPopup != null)
+                LegendColorPickerPopup.IsOpen = false;
+        }
+
+        private void ApplyLegendColorSelection(Color color)
+        {
+            SetCustomLegendColor(_selectedLegendColorSlot, color);
+            ClearLegendColorPreview();
+            UpdateLegendColors();
+            UpdateLegendColorEditor();
+            RefreshLegendDrivenVisuals();
+            SaveGridConfig();
+        }
+
+        private void SetLegendColorEditorValue(Color color, bool syncPicker = true)
+        {
+            if (TxtLegendColorHex == null)
+                return;
+
+            _isUpdatingLegendColorEditor = true;
+            try
+            {
+                TxtLegendColorHex.Text = FormatColorHex(color);
+            }
+            finally
+            {
+                _isUpdatingLegendColorEditor = false;
+            }
+
+            UpdateLegendColorPreview(color);
+
+            if (syncPicker)
+            {
+                SetLegendColorPickerFromColor(color);
+            }
+        }
+
+        private void UpdateLegendColorPreview(Color color)
+        {
+            if (TxtLegendColorHex != null)
+            {
+                TxtLegendColorHex.BorderBrush = new SolidColorBrush(Color.FromRgb(50, 53, 64));
+            }
+
+            if (LegendColorPreview != null)
+            {
+                UpdateLegend(LegendColorPreview, color);
+            }
+
+        }
+
+        private bool TryGetLegendColorFromEditor(out Color color, bool showError)
+        {
+            color = default;
+
+            if (TxtLegendColorHex == null)
+                return false;
+
+            if (TryParseHexColor(TxtLegendColorHex.Text, out color))
+            {
+                UpdateLegendColorPreview(color);
+                SetLegendColorPickerFromColor(color);
+                SetLegendColorPreview(color);
+                RefreshOverlay();
+                return true;
+            }
+
+            ClearLegendColorPreview();
+            RefreshLegendDrivenVisuals();
+
+            if (showError)
+            {
+                TxtLegendColorHex.BorderBrush = Brushes.OrangeRed;
+                SetStatus(GetUiText("StatusLegendColorInvalid", "Code couleur invalide. Utilisez un format hexadécimal comme #20CFFF."), Brushes.OrangeRed);
+            }
+
+            return false;
+        }
+
+        private bool TryApplyLegendColorFromEditor()
+        {
+            if (!TryGetLegendColorFromEditor(out Color color, showError: true))
+                return false;
+
+            ApplyLegendColorSelection(color);
+            return true;
+        }
+
+        private void SelectLegendColorSlot(LegendColorSlot slot)
+        {
+            if (_selectedLegendColorSlot != slot)
+            {
+                ClearLegendColorPreview();
+                RefreshLegendDrivenVisuals();
+            }
+
+            _selectedLegendColorSlot = slot;
+            UpdateLegendColorEditor();
+        }
+
         private void UpdateLegend(Border b, Color c)
         {
             if (b != null)
@@ -2068,10 +2858,10 @@ namespace FROST
 
         private void UpdateLegendColors()
         {
-            Color playerColor = GetPlayerColor();
-            Color bossColor = GetBossColor();
-            Color targetColor = GetTargetColor();
-            Color tpColor = GetTPColor();
+            Color playerColor = GetLegendColor(LegendColorSlot.Player);
+            Color bossColor = GetLegendColor(LegendColorSlot.Boss);
+            Color targetColor = GetLegendColor(LegendColorSlot.Target);
+            Color tpColor = GetLegendColor(LegendColorSlot.Teleport);
 
             UpdateLegend(LegendPlayer, playerColor);
             UpdateLegend(LegendBoss, bossColor);
@@ -2084,16 +2874,16 @@ namespace FROST
             UpdateLegend(NoticeLegendTP, tpColor);
         }
 
-        private void DrawMechanics(Point monsterCell, double opacity)
+        private void DrawMechanics(Point playerCell, Point monsterCell, double opacity)
         {
-            Color jokerViolet = GetTargetColor();
-            Color barbiePink = GetTPColor();
+            Color jokerViolet = GetLegendColor(LegendColorSlot.Target);
+            Color barbiePink = GetLegendColor(LegendColorSlot.Teleport);
 
             string targetLabel = Application.Current?.Resources["TxtLabelTarget"] as string ?? "Frappe";
             string tpPlayerLabel = Application.Current?.Resources["TxtLabelTPPlayer"] as string ?? "TP Joueur";
             string tpBossLabel = Application.Current?.Resources["TxtLabelTPBoss"] as string ?? "TP Comte";
-            double dc = monsterCell.X - _playerCell.X;
-            double dr = monsterCell.Y - _playerCell.Y;
+            double dc = monsterCell.X - playerCell.X;
+            double dr = monsterCell.Y - playerCell.Y;
 
             double angleStep = 90;
             double totalAngle = (_currentAngle + (_hitCount * angleStep)) % 360;
@@ -2107,21 +2897,21 @@ namespace FROST
             else if (totalAngle == 270) { targetC = -dr; targetR = dc; }
             else if (totalAngle == 0) { targetC = dc; targetR = dr; }
 
-            Point targetCell = new Point(_playerCell.X + targetC, _playerCell.Y + targetR);
+            Point targetCell = new Point(playerCell.X + targetC, playerCell.Y + targetR);
             DrawMarker(CellToPoint(targetCell), jokerViolet, true, targetLabel, opacity);
 
             if (_isBossTarget)
             {
                 if (_isOddTurn)
                 {
-                    double tpC = _monsterCell.X + (_monsterCell.X - _playerCell.X);
-                    double tpR = _monsterCell.Y + (_monsterCell.Y - _playerCell.Y);
+                    double tpC = monsterCell.X + (monsterCell.X - playerCell.X);
+                    double tpR = monsterCell.Y + (monsterCell.Y - playerCell.Y);
                     DrawMarker(CellToPoint(new Point(tpC, tpR)), barbiePink, false, tpPlayerLabel, opacity);
                 }
                 else
                 {
-                    double tpC = _playerCell.X + (_playerCell.X - _monsterCell.X);
-                    double tpR = _playerCell.Y + (_playerCell.Y - _monsterCell.Y);
+                    double tpC = playerCell.X + (playerCell.X - monsterCell.X);
+                    double tpR = playerCell.Y + (playerCell.Y - monsterCell.Y);
                     DrawMarker(CellToPoint(new Point(tpC, tpR)), barbiePink, false, tpBossLabel, opacity);
                 }
             }
@@ -2250,18 +3040,43 @@ namespace FROST
             string playerLabel = Application.Current?.Resources["TxtLabelPlayer"] as string ?? "Joueur";
             string bossLabel = Application.Current?.Resources["TxtLabelBoss"] as string ?? "Cible";
 
-            if (_isPlayerSet)
-                DrawMarker(CellToPoint(_playerCell), GetPlayerColor(), false, playerLabel, 1.0);
-
-            if (_currentState == AppState.Idle && _isMonsterSet)
+            void DrawSelectedPlayer()
             {
-                DrawMarker(CellToPoint(_monsterCell), GetBossColor(), false, bossLabel, 1.0);
-                DrawMechanics(_monsterCell, 1.0);
+                if (_isPlayerSet)
+                    DrawMarker(CellToPoint(_playerCell), GetLegendColor(LegendColorSlot.Player), false, playerLabel, 1.0);
             }
-            else if (_currentState == AppState.WaitingForMonster && !IsSameCell(_lastHoveredCell, InvalidCell))
+
+            void DrawSelectedMonster()
             {
-                DrawMarker(CellToPoint(_lastHoveredCell), GetBossColor(), false, bossLabel, 0.4);
-                DrawMechanics(_lastHoveredCell, 0.6);
+                if (_isMonsterSet)
+                    DrawMarker(CellToPoint(_monsterCell), GetLegendColor(LegendColorSlot.Boss), false, bossLabel, 1.0);
+            }
+
+            if (_isTargetFirstSelectionOrder)
+            {
+                DrawSelectedMonster();
+                DrawSelectedPlayer();
+            }
+            else
+            {
+                DrawSelectedPlayer();
+                DrawSelectedMonster();
+            }
+
+            if (_currentState == AppState.Idle && _isPlayerSet && _isMonsterSet)
+            {
+                DrawMechanics(_playerCell, _monsterCell, 1.0);
+            }
+            else if (TryGetPreviewSelection(out Point previewPlayerCell, out Point previewMonsterCell, out bool hoveredIsPlayer))
+            {
+                Point previewCell = hoveredIsPlayer ? previewPlayerCell : previewMonsterCell;
+                DrawMarker(
+                    CellToPoint(previewCell),
+                    hoveredIsPlayer ? GetLegendColor(LegendColorSlot.Player) : GetLegendColor(LegendColorSlot.Boss),
+                    false,
+                    hoveredIsPlayer ? playerLabel : bossLabel,
+                    0.4);
+                DrawMechanics(previewPlayerCell, previewMonsterCell, 0.6);
             }
         }
 
@@ -2773,6 +3588,8 @@ namespace FROST
             ApplyLargeText();
             UpdateLegendColors();
             ApplyViewMode();
+            RefreshSelectionOrderButtons();
+            UpdateLegendColorEditor();
 
             Button[] themeBtns = { BtnTheme0, BtnTheme1, BtnTheme2, BtnOnbTheme0, BtnOnbTheme1, BtnOnbTheme2 };
             for(int i = 0; i < themeBtns.Length; i++) {
@@ -2875,8 +3692,9 @@ namespace FROST
                 ApplyThemeColor(); // Mets à jour les bordures et textes visuels des boutons
 
                 UpdateLegendColors();
+                UpdateLegendColorEditor();
 
-                RefreshOverlay();
+                RefreshLegendDrivenVisuals();
             }
         }
 
@@ -2891,13 +3709,241 @@ namespace FROST
             }
         }
 
+        private void BtnSelectionOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn)
+                return;
+
+            bool targetFirst = string.Equals(btn.Tag?.ToString(), "TargetFirst", StringComparison.OrdinalIgnoreCase);
+            if (_isTargetFirstSelectionOrder == targetFirst)
+                return;
+
+            _isTargetFirstSelectionOrder = targetFirst;
+            RefreshSelectionOrderButtons();
+
+            if (_currentState != AppState.Idle)
+            {
+                StartSequence();
+            }
+            else
+            {
+                RefreshLegendDrivenVisuals();
+            }
+
+            SaveGridConfig();
+            Log($"Ordre de sélection changé : {(_isTargetFirstSelectionOrder ? "cible -> joueur" : "joueur -> cible")}");
+        }
+
+        private void LegendSwatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border border &&
+                Enum.TryParse(border.Tag?.ToString(), true, out LegendColorSlot slot))
+            {
+                SelectLegendColorSlot(slot);
+                e.Handled = true;
+            }
+        }
+
+        private void BtnLegendColorApply_Click(object sender, RoutedEventArgs e)
+        {
+            TryApplyLegendColorFromEditor();
+        }
+
+        private void CloseLegendColorPicker()
+        {
+            _isLegendColorSvDragging = false;
+            _isLegendColorHueDragging = false;
+
+            if (ReferenceEquals(Mouse.Captured, LegendColorSvCanvas) || ReferenceEquals(Mouse.Captured, LegendColorHueCanvas))
+            {
+                Mouse.Capture(null);
+            }
+
+            if (LegendColorPickerPopup != null)
+            {
+                LegendColorPickerPopup.IsOpen = false;
+            }
+        }
+
+        private void BtnLegendColorPickerClose_Click(object sender, RoutedEventArgs e)
+        {
+            CloseLegendColorPicker();
+            e.Handled = true;
+        }
+
+        private void BtnLegendColorPalette_Click(object sender, RoutedEventArgs e)
+        {
+            if (LegendColorPickerPopup == null)
+                return;
+
+            if (LegendColorPickerPopup.IsOpen)
+            {
+                CloseLegendColorPicker();
+                return;
+            }
+
+            if (!TryGetLegendColorFromEditor(out Color color, showError: false))
+            {
+                color = GetDefaultLegendColor(_selectedLegendColorSlot);
+                SetLegendColorEditorValue(color);
+            }
+
+            SetLegendColorPickerFromColor(color);
+            LegendColorPickerPopup.IsOpen = true;
+        }
+
+        private void LegendColorSvCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement element)
+                return;
+
+            _isLegendColorSvDragging = true;
+            Mouse.Capture(element);
+
+            Point position = e.GetPosition(element);
+            double width = Math.Max(1.0, element.ActualWidth);
+            double height = Math.Max(1.0, element.ActualHeight);
+            _legendColorPickerSaturation = Math.Clamp(position.X / width, 0.0, 1.0);
+            _legendColorPickerValue = 1.0 - Math.Clamp(position.Y / height, 0.0, 1.0);
+            Color previewColor = GetLegendColorPickerColor();
+            SetLegendColorEditorValue(previewColor, syncPicker: false);
+            SetLegendColorPreview(previewColor);
+            RefreshLegendDrivenVisuals();
+            UpdateLegendColorPickerVisuals();
+            e.Handled = true;
+        }
+
+        private void LegendColorSvCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isLegendColorSvDragging || sender is not FrameworkElement element || e.LeftButton != MouseButtonState.Pressed)
+                return;
+
+            Point position = e.GetPosition(element);
+            double width = Math.Max(1.0, element.ActualWidth);
+            double height = Math.Max(1.0, element.ActualHeight);
+            _legendColorPickerSaturation = Math.Clamp(position.X / width, 0.0, 1.0);
+            _legendColorPickerValue = 1.0 - Math.Clamp(position.Y / height, 0.0, 1.0);
+            Color previewColor = GetLegendColorPickerColor();
+            SetLegendColorEditorValue(previewColor, syncPicker: false);
+            SetLegendColorPreview(previewColor);
+            RefreshLegendDrivenVisuals();
+            UpdateLegendColorPickerVisuals();
+        }
+
+        private void LegendColorHueCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement element)
+                return;
+
+            _isLegendColorHueDragging = true;
+            Mouse.Capture(element);
+
+            Point position = e.GetPosition(element);
+            double height = Math.Max(1.0, element.ActualHeight);
+            _legendColorPickerHue = Math.Clamp(position.Y / height, 0.0, 1.0) * 360.0;
+            if (_legendColorPickerHue >= 360.0)
+                _legendColorPickerHue = 359.999;
+
+            Color previewColor = GetLegendColorPickerColor();
+            SetLegendColorEditorValue(previewColor, syncPicker: false);
+            SetLegendColorPreview(previewColor);
+            RefreshLegendDrivenVisuals();
+            UpdateLegendColorPickerVisuals();
+            e.Handled = true;
+        }
+
+        private void LegendColorHueCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isLegendColorHueDragging || sender is not FrameworkElement element || e.LeftButton != MouseButtonState.Pressed)
+                return;
+
+            Point position = e.GetPosition(element);
+            double height = Math.Max(1.0, element.ActualHeight);
+            _legendColorPickerHue = Math.Clamp(position.Y / height, 0.0, 1.0) * 360.0;
+            if (_legendColorPickerHue >= 360.0)
+                _legendColorPickerHue = 359.999;
+
+            Color previewColor = GetLegendColorPickerColor();
+            SetLegendColorEditorValue(previewColor, syncPicker: false);
+            SetLegendColorPreview(previewColor);
+            RefreshLegendDrivenVisuals();
+            UpdateLegendColorPickerVisuals();
+        }
+
+        private void LegendColorPickerCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _isLegendColorSvDragging = false;
+            _isLegendColorHueDragging = false;
+
+            if (sender is UIElement element && Mouse.Captured == element)
+            {
+                Mouse.Capture(null);
+            }
+        }
+
+        private void LegendColorPickerCanvas_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            _isLegendColorSvDragging = false;
+            _isLegendColorHueDragging = false;
+        }
+
+        private void BtnLegendColorReset_Click(object sender, RoutedEventArgs e)
+        {
+            SetCustomLegendColor(_selectedLegendColorSlot, null);
+            ClearLegendColorPreview();
+            UpdateLegendColors();
+            UpdateLegendColorEditor();
+            RefreshLegendDrivenVisuals();
+            SaveGridConfig();
+        }
+
+        private async void BtnCheckUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            await CheckForUpdatesManuallyAsync();
+        }
+
+        private void TxtLegendColorHex_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_isUpdatingLegendColorEditor)
+                return;
+
+            TryGetLegendColorFromEditor(out _, showError: false);
+        }
+
+        private void TxtLegendColorHex_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (_isUpdatingLegendColorEditor)
+                return;
+
+            if (e.Key == Key.Enter)
+            {
+                TryApplyLegendColorFromEditor();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Escape)
+            {
+                UpdateLegendColorEditor();
+                e.Handled = true;
+            }
+        }
+
+        private void TxtLegendColorHex_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (_isUpdatingLegendColorEditor)
+                return;
+
+            TryGetLegendColorFromEditor(out _, showError: false);
+        }
+
         private void RefreshDynamicTexts()
         {
             if (_currentState == AppState.Idle) SetStatus(Application.Current?.Resources["StatusReady"] as string ?? "Prêt. En attente...", Brushes.Gray);
             else if (_currentState == AppState.WaitingForPlayer) SetStatus(Application.Current?.Resources["StatusStep1"] as string ?? "Étape 1 : Cliquez sur VOTRE personnage.", Brushes.DeepSkyBlue);
             else if (_currentState == AppState.WaitingForMonster) SetStatus(Application.Current?.Resources["StatusStep2"] as string ?? "Étape 2 : Cliquez sur la CIBLE.", Brushes.Crimson);
 
+            if (_currentState != AppState.Idle) UpdateSelectionStatus();
             ApplyLargeText(); // Force la traduction instantanée du bouton "Texte Agrandi"
+            UpdateLegendColorEditor();
 
             if (OnboardingOverlay != null && OnboardingOverlay.Visibility == Visibility.Visible) ShowOnboardingStep(_onboardingStep);
 
@@ -3017,6 +4063,7 @@ namespace FROST
             else if (!_isOddTurn && BtnTurnEven != null) { BtnTurnEven.Foreground = themeBrush; BtnTurnEven.BorderBrush = themeBrush; }
 
             RefreshViewModeButtons();
+            RefreshSelectionOrderButtons();
 
             // Mise à jour de l'apparence des boutons Daltonisme
             Button[] cbBtns = { BtnCb0, BtnCb1, BtnCb2, BtnCb3, BtnOnbCb0, BtnOnbCb1, BtnOnbCb2, BtnOnbCb3 };
@@ -3164,12 +4211,91 @@ namespace FROST
             return clientBounds.Width > 0 && clientBounds.Height > 0;
         }
 
+        private bool TryBuildGameWindowCandidate(IntPtr hwnd, IntPtr foregroundWindow, out GameWindowCandidate candidate)
+        {
+            candidate = default!;
+
+            if (hwnd == IntPtr.Zero || hwnd == _windowHandle || !IsWindowVisible(hwnd) || IsIconic(hwnd))
+            {
+                return false;
+            }
+
+            string title = GetWindowTextSafe(hwnd);
+            string className = GetClassNameSafe(hwnd);
+            string processName = GetProcessNameSafe(hwnd);
+            if (!IsPotentialDofusWindow(title, className, processName))
+            {
+                return false;
+            }
+
+            if (!TryGetWindowClientBoundsInDip(hwnd, out Rect clientBounds))
+            {
+                return false;
+            }
+
+            candidate = new GameWindowCandidate
+            {
+                Handle = hwnd,
+                ClientBounds = clientBounds,
+                IsForeground = hwnd == foregroundWindow,
+                Title = title,
+                ClassName = className,
+                ProcessName = processName
+            };
+
+            return true;
+        }
+
         private DisplayScreen? GetSelectedOrPrimaryScreen()
         {
             List<DisplayScreen> screens = GetScreens();
             return screens.FirstOrDefault(screen => screen.DeviceName == _selectedScreenDeviceName)
                 ?? screens.FirstOrDefault(screen => screen.IsPrimary)
                 ?? screens.FirstOrDefault();
+        }
+
+        private DisplayScreen? FindScreenForBounds(Rect bounds)
+        {
+            Point center = new Point(
+                bounds.Left + (bounds.Width / 2.0),
+                bounds.Top + (bounds.Height / 2.0));
+            List<DisplayScreen> screens = GetScreens();
+            return screens.FirstOrDefault(screen => screen.Bounds.Contains(center))
+                ?? screens.OrderBy(screen =>
+                {
+                    Point screenCenter = new Point(
+                        screen.Bounds.Left + (screen.Bounds.Width / 2.0),
+                        screen.Bounds.Top + (screen.Bounds.Height / 2.0));
+                    double dx = screenCenter.X - center.X;
+                    double dy = screenCenter.Y - center.Y;
+                    return (dx * dx) + (dy * dy);
+                }).FirstOrDefault();
+        }
+
+        private bool TrySnapToTrackedGameWindow(bool allowAutoHide = true)
+        {
+            GameWindowCandidate? candidate = FindBestGameWindowCandidate();
+            if (candidate == null)
+            {
+                if (allowAutoHide)
+                {
+                    InvalidateTrackedGameWindowAnchor();
+                }
+                return false;
+            }
+
+            _trackedGameWindowHandle = candidate.Handle;
+            _gameWindowTickCounter = 0;
+            _trackedGameClientBounds = Rect.Empty;
+
+            DisplayScreen? trackedScreen = FindScreenForBounds(candidate.ClientBounds);
+            if (trackedScreen != null)
+            {
+                _selectedScreenDeviceName = trackedScreen.DeviceName;
+            }
+
+            ApplyTrackedGameWindowBounds(candidate.ClientBounds);
+            return true;
         }
 
         private static bool IsPotentialDofusWindow(string title, string className, string processName)
@@ -3210,33 +4336,10 @@ namespace FROST
 
             EnumWindows((hwnd, _) =>
             {
-                if (hwnd == IntPtr.Zero || hwnd == _windowHandle || !IsWindowVisible(hwnd) || IsIconic(hwnd))
+                if (TryBuildGameWindowCandidate(hwnd, foregroundWindow, out GameWindowCandidate candidate))
                 {
-                    return true;
+                    candidates.Add(candidate);
                 }
-
-                string title = GetWindowTextSafe(hwnd);
-                string className = GetClassNameSafe(hwnd);
-                string processName = GetProcessNameSafe(hwnd);
-                if (!IsPotentialDofusWindow(title, className, processName))
-                {
-                    return true;
-                }
-
-                if (!TryGetWindowClientBoundsInDip(hwnd, out Rect clientBounds))
-                {
-                    return true;
-                }
-
-                candidates.Add(new GameWindowCandidate
-                {
-                    Handle = hwnd,
-                    ClientBounds = clientBounds,
-                    IsForeground = hwnd == foregroundWindow,
-                    Title = title,
-                    ClassName = className,
-                    ProcessName = processName
-                });
 
                 return true;
             }, IntPtr.Zero);
@@ -3244,6 +4347,40 @@ namespace FROST
             return candidates
                 .OrderByDescending(candidate => ScoreGameWindowCandidate(candidate, preferredScreen))
                 .FirstOrDefault();
+        }
+
+        private void SyncWindowAboveTrackedGameWindow()
+        {
+            if (_windowHandle == IntPtr.Zero || _trackedGameWindowHandle == IntPtr.Zero)
+            {
+                return;
+            }
+
+            if (!IsWindow(_windowHandle) || !IsWindow(_trackedGameWindowHandle) || IsIconic(_trackedGameWindowHandle))
+            {
+                return;
+            }
+
+            IntPtr insertAfter = GetWindow(_trackedGameWindowHandle, GW_HWNDPREV);
+            if (insertAfter == _windowHandle)
+            {
+                return;
+            }
+
+            if (insertAfter == IntPtr.Zero)
+            {
+                insertAfter = HWND_TOP;
+            }
+
+            Topmost = false;
+            SetWindowPos(
+                _windowHandle,
+                insertAfter,
+                0,
+                0,
+                0,
+                0,
+                SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW | SWP_NOOWNERZORDER);
         }
 
         private void InvalidateTrackedGameWindowAnchor(bool keepCurrentBounds = true, bool allowAutoHide = true)
@@ -3358,7 +4495,7 @@ namespace FROST
                 }
 
                 Opacity = 1.0;
-                Topmost = true;
+                Topmost = false;
                 _trackedWindowInteractionSuppressionUntilUtc = DateTime.UtcNow.AddMilliseconds(250);
                 _shouldRestoreWindowAfterGameWindowReturns = false;
                 Log("Application restaurée après retour de la fenêtre Dofus.");
@@ -3374,6 +4511,7 @@ namespace FROST
 
             if (!anchorChanged && !windowBoundsChanged && !shouldAttemptWindowedReferenceRepair)
             {
+                SyncWindowAboveTrackedGameWindow();
                 return;
             }
 
@@ -3411,6 +4549,8 @@ namespace FROST
                     ApplySelectedDisplayModeCalibration();
                     RefreshOverlay();
                 }
+
+                SyncWindowAboveTrackedGameWindow();
 
             }
             finally
@@ -3845,6 +4985,7 @@ namespace FROST
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
+                TrySnapToTrackedGameWindow(allowAutoHide: false);
                 ClampControlPanelToWindow();
                 if (!_isAutoHiddenBecauseGameWindowUnavailable && Opacity > 0.01)
                 {
@@ -3956,6 +5097,7 @@ namespace FROST
             if (ControlPanel != null) ControlPanel.LayoutTransform = st;
             if (OnboardingOverlay != null) OnboardingOverlay.LayoutTransform = st;
             ClampControlPanelToWindow();
+            UpdateThresholdLayout();
 
             if (BtnToggleLargeText != null)
             {
@@ -4193,10 +5335,26 @@ namespace FROST
         {
             if (ThresholdGrid == null || ThresholdGridCompact == null) return;
 
-            double width = !double.IsNaN(ControlPanel.Width) && ControlPanel.Width > 0
-                ? ControlPanel.Width
-                : ControlPanel.ActualWidth;
-            bool useCompactThresholds = width < 285.0;
+            double availableWidth = 0.0;
+            if (ThresholdGrid.Parent is FrameworkElement thresholdHost && thresholdHost.ActualWidth > 0)
+            {
+                availableWidth = thresholdHost.ActualWidth;
+            }
+            else if (ThresholdGridCompact.Parent is FrameworkElement compactThresholdHost && compactThresholdHost.ActualWidth > 0)
+            {
+                availableWidth = compactThresholdHost.ActualWidth;
+            }
+            else if (!double.IsNaN(ControlPanel.Width) && ControlPanel.Width > 0)
+            {
+                availableWidth = ControlPanel.Width;
+            }
+            else
+            {
+                availableWidth = ControlPanel.ActualWidth;
+            }
+
+            double fullLayoutMinimumWidth = ThresholdFullLayoutMinimumWidth * (_isLargeText ? 1.15 : 1.0);
+            bool useCompactThresholds = availableWidth < fullLayoutMinimumWidth;
 
             Visibility fullVisibility = useCompactThresholds ? Visibility.Collapsed : Visibility.Visible;
             Visibility compactVisibility = useCompactThresholds ? Visibility.Visible : Visibility.Collapsed;
@@ -4381,7 +5539,12 @@ namespace FROST
                     fullscreenProfile.ReferenceWidth.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     fullscreenProfile.ReferenceHeight.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     windowedProfile.ReferenceWidth.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                    windowedProfile.ReferenceHeight.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                    windowedProfile.ReferenceHeight.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    _isTargetFirstSelectionOrder.ToString(),
+                    SerializeOptionalColor(_customPlayerColor),
+                    SerializeOptionalColor(_customBossColor),
+                    SerializeOptionalColor(_customTargetColor),
+                    SerializeOptionalColor(_customTpColor)
                 });
                 File.WriteAllText(GridConfigPath, data);
                 File.WriteAllText(GridConfigBackupPath, data);
@@ -4543,6 +5706,18 @@ namespace FROST
                             _windowedCalibration.ReferenceWidth = windowedReferenceWidth;
                         if (TryParseInvariantDouble(parts[47], out double windowedReferenceHeight))
                             _windowedCalibration.ReferenceHeight = windowedReferenceHeight;
+                    }
+                    if (parts.Length >= 49 &&
+                        bool.TryParse(parts[48], out bool isTargetFirstSelectionOrder))
+                    {
+                        _isTargetFirstSelectionOrder = isTargetFirstSelectionOrder;
+                    }
+                    if (parts.Length >= 53)
+                    {
+                        _customPlayerColor = ParseOptionalColor(parts[49]);
+                        _customBossColor = ParseOptionalColor(parts[50]);
+                        _customTargetColor = ParseOptionalColor(parts[51]);
+                        _customTpColor = ParseOptionalColor(parts[52]);
                     }
 
                     EnsureCalibrationProfileReferenceSize(_fullscreenCalibration);

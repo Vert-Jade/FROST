@@ -21,6 +21,8 @@
     <system:String x:Key="StatusHidden">Overlay verborgen.</system:String>
     <system:String x:Key="StatusActive">Overlay actief.</system:String>
     <system:String x:Key="StatusCalculated">Doel berekend! Focus vrijgegeven.</system:String>
+    <system:String x:Key="StatusStep1Target">Stap 1: Klik op het DOELWIT.</system:String>
+    <system:String x:Key="StatusStep2Player">Stap 2: Klik op JE personage.</system:String>
     <system:String x:Key="TxtSettingsHeader">INSTELLINGEN</system:String>
     <system:String x:Key="TxtOpacity">Transparantie van de applicatie</system:String>
     <system:String x:Key="TxtLanguage">Taal</system:String>
@@ -36,6 +38,10 @@
     <system:String x:Key="TxtThemeDark">Donker</system:String>
     <system:String x:Key="TxtMainColor">Hoofdkleur</system:String>
     <system:String x:Key="TxtLargeText">Grote Tekst</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">SELECTIEVOLGORDE</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Kies of FROST eerst de speler en daarna het doelwit moet markeren, of de volgorde moet omkeren en met de vijand moet beginnen.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Speler -&gt; Doelwit</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Doelwit -&gt; Speler</system:String>
     <system:String x:Key="TxtCatDisplay">🖥️ WEERGAVE</system:String>
     <system:String x:Key="TxtCatAppearance">🎨 UITERLIJK</system:String>
     <system:String x:Key="TxtCatLanguage">🌍 TAAL</system:String>
@@ -147,4 +153,10 @@
     <system:String x:Key="TxtLegendBoss">Positie Tegenstander</system:String>
     <system:String x:Key="TxtLegendTarget">Slag (Waar je moet slaan)</system:String>
     <system:String x:Key="TxtLegendTP">Teleportatie</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Klik op een gekleurd vak om de kleur aan te passen.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">AANGEPASTE KLEUR</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Voer een hex-kleur in zoals #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Kleur kiezen</system:String>
+    <system:String x:Key="TxtLegendColorReset">Resetten</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Ongeldige kleurcode. Gebruik een hexadecimaal formaat zoals #20CFFF.</system:String>
 </ResourceDictionary>

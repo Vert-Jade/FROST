@@ -22,6 +22,8 @@
     <system:String x:Key="StatusHidden">Overlay oculto.</system:String>
     <system:String x:Key="StatusActive">Overlay activo.</system:String>
     <system:String x:Key="StatusCalculated">¡Objetivo calculado! Foco liberado.</system:String>
+    <system:String x:Key="StatusStep1Target">Paso 1: Haz clic en el OBJETIVO.</system:String>
+    <system:String x:Key="StatusStep2Player">Paso 2: Haz clic en TU personaje.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">AJUSTES</system:String>
     <system:String x:Key="TxtOpacity">Opacidad de la aplicación</system:String>
@@ -38,6 +40,10 @@
     <system:String x:Key="TxtThemeDark">Oscuro</system:String>
     <system:String x:Key="TxtMainColor">Color Principal</system:String>
     <system:String x:Key="TxtLargeText">Texto Ampliado</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">ORDEN DE SELECCION</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Elige si FROST debe marcar primero al jugador y despues al objetivo, o invertir el orden empezando por el enemigo.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Jugador -&gt; Objetivo</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Objetivo -&gt; Jugador</system:String>
 
     <!-- Categorías -->
     <system:String x:Key="TxtCatDisplay">🖥️ PANTALLA</system:String>
@@ -160,4 +166,10 @@
     <system:String x:Key="TxtLegendBoss">Posición del Adversario</system:String>
     <system:String x:Key="TxtLegendTarget">Golpe (Dónde debes golpear)</system:String>
     <system:String x:Key="TxtLegendTP">Teletransporte (Efecto Fuelle)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Haz clic en una casilla de color para personalizar su color.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">COLOR PERSONALIZADO</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Introduce un color hexadecimal como #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Elegir color</system:String>
+    <system:String x:Key="TxtLegendColorReset">Restablecer</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Código de color no válido. Usa un formato hexadecimal como #20CFFF.</system:String>
 </ResourceDictionary>

@@ -21,6 +21,8 @@
     <system:String x:Key="StatusHidden">Nakładka ukryta.</system:String>
     <system:String x:Key="StatusActive">Nakładka aktywna.</system:String>
     <system:String x:Key="StatusCalculated">Cel obliczony! Focus zwolniony.</system:String>
+    <system:String x:Key="StatusStep1Target">Krok 1: Kliknij CEL.</system:String>
+    <system:String x:Key="StatusStep2Player">Krok 2: Kliknij SWOJA postac.</system:String>
     <system:String x:Key="TxtSettingsHeader">USTAWIENIA</system:String>
     <system:String x:Key="TxtOpacity">Krycie aplikacji</system:String>
     <system:String x:Key="TxtLanguage">Język</system:String>
@@ -36,6 +38,10 @@
     <system:String x:Key="TxtThemeDark">Ciemny</system:String>
     <system:String x:Key="TxtMainColor">Główny kolor</system:String>
     <system:String x:Key="TxtLargeText">Powiększony tekst</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">KOLEJNOSC WYBORU</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Wybierz, czy FROST ma najpierw zaznaczyc gracza, a potem cel, czy odwrotnie i zaczac od przeciwnika.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Gracz -&gt; Cel</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Cel -&gt; Gracz</system:String>
     <system:String x:Key="TxtCatDisplay">🖥️ EKRAN</system:String>
     <system:String x:Key="TxtCatAppearance">🎨 WYGLĄD</system:String>
     <system:String x:Key="TxtCatLanguage">🌍 JĘZYK</system:String>
@@ -146,4 +152,10 @@
     <system:String x:Key="TxtLegendBoss">Pozycja przeciwnika</system:String>
     <system:String x:Key="TxtLegendTarget">Cel (Gdzie uderzyć)</system:String>
     <system:String x:Key="TxtLegendTP">Teleportacja</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Kliknij kolorowe pole, aby zmienić jego kolor.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">KOLOR NIESTANDARDOWY</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Wpisz kolor szesnastkowy, np. #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Wybierz kolor</system:String>
+    <system:String x:Key="TxtLegendColorReset">Resetuj</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Nieprawidłowy kod koloru. Użyj formatu szesnastkowego, np. #20CFFF.</system:String>
 </ResourceDictionary>

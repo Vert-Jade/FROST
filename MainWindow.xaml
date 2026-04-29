@@ -4,7 +4,7 @@
         Title="FROST" WindowState="Normal" Width="1534.4" Height="814.4" MinWidth="80" MinHeight="60"
         Icon="pack://application:,,,/Ressources/Icones/frost.ico"
         WindowStyle="None" AllowsTransparency="True" Background="{x:Null}"
-        Topmost="True" ShowInTaskbar="True" ResizeMode="CanResize">
+        Topmost="False" ShowInTaskbar="True" ResizeMode="CanResize">
 
     <Window.Resources>
         <!-- Pinceau dynamique pour lier toutes les surbrillances au thème choisi -->
@@ -110,6 +110,84 @@
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <Style x:Key="LegendColorCardSurfaceStyle" TargetType="Border">
+            <Setter Property="Background" Value="#1B1F29"/>
+            <Setter Property="BorderBrush" Value="#333B4C"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="12"/>
+        </Style>
+
+        <Style x:Key="LegendColorPaletteButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="#222834"/>
+            <Setter Property="Foreground" Value="#F3F4F6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#465063"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A3140"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColorBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#181C25"/>
+                    <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LegendColorActionButtonStyle" TargetType="Button" BasedOn="{StaticResource DofusButtonStyle}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="LegendColorSwatchButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#323540"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColorBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="OnboardingSelectionCardStyle" TargetType="Border">
@@ -361,6 +439,13 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="ThresholdMainBtnStyle" TargetType="Button" BasedOn="{StaticResource ThresholdBtnStyle}">
+            <Setter Property="MinWidth" Value="56"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Margin" Value="1,2"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
         <!-- Modern Close Button Style -->
         <Style x:Key="CloseButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -549,7 +634,7 @@
                         <!-- Titre centré avec effet moderne -->
                         <TextBlock Foreground="#F3F4F6" FontSize="12" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Run Text="FROST"/>
-                            <Run Text=" v1.0.2" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
+                            <Run Text=" v1.0.3" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
                             <TextBlock.Effect>
                                 <DropShadowEffect Color="#4DA8DA" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
                             </TextBlock.Effect>
@@ -579,21 +664,23 @@
                 <!-- Seuils de Vie -->
                 <Expander x:Name="ExpThreshold" Header="{DynamicResource TxtThreshold}" Style="{StaticResource ModernExpander}" IsExpanded="True" Expanded="MainPanelSection_Changed" Collapsed="MainPanelSection_Changed">
                     <StackPanel Margin="0,5,0,0">
-                        <Grid x:Name="ThresholdGrid" Margin="0,0,0,15">
+                        <Grid x:Name="ThresholdGrid" Margin="0,0,0,15" UseLayoutRounding="True" SnapsToDevicePixels="True">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="BtnSeuil1" Grid.Column="0" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdBtnStyle}" Tag="1_90" ToolTip="100% - 90%">
+                    <Button x:Name="BtnSeuil1" Grid.Column="0" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdMainBtnStyle}" Tag="1_90" ToolTip="100% - 90%">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="100%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                             <Grid Height="48" Width="48" Margin="0,2">
@@ -602,7 +689,7 @@
                             <TextBlock Text="90%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="BtnSeuil2" Grid.Column="1" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdBtnStyle}" Tag="2_270" Opacity="0.4" ToolTip="89% - 75%">
+                    <Button x:Name="BtnSeuil2" Grid.Column="2" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdMainBtnStyle}" Tag="2_270" Opacity="0.4" ToolTip="89% - 75%">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="89%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                             <Grid Height="48" Width="48" Margin="0,2">
@@ -611,7 +698,7 @@
                             <TextBlock Text="75%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="BtnSeuil3" Grid.Column="2" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdBtnStyle}" Tag="3_180" Opacity="0.4" ToolTip="74% - 45%">
+                    <Button x:Name="BtnSeuil3" Grid.Column="4" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdMainBtnStyle}" Tag="3_180" Opacity="0.4" ToolTip="74% - 45%">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="74%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                             <Grid Height="48" Width="48" Margin="0,2">
@@ -620,7 +707,7 @@
                             <TextBlock Text="45%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="BtnSeuil4" Grid.Column="3" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdBtnStyle}" Tag="4_270" Opacity="0.4" ToolTip="44% - 30%">
+                    <Button x:Name="BtnSeuil4" Grid.Column="6" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdMainBtnStyle}" Tag="4_270" Opacity="0.4" ToolTip="44% - 30%">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="44%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                             <Grid Height="48" Width="48" Margin="0,2">
@@ -629,7 +716,7 @@
                             <TextBlock Text="30%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="BtnSeuil5" Grid.Column="4" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdBtnStyle}" Tag="5_90" Opacity="0.4" ToolTip="29% - 0%">
+                    <Button x:Name="BtnSeuil5" Grid.Column="8" Grid.Row="0" Click="BtnThreshold_Click" Style="{StaticResource ThresholdMainBtnStyle}" Tag="5_90" Opacity="0.4" ToolTip="29% - 0%">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="29%" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                             <Grid Height="48" Width="48" Margin="0,2">
@@ -984,24 +1071,24 @@
                                             </Border>
 
                                             <Border Style="{StaticResource NoticeCardStyle}" Margin="0">
-                                                <StackPanel>
+                                                <StackPanel x:Name="NoticeLegendPanel">
                                                     <TextBlock Text="{DynamicResource TxtNotice5LegendCardTitle}" Style="{StaticResource NoticeSectionTitleStyle}"/>
-                                                    <Grid Margin="0,0,0,12">
+                                                    <Grid x:Name="NoticeLegendRowPlayer" Margin="0,0,0,12">
                                                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                                         <Border x:Name="NoticeLegendPlayer" Width="20" Height="20" CornerRadius="4" Background="#00BFFF" BorderBrush="#87CEEB" BorderThickness="1" Margin="0,0,10,0" VerticalAlignment="Top"/>
                                                         <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendPlayer}" Foreground="#A0A5B5" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap" LineHeight="18"/>
                                                     </Grid>
-                                                    <Grid Margin="0,0,0,12">
+                                                    <Grid x:Name="NoticeLegendRowBoss" Margin="0,0,0,12">
                                                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                                         <Border x:Name="NoticeLegendBoss" Width="20" Height="20" CornerRadius="4" Background="#DC143C" BorderBrush="#FF4500" BorderThickness="1" Margin="0,0,10,0" VerticalAlignment="Top"/>
                                                         <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendBoss}" Foreground="#A0A5B5" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap" LineHeight="18"/>
                                                     </Grid>
-                                                    <Grid Margin="0,0,0,12">
+                                                    <Grid x:Name="NoticeLegendRowTarget" Margin="0,0,0,12">
                                                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                                         <Border x:Name="NoticeLegendTarget" Width="20" Height="20" CornerRadius="4" Background="#6C0EBA" BorderBrush="#8C19E6" BorderThickness="1" Margin="0,0,10,0" VerticalAlignment="Top"/>
                                                         <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendTarget}" Foreground="#F3F4F6" FontSize="13" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="Wrap" LineHeight="18"/>
                                                     </Grid>
-                                                    <Grid>
+                                                    <Grid x:Name="NoticeLegendRowTP">
                                                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                                         <Border x:Name="NoticeLegendTP" Width="20" Height="20" CornerRadius="4" Background="#FF007F" BorderBrush="#FF66CC" BorderThickness="1" Margin="0,0,10,0" VerticalAlignment="Top"/>
                                                         <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendTP}" Foreground="#A0A5B5" FontSize="13" VerticalAlignment="Center" TextWrapping="Wrap" LineHeight="18"/>
@@ -1171,6 +1258,20 @@
                                     </UniformGrid>
                                 </Expander>
 
+                                <Expander Header="{DynamicResource TxtSelectionOrderTitle}" Style="{StaticResource ModernExpander}" IsExpanded="True">
+                                    <StackPanel Margin="0,5,0,5">
+                                        <TextBlock Text="{DynamicResource TxtSelectionOrderDesc}" Foreground="#A0A5B5" FontSize="11" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                        <UniformGrid Columns="2" Margin="0,0,0,5">
+                                            <Button x:Name="BtnSelectionOrderPlayerFirst" Tag="PlayerFirst" Style="{StaticResource DofusButtonStyle}" Click="BtnSelectionOrder_Click" Padding="10,8" Margin="0,0,5,0" HorizontalContentAlignment="Center">
+                                                <TextBlock Text="{DynamicResource TxtSelectionOrderPlayerFirst}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                            </Button>
+                                            <Button x:Name="BtnSelectionOrderTargetFirst" Tag="TargetFirst" Style="{StaticResource DofusButtonStyle}" Click="BtnSelectionOrder_Click" Padding="10,8" Margin="5,0,0,0" HorizontalContentAlignment="Center">
+                                                <TextBlock Text="{DynamicResource TxtSelectionOrderTargetFirst}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                            </Button>
+                                        </UniformGrid>
+                                    </StackPanel>
+                                </Expander>
+
                                 <!-- 5. RACCOURCIS -->
                                 <Expander Header="{DynamicResource TxtCatShortcuts}" Style="{StaticResource ModernExpander}" IsExpanded="True">
                                     <StackPanel Margin="0,5,0,5">
@@ -1201,29 +1302,140 @@
 
                                 <!-- 6. LÉGENDE -->
                                 <Expander Header="{DynamicResource TxtCatLegend}" Style="{StaticResource ModernExpander}" IsExpanded="True">
-                                    <StackPanel Margin="0,5,0,5">
-                                        <Grid Margin="0,0,0,10">
+                                    <StackPanel x:Name="LegendPanel" Margin="0,5,0,5">
+                                        <Grid x:Name="LegendRowPlayer" Margin="0,0,0,10">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <Border x:Name="LegendPlayer" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0"/>
+                                            <Border x:Name="LegendPlayer" Tag="Player" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="LegendSwatch_MouseLeftButtonUp" ToolTip="{DynamicResource TxtLegendColorClickHint}"/>
                                             <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendPlayer}" Foreground="#A0A5B5" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                         </Grid>
-                                        <Grid Margin="0,0,0,10">
+                                        <Grid x:Name="LegendRowBoss" Margin="0,0,0,10">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <Border x:Name="LegendBoss" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0"/>
+                                            <Border x:Name="LegendBoss" Tag="Boss" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="LegendSwatch_MouseLeftButtonUp" ToolTip="{DynamicResource TxtLegendColorClickHint}"/>
                                             <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendBoss}" Foreground="#A0A5B5" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                         </Grid>
-                                        <Grid Margin="0,0,0,10">
+                                        <Grid x:Name="LegendRowTarget" Margin="0,0,0,10">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <Border x:Name="LegendTarget" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0"/>
+                                            <Border x:Name="LegendTarget" Tag="Target" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="LegendSwatch_MouseLeftButtonUp" ToolTip="{DynamicResource TxtLegendColorClickHint}"/>
                                             <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendTarget}" Foreground="#F3F4F6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                         </Grid>
-                                        <Grid Margin="0,0,0,5">
+                                        <Grid x:Name="LegendRowTP" Margin="0,0,0,5">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                            <Border x:Name="LegendTP" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0"/>
+                                            <Border x:Name="LegendTP" Tag="Teleport" Width="18" Height="18" CornerRadius="4" BorderThickness="1" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="LegendSwatch_MouseLeftButtonUp" ToolTip="{DynamicResource TxtLegendColorClickHint}"/>
                                             <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendTP}" Foreground="#A0A5B5" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                         </Grid>
+                                        <TextBlock Text="{DynamicResource TxtLegendColorClickHint}" Foreground="#A0A5B5" FontSize="11" Margin="0,6,0,10" TextWrapping="Wrap"/>
+                                        <Border Background="#171A22" BorderBrush="#2E3442" BorderThickness="1" CornerRadius="12" Padding="12,12,12,10">
+                                            <StackPanel>
+                                                <TextBlock Text="{DynamicResource TxtLegendColorEditorTitle}" Foreground="#8F98AC" FontSize="11" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
+                                                <TextBlock x:Name="TxtLegendColorSelectionLabel" Foreground="#F3F4F6" FontSize="15" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
+                                                <Grid Margin="0,0,0,12" VerticalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="10"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="10"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border x:Name="LegendColorPreview" Width="36" Height="36" CornerRadius="9" BorderThickness="1" VerticalAlignment="Center"/>
+                                                    <TextBox x:Name="TxtLegendColorHex" Grid.Column="2" Height="40" MaxLength="7" MinWidth="92" VerticalContentAlignment="Center" Background="#141821" Foreground="#F3F4F6" BorderBrush="#343C4F" BorderThickness="1" Padding="12,0" FontSize="15" FontWeight="Bold" PreviewKeyDown="TxtLegendColorHex_PreviewKeyDown" TextChanged="TxtLegendColorHex_TextChanged" LostKeyboardFocus="TxtLegendColorHex_LostKeyboardFocus" ToolTip="{DynamicResource TxtLegendColorHexHint}"/>
+                                                    <Button x:Name="BtnLegendColorPalette" Grid.Column="4" Style="{StaticResource LegendColorPaletteButtonStyle}" Click="BtnLegendColorPalette_Click" ToolTip="{DynamicResource TxtLegendColorClickHint}">
+                                                        <Grid Width="24" Height="24" ClipToBounds="True">
+                                                            <Image Source="pack://application:,,,/Ressources/Icones/Palette%20de%20couleur.png" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Margin="-4"/>
+                                                        </Grid>
+                                                    </Button>
+                                                </Grid>
+                                                <Popup x:Name="LegendColorPickerPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnLegendColorPalette}" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False" VerticalOffset="8">
+                                                    <Border Background="#11141B" BorderBrush="{DynamicResource ThemeColorBrush}" BorderThickness="1" CornerRadius="14" Padding="12" Width="344">
+                                                        <Border.Effect>
+                                                            <DropShadowEffect BlurRadius="18" ShadowDepth="4" Opacity="0.45" Color="Black"/>
+                                                        </Border.Effect>
+                                                        <StackPanel>
+                                                            <TextBlock Text="SÉLECTEUR FROST" Foreground="#E5E7EB" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                                            <Button Style="{StaticResource CloseButtonStyle}" Width="18" Height="18" Margin="0,0,0,8" HorizontalAlignment="Right" Click="BtnLegendColorPickerClose_Click" ToolTip="{DynamicResource TxtTooltipClose}"/>
+                                                            <Grid Margin="0,0,0,10">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="160"/>
+                                                                    <ColumnDefinition Width="34"/>
+                                                                    <ColumnDefinition Width="126"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid Width="160" Height="160" ClipToBounds="True">
+                                                                    <Rectangle x:Name="LegendColorSvBase" RadiusX="10" RadiusY="10"/>
+                                                                    <Rectangle RadiusX="10" RadiusY="10">
+                                                                        <Rectangle.Fill>
+                                                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                                                <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                                                                                <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                                                            </LinearGradientBrush>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Rectangle RadiusX="10" RadiusY="10">
+                                                                        <Rectangle.Fill>
+                                                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                                <GradientStop Color="#00000000" Offset="0"/>
+                                                                                <GradientStop Color="#FF000000" Offset="1"/>
+                                                                            </LinearGradientBrush>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Canvas x:Name="LegendColorSvCanvas" Background="Transparent"
+                                                                            MouseLeftButtonDown="LegendColorSvCanvas_MouseLeftButtonDown"
+                                                                            MouseMove="LegendColorSvCanvas_MouseMove"
+                                                                            MouseLeftButtonUp="LegendColorPickerCanvas_MouseLeftButtonUp"
+                                                                            LostMouseCapture="LegendColorPickerCanvas_LostMouseCapture">
+                                                                        <Ellipse x:Name="LegendColorSvHandle" Width="14" Height="14" Stroke="#F8FAFC" StrokeThickness="2" Fill="#00FFFFFF">
+                                                                            <Ellipse.Effect>
+                                                                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Color="#AA000000"/>
+                                                                            </Ellipse.Effect>
+                                                                        </Ellipse>
+                                                                    </Canvas>
+                                                                </Grid>
+                                                                <Grid Grid.Column="1" Width="24" Height="160" Margin="10,0,0,0" ClipToBounds="True">
+                                                                    <Rectangle RadiusX="10" RadiusY="10">
+                                                                        <Rectangle.Fill>
+                                                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                                <GradientStop Color="#FFFF0000" Offset="0.00"/>
+                                                                                <GradientStop Color="#FFFFFF00" Offset="0.17"/>
+                                                                                <GradientStop Color="#FF00FF00" Offset="0.33"/>
+                                                                                <GradientStop Color="#FF00FFFF" Offset="0.50"/>
+                                                                                <GradientStop Color="#FF0000FF" Offset="0.67"/>
+                                                                                <GradientStop Color="#FFFF00FF" Offset="0.83"/>
+                                                                                <GradientStop Color="#FFFF0000" Offset="1.00"/>
+                                                                            </LinearGradientBrush>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Canvas x:Name="LegendColorHueCanvas" Background="Transparent"
+                                                                            MouseLeftButtonDown="LegendColorHueCanvas_MouseLeftButtonDown"
+                                                                            MouseMove="LegendColorHueCanvas_MouseMove"
+                                                                            MouseLeftButtonUp="LegendColorPickerCanvas_MouseLeftButtonUp"
+                                                                            LostMouseCapture="LegendColorPickerCanvas_LostMouseCapture">
+                                                                        <Border x:Name="LegendColorHueHandle" Width="24" Height="6" CornerRadius="3" Background="#F8FAFC" BorderBrush="#11141B" BorderThickness="1"/>
+                                                                    </Canvas>
+                                                                </Grid>
+                                                                <StackPanel Grid.Column="2" Width="126" Margin="14,0,0,0" VerticalAlignment="Stretch">
+                                                                    <Border x:Name="LegendColorPopupPreview" Width="52" Height="52" CornerRadius="12" BorderThickness="1" Margin="0,0,0,10" HorizontalAlignment="Left"/>
+                                                                    <TextBlock Text="Aperçu" Foreground="#E5E7EB" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                                                    <Border Background="#171A22" BorderBrush="#2E3442" BorderThickness="1" CornerRadius="8" Padding="10">
+                                                                        <TextBlock Text="Choisissez librement la teinte, puis validez avec le bouton du bas." Foreground="#A0A5B5" FontSize="10.5" TextWrapping="Wrap" TextAlignment="Left" LineHeight="16"/>
+                                                                    </Border>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Popup>
+                                                <UniformGrid Columns="2" Margin="0,2,0,0">
+                                                    <Button Content="{DynamicResource TxtLegendColorPicker}" Style="{StaticResource LegendColorActionButtonStyle}" Click="BtnLegendColorApply_Click" Margin="0,0,5,0" HorizontalContentAlignment="Center" Background="{DynamicResource ThemeColorBrush}" BorderBrush="{DynamicResource ThemeColorBrush}" Foreground="#11141B" FontWeight="Bold"/>
+                                                    <Button Content="{DynamicResource TxtLegendColorReset}" Style="{StaticResource LegendColorActionButtonStyle}" Click="BtnLegendColorReset_Click" Margin="5,0,0,0" HorizontalContentAlignment="Center"/>
+                                                </UniformGrid>
+                                            </StackPanel>
+                                        </Border>
                                     </StackPanel>
                                 </Expander>
+
+                                <Border Background="#171A22" BorderBrush="#2E3442" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,12,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="{DynamicResource TxtUpdateReadyTitle}" Style="{StaticResource SettingsSectionLabelStyle}" Margin="0,0,0,8"/>
+                                        <Button x:Name="BtnCheckUpdates" Content="Rechercher une MAJ" Style="{StaticResource DofusButtonStyle}" Click="BtnCheckUpdates_Click" HorizontalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
 
                             </StackPanel>
                         </ScrollViewer>

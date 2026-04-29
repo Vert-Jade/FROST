@@ -22,6 +22,8 @@
     <system:String x:Key="StatusHidden">Overlay nascosto.</system:String>
     <system:String x:Key="StatusActive">Overlay attivo.</system:String>
     <system:String x:Key="StatusCalculated">Bersaglio calcolato! Focus rilasciato.</system:String>
+    <system:String x:Key="StatusStep1Target">Fase 1: Clicca sul BERSAGLIO.</system:String>
+    <system:String x:Key="StatusStep2Player">Fase 2: Clicca sul TUO personaggio.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">IMPOSTAZIONI</system:String>
     <system:String x:Key="TxtOpacity">Opacità dell'applicazione</system:String>
@@ -38,6 +40,10 @@
     <system:String x:Key="TxtThemeDark">Scuro</system:String>
     <system:String x:Key="TxtMainColor">Colore Principale</system:String>
     <system:String x:Key="TxtLargeText">Testo Ingrandito</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">ORDINE DI SELEZIONE</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">Scegli se FROST deve segnare prima il giocatore e poi il bersaglio, oppure invertire l&apos;ordine iniziando dal nemico.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">Giocatore -&gt; Bersaglio</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">Bersaglio -&gt; Giocatore</system:String>
 
     <!-- Categorie -->
     <system:String x:Key="TxtCatDisplay">🖥️ SCHERMO</system:String>
@@ -160,4 +166,10 @@
     <system:String x:Key="TxtLegendBoss">Posizione dell'Avversario</system:String>
     <system:String x:Key="TxtLegendTarget">Colpo (Dove devi colpire)</system:String>
     <system:String x:Key="TxtLegendTP">Teletrasporto (Effetto Soffietto)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">Fai clic su una casella colorata per personalizzarne il colore.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">COLORE PERSONALIZZATO</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">Inserisci un colore esadecimale come #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">Scegli colore</system:String>
+    <system:String x:Key="TxtLegendColorReset">Reimposta</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">Codice colore non valido. Usa un formato esadecimale come #20CFFF.</system:String>
 </ResourceDictionary>

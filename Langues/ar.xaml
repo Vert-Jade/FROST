@@ -22,6 +22,8 @@
     <system:String x:Key="StatusHidden">العرض مخفي.</system:String>
     <system:String x:Key="StatusActive">العرض نشط.</system:String>
     <system:String x:Key="StatusCalculated">تم حساب الهدف! تم تحرير التركيز.</system:String>
+    <system:String x:Key="StatusStep1Target">الخطوة 1: انقر على الهدف.</system:String>
+    <system:String x:Key="StatusStep2Player">الخطوة 2: انقر على شخصيتك.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">الإعدادات</system:String>
     <system:String x:Key="TxtOpacity">شفافية التطبيق</system:String>
@@ -38,6 +40,10 @@
     <system:String x:Key="TxtThemeDark">داكن</system:String>
     <system:String x:Key="TxtMainColor">اللون الرئيسي</system:String>
     <system:String x:Key="TxtLargeText">تكبير النص</system:String>
+    <system:String x:Key="TxtSelectionOrderTitle">ترتيب التحديد</system:String>
+    <system:String x:Key="TxtSelectionOrderDesc">اختر ما إذا كان FROST يجب أن يحدد اللاعب أولاً ثم الهدف، أو يعكس الترتيب ويبدأ بالعدو.</system:String>
+    <system:String x:Key="TxtSelectionOrderPlayerFirst">اللاعب -&gt; الهدف</system:String>
+    <system:String x:Key="TxtSelectionOrderTargetFirst">الهدف -&gt; اللاعب</system:String>
 
     <!-- Catégories -->
     <system:String x:Key="TxtCatDisplay">🖥️ العرض</system:String>
@@ -160,4 +166,10 @@
     <system:String x:Key="TxtLegendBoss">موقع الخصم</system:String>
     <system:String x:Key="TxtLegendTarget">الضربة (أين يجب أن تضرب)</system:String>
     <system:String x:Key="TxtLegendTP">الانتقال عن بعد (تأثير المنفاخ)</system:String>
+    <system:String x:Key="TxtLegendColorClickHint">انقر على مربع ملون لتخصيص لونه.</system:String>
+    <system:String x:Key="TxtLegendColorEditorTitle">لون مخصص</system:String>
+    <system:String x:Key="TxtLegendColorHexHint">أدخل لونًا بصيغة ست عشرية مثل #20CFFF</system:String>
+    <system:String x:Key="TxtLegendColorPicker">اختيار لون</system:String>
+    <system:String x:Key="TxtLegendColorReset">إعادة تعيين</system:String>
+    <system:String x:Key="StatusLegendColorInvalid">رمز اللون غير صالح. استخدم تنسيقًا ست عشريًا مثل #20CFFF.</system:String>
 </ResourceDictionary>
