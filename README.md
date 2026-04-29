@@ -18,10 +18,10 @@
   Le parcours de notice ne peut plus laisser l'application dans un état visible mais bloqué côté interactions.
 
 - 🪟 **Tracking de fenêtre consolidé**
-  Les améliorations de la v1.0.1 sont conservées et stabilisées pour les cas de masquage, restauration et resize de Dofus.
+  Les améliorations de la v1.0.2 sont conservées et stabilisées pour les cas de masquage, restauration et resize de Dofus.
 
 - 🔄 **Mises à jour prêtes pour la suite**
-  L'auto-update introduit en **v1.0.1** reste en place pour détecter automatiquement les prochaines releases GitHub.
+  L'auto-update introduit en **v1.0.2** reste en place pour détecter automatiquement les prochaines releases GitHub.
 
 ---
 
