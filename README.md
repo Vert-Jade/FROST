@@ -33,7 +33,7 @@
 
 ## 🖼️ Aperçu
 
-<img width="805" height="447" alt="FROST_GitHub" src="https://github.com/user-attachments/assets/05a38865-1b6c-4235-88fd-36e9e000a122" />
+<img width="1595" height="915" alt="image" src="https://github.com/user-attachments/assets/56e63722-73dc-4ef9-969b-a1e8e65699f2" />
 
 ---
 
