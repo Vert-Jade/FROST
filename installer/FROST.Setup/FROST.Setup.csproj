@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>FROST_v1.0.4_setup</AssemblyName>
+    <RootNamespace>FROST.Setup</RootNamespace>
+    <Version>1.0.4</Version>
+    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <InformationalVersion>1.0.4</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\..\Ressources\Icones\frost.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- FROST payload — embedded after dotnet publish FROST.csproj -->
+    <EmbeddedResource Include="..\..\release\publish\win-x64\FROST.exe"
+                      LogicalName="FROST.exe" />
+
+    <!-- App icon -->
+    <Resource Include="..\..\Ressources\Icones\frost.ico">
+      <Link>Resources\frost.ico</Link>
+    </Resource>
+
+    <!-- Welcome artwork -->
+    <Resource Include="..\..\Ressources\Icones\Bienvenue.png">
+      <Link>Resources\Bienvenue.png</Link>
+    </Resource>
+
+    <!-- Language flags -->
+    <Resource Include="..\..\Ressources\Icones\fr.png">
+      <Link>Resources\Flags\fr.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\gb.png">
+      <Link>Resources\Flags\en.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\de.png">
+      <Link>Resources\Flags\de.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\es.png">
+      <Link>Resources\Flags\es.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\it.png">
+      <Link>Resources\Flags\it.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\nl.png">
+      <Link>Resources\Flags\nl.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\pl.png">
+      <Link>Resources\Flags\pl.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\pt.png">
+      <Link>Resources\Flags\pt.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\ru.png">
+      <Link>Resources\Flags\ru.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\su.png">
+      <Link>Resources\Flags\sv.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\turc.png">
+      <Link>Resources\Flags\tr.png</Link>
+    </Resource>
+    <Resource Include="..\..\Ressources\Icones\arabe.png">
+      <Link>Resources\Flags\ar.png</Link>
+    </Resource>
+  </ItemGroup>
+
+</Project>

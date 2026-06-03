@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">Installateur</s:String>
+    <s:String x:Key="SetupStepLang">Langue</s:String>
+    <s:String x:Key="SetupStepWelcome">Bienvenue</s:String>
+    <s:String x:Key="SetupStepPath">Emplacement</s:String>
+    <s:String x:Key="SetupStepInstall">Installation</s:String>
+    <s:String x:Key="SetupStepFinish">Terminé</s:String>
+    <s:String x:Key="BtnNext">Suivant →</s:String>
+    <s:String x:Key="BtnBack">← Retour</s:String>
+    <s:String x:Key="BtnInstall">Installer →</s:String>
+    <s:String x:Key="BtnFinish">Terminer</s:String>
+    <s:String x:Key="BtnBrowse">Parcourir...</s:String>
+    <s:String x:Key="LangTitle">Choisissez votre langue</s:String>
+    <s:String x:Key="LangDesc">Sélectionnez la langue qui sera utilisée par l'installateur.</s:String>
+    <s:String x:Key="WelcomeTitle">Bienvenue dans FROST</s:String>
+    <s:String x:Key="WelcomeDesc">FROST est un overlay tactique pour Dofus conçu pour calculer instantanément la mécanique de Confusion du Comte Harebourg. Un outil 100 % manuel, sans lecture de mémoire ni analyse d'écran automatique.</s:String>
+    <s:String x:Key="PathTitle">Choisir l'emplacement</s:String>
+    <s:String x:Key="PathDesc">Sélectionnez le dossier dans lequel FROST sera installé.</s:String>
+    <s:String x:Key="PathLabel">Dossier de destination :</s:String>
+    <s:String x:Key="ChkDesktop">Créer un raccourci sur le Bureau</s:String>
+    <s:String x:Key="ChkStartMenu">Ajouter au menu Démarrer</s:String>
+    <s:String x:Key="InstallTitle">Installation en cours...</s:String>
+    <s:String x:Key="InstallPreparing">Préparation de l'installation...</s:String>
+    <s:String x:Key="InstallCopying">Copie des fichiers...</s:String>
+    <s:String x:Key="InstallShortcuts">Création des raccourcis...</s:String>
+    <s:String x:Key="InstallRegistering">Enregistrement...</s:String>
+    <s:String x:Key="FinishTitle">Installation réussie !</s:String>
+    <s:String x:Key="FinishDesc">FROST a été installé avec succès sur votre ordinateur.</s:String>
+    <s:String x:Key="ChkLaunch">Lancer FROST maintenant</s:String>
+    <s:String x:Key="DiskSpaceRequired">Espace requis : ~180 Mo</s:String>
+</ResourceDictionary>

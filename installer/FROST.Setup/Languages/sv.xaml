@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">Installationsprogram</s:String>
+    <s:String x:Key="SetupStepLang">Språk</s:String>
+    <s:String x:Key="SetupStepWelcome">Välkommen</s:String>
+    <s:String x:Key="SetupStepPath">Plats</s:String>
+    <s:String x:Key="SetupStepInstall">Installation</s:String>
+    <s:String x:Key="SetupStepFinish">Klar</s:String>
+    <s:String x:Key="BtnNext">Nästa →</s:String>
+    <s:String x:Key="BtnBack">← Tillbaka</s:String>
+    <s:String x:Key="BtnInstall">Installera →</s:String>
+    <s:String x:Key="BtnFinish">Avsluta</s:String>
+    <s:String x:Key="BtnBrowse">Bläddra...</s:String>
+    <s:String x:Key="LangTitle">Välj ditt språk</s:String>
+    <s:String x:Key="LangDesc">Välj vilket språk installationsprogrammet ska använda.</s:String>
+    <s:String x:Key="WelcomeTitle">Välkommen till FROST</s:String>
+    <s:String x:Key="WelcomeDesc">FROST är ett taktiskt overlay för Dofus utformat för att omedelbart beräkna Greve Harebourgs Förvirring-mekanism. Ett 100 % manuellt verktyg utan minnesinläsning eller automatisk skärmanalys.</s:String>
+    <s:String x:Key="PathTitle">Välj installationsplats</s:String>
+    <s:String x:Key="PathDesc">Välj den mapp där FROST ska installeras.</s:String>
+    <s:String x:Key="PathLabel">Målmapp:</s:String>
+    <s:String x:Key="ChkDesktop">Skapa genväg på skrivbordet</s:String>
+    <s:String x:Key="ChkStartMenu">Lägg till i startmenyn</s:String>
+    <s:String x:Key="InstallTitle">Installerar...</s:String>
+    <s:String x:Key="InstallPreparing">Förbereder installation...</s:String>
+    <s:String x:Key="InstallCopying">Kopierar filer...</s:String>
+    <s:String x:Key="InstallShortcuts">Skapar genvägar...</s:String>
+    <s:String x:Key="InstallRegistering">Registrerar...</s:String>
+    <s:String x:Key="FinishTitle">Installationen lyckades!</s:String>
+    <s:String x:Key="FinishDesc">FROST har installerats på din dator.</s:String>
+    <s:String x:Key="ChkLaunch">Starta FROST nu</s:String>
+    <s:String x:Key="DiskSpaceRequired">Utrymme som krävs: ~180 MB</s:String>
+</ResourceDictionary>

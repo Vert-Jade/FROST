@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">Installatieprogramma</s:String>
+    <s:String x:Key="SetupStepLang">Taal</s:String>
+    <s:String x:Key="SetupStepWelcome">Welkom</s:String>
+    <s:String x:Key="SetupStepPath">Locatie</s:String>
+    <s:String x:Key="SetupStepInstall">Installatie</s:String>
+    <s:String x:Key="SetupStepFinish">Voltooien</s:String>
+    <s:String x:Key="BtnNext">Volgende →</s:String>
+    <s:String x:Key="BtnBack">← Terug</s:String>
+    <s:String x:Key="BtnInstall">Installeren →</s:String>
+    <s:String x:Key="BtnFinish">Voltooien</s:String>
+    <s:String x:Key="BtnBrowse">Bladeren...</s:String>
+    <s:String x:Key="LangTitle">Kies uw taal</s:String>
+    <s:String x:Key="LangDesc">Selecteer de taal voor het installatieprogramma.</s:String>
+    <s:String x:Key="WelcomeTitle">Welkom bij FROST</s:String>
+    <s:String x:Key="WelcomeDesc">FROST is een tactische overlay voor Dofus die is ontworpen om de Verwarring-mechanic van Graaf Harebourg direct te berekenen. Een 100% handmatige tool zonder geheugenlezing of automatische schermanalyse.</s:String>
+    <s:String x:Key="PathTitle">Kies installatielocatie</s:String>
+    <s:String x:Key="PathDesc">Selecteer de map waarin FROST wordt geïnstalleerd.</s:String>
+    <s:String x:Key="PathLabel">Doelmap:</s:String>
+    <s:String x:Key="ChkDesktop">Snelkoppeling op bureaublad maken</s:String>
+    <s:String x:Key="ChkStartMenu">Toevoegen aan startmenu</s:String>
+    <s:String x:Key="InstallTitle">Installeren...</s:String>
+    <s:String x:Key="InstallPreparing">Installatie voorbereiden...</s:String>
+    <s:String x:Key="InstallCopying">Bestanden kopiëren...</s:String>
+    <s:String x:Key="InstallShortcuts">Snelkoppelingen aanmaken...</s:String>
+    <s:String x:Key="InstallRegistering">Registreren...</s:String>
+    <s:String x:Key="FinishTitle">Installatie geslaagd!</s:String>
+    <s:String x:Key="FinishDesc">FROST is succesvol geïnstalleerd op uw computer.</s:String>
+    <s:String x:Key="ChkLaunch">FROST nu starten</s:String>
+    <s:String x:Key="DiskSpaceRequired">Vereiste ruimte: ~180 MB</s:String>
+</ResourceDictionary>

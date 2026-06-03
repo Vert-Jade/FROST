@@ -7,10 +7,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>FROST</AssemblyName>
     <RootNamespace>FROST</RootNamespace>
-    <Version>1.0.3</Version>
-    <FileVersion>1.0.3.0</FileVersion>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <InformationalVersion>1.0.3</InformationalVersion>
+    <Version>1.0.4</Version>
+    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <InformationalVersion>1.0.4</InformationalVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Product>FROST</Product>
     <ApplicationIcon>Ressources\Icones\frost.ico</ApplicationIcon>
@@ -23,5 +23,14 @@
     <Resource Include="Ressources\**\*.png" />
     <!-- On inclut aussi le dossier Icones s'il a été mis à la racine -->
     <Resource Include="Icones\**\*.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="installer\FROST.Setup\**\*.cs" />
+    <Page Remove="installer\FROST.Setup\**\*.xaml" />
+    <ApplicationDefinition Remove="installer\FROST.Setup\**\*.xaml" />
+    <EmbeddedResource Remove="installer\FROST.Setup\**\*" />
+    <None Remove="installer\FROST.Setup\**\*" />
+    <Resource Remove="installer\FROST.Setup\**\*" />
   </ItemGroup>
 </Project>

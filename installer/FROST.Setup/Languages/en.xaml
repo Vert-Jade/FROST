@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">Installer</s:String>
+    <s:String x:Key="SetupStepLang">Language</s:String>
+    <s:String x:Key="SetupStepWelcome">Welcome</s:String>
+    <s:String x:Key="SetupStepPath">Location</s:String>
+    <s:String x:Key="SetupStepInstall">Installing</s:String>
+    <s:String x:Key="SetupStepFinish">Finish</s:String>
+    <s:String x:Key="BtnNext">Next →</s:String>
+    <s:String x:Key="BtnBack">← Back</s:String>
+    <s:String x:Key="BtnInstall">Install →</s:String>
+    <s:String x:Key="BtnFinish">Finish</s:String>
+    <s:String x:Key="BtnBrowse">Browse...</s:String>
+    <s:String x:Key="LangTitle">Choose your language</s:String>
+    <s:String x:Key="LangDesc">Select the language to be used by the installer.</s:String>
+    <s:String x:Key="WelcomeTitle">Welcome to FROST</s:String>
+    <s:String x:Key="WelcomeDesc">FROST is a tactical overlay for Dofus designed to instantly calculate Count Harebourg's Confusion mechanic. A 100% manual tool — no memory reading, no automatic screen analysis.</s:String>
+    <s:String x:Key="PathTitle">Choose install location</s:String>
+    <s:String x:Key="PathDesc">Select the folder where FROST will be installed.</s:String>
+    <s:String x:Key="PathLabel">Destination folder:</s:String>
+    <s:String x:Key="ChkDesktop">Create a shortcut on the Desktop</s:String>
+    <s:String x:Key="ChkStartMenu">Add to Start Menu</s:String>
+    <s:String x:Key="InstallTitle">Installing...</s:String>
+    <s:String x:Key="InstallPreparing">Preparing installation...</s:String>
+    <s:String x:Key="InstallCopying">Copying files...</s:String>
+    <s:String x:Key="InstallShortcuts">Creating shortcuts...</s:String>
+    <s:String x:Key="InstallRegistering">Registering...</s:String>
+    <s:String x:Key="FinishTitle">Installation successful!</s:String>
+    <s:String x:Key="FinishDesc">FROST has been successfully installed on your computer.</s:String>
+    <s:String x:Key="ChkLaunch">Launch FROST now</s:String>
+    <s:String x:Key="DiskSpaceRequired">Required space: ~180 MB</s:String>
+</ResourceDictionary>

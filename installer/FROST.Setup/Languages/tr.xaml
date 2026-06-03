@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">Yükleyici</s:String>
+    <s:String x:Key="SetupStepLang">Dil</s:String>
+    <s:String x:Key="SetupStepWelcome">Hoş Geldiniz</s:String>
+    <s:String x:Key="SetupStepPath">Konum</s:String>
+    <s:String x:Key="SetupStepInstall">Kurulum</s:String>
+    <s:String x:Key="SetupStepFinish">Bitti</s:String>
+    <s:String x:Key="BtnNext">İleri →</s:String>
+    <s:String x:Key="BtnBack">← Geri</s:String>
+    <s:String x:Key="BtnInstall">Kur →</s:String>
+    <s:String x:Key="BtnFinish">Bitir</s:String>
+    <s:String x:Key="BtnBrowse">Gözat...</s:String>
+    <s:String x:Key="LangTitle">Dilinizi seçin</s:String>
+    <s:String x:Key="LangDesc">Yükleyici için kullanılacak dili seçin.</s:String>
+    <s:String x:Key="WelcomeTitle">FROST'a Hoş Geldiniz</s:String>
+    <s:String x:Key="WelcomeDesc">FROST, Kont Harebourg'un Kafa Karışıklığı mekaniğini anında hesaplamak için tasarlanmış Dofus için taktik bir overlay'dir. Bellek okuma veya otomatik ekran analizi olmaksızın %100 manuel bir araç.</s:String>
+    <s:String x:Key="PathTitle">Kurulum konumunu seçin</s:String>
+    <s:String x:Key="PathDesc">FROST'un kurulacağı klasörü seçin.</s:String>
+    <s:String x:Key="PathLabel">Hedef klasör:</s:String>
+    <s:String x:Key="ChkDesktop">Masaüstünde kısayol oluştur</s:String>
+    <s:String x:Key="ChkStartMenu">Başlat Menüsü'ne ekle</s:String>
+    <s:String x:Key="InstallTitle">Kuruluyor...</s:String>
+    <s:String x:Key="InstallPreparing">Kurulum hazırlanıyor...</s:String>
+    <s:String x:Key="InstallCopying">Dosyalar kopyalanıyor...</s:String>
+    <s:String x:Key="InstallShortcuts">Kısayollar oluşturuluyor...</s:String>
+    <s:String x:Key="InstallRegistering">Kayıt ediliyor...</s:String>
+    <s:String x:Key="FinishTitle">Kurulum tamamlandı!</s:String>
+    <s:String x:Key="FinishDesc">FROST bilgisayarınıza başarıyla kuruldu.</s:String>
+    <s:String x:Key="ChkLaunch">FROST'u şimdi başlat</s:String>
+    <s:String x:Key="DiskSpaceRequired">Gereken alan: ~180 MB</s:String>
+</ResourceDictionary>

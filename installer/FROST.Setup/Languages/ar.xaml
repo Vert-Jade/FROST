@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="InstallerLabel">المثبّت</s:String>
+    <s:String x:Key="SetupStepLang">اللغة</s:String>
+    <s:String x:Key="SetupStepWelcome">مرحباً</s:String>
+    <s:String x:Key="SetupStepPath">الموقع</s:String>
+    <s:String x:Key="SetupStepInstall">التثبيت</s:String>
+    <s:String x:Key="SetupStepFinish">إنهاء</s:String>
+    <s:String x:Key="BtnNext">← التالي</s:String>
+    <s:String x:Key="BtnBack">رجوع →</s:String>
+    <s:String x:Key="BtnInstall">← تثبيت</s:String>
+    <s:String x:Key="BtnFinish">إنهاء</s:String>
+    <s:String x:Key="BtnBrowse">استعراض...</s:String>
+    <s:String x:Key="LangTitle">اختر لغتك</s:String>
+    <s:String x:Key="LangDesc">اختر اللغة التي سيستخدمها المثبّت.</s:String>
+    <s:String x:Key="WelcomeTitle">مرحباً بك في FROST</s:String>
+    <s:String x:Key="WelcomeDesc">FROST هو تراكب تكتيكي لـ Dofus مصمم لحساب ميكانيكية الارتباك للكونت هاربورغ على الفور. أداة يدوية بنسبة 100٪ دون قراءة ذاكرة أو تحليل تلقائي للشاشة.</s:String>
+    <s:String x:Key="PathTitle">اختر موقع التثبيت</s:String>
+    <s:String x:Key="PathDesc">حدد المجلد الذي سيتم تثبيت FROST فيه.</s:String>
+    <s:String x:Key="PathLabel">مجلد الوجهة:</s:String>
+    <s:String x:Key="ChkDesktop">إنشاء اختصار على سطح المكتب</s:String>
+    <s:String x:Key="ChkStartMenu">إضافة إلى قائمة ابدأ</s:String>
+    <s:String x:Key="InstallTitle">جارٍ التثبيت...</s:String>
+    <s:String x:Key="InstallPreparing">جارٍ الإعداد...</s:String>
+    <s:String x:Key="InstallCopying">جارٍ نسخ الملفات...</s:String>
+    <s:String x:Key="InstallShortcuts">جارٍ إنشاء الاختصارات...</s:String>
+    <s:String x:Key="InstallRegistering">جارٍ التسجيل...</s:String>
+    <s:String x:Key="FinishTitle">اكتمل التثبيت!</s:String>
+    <s:String x:Key="FinishDesc">تم تثبيت FROST بنجاح على جهاز الكمبيوتر الخاص بك.</s:String>
+    <s:String x:Key="ChkLaunch">تشغيل FROST الآن</s:String>
+    <s:String x:Key="DiskSpaceRequired">المساحة المطلوبة: ~180 ميجابايت</s:String>
+</ResourceDictionary>
