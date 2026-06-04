@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">الاستخدام</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ الاختصارات</system:String>
     <system:String x:Key="TxtCatLegend">📚 الأسطورة (المفتاح)</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ السلوك</system:String>
 
     <system:String x:Key="TxtScreenSelect">تحديد الشاشة</system:String>
     <system:String x:Key="TxtScreen">الشاشة</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">رمز اللون غير صالح. استخدم تنسيقًا ست عشريًا مثل #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">البحث عن تحديثات</system:String>
     <system:String x:Key="TxtOpenInternalFolder">فتح المجلد الداخلي</system:String>
+    <system:String x:Key="TxtCloseToTray">تصغير إلى الأيقونات المخفية عند الإغلاق</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">زر الإغلاق يبقي FROST يعمل في الخلفية. انقر مرتين على أيقونة FROST للاستعادة، أو اختر خروج من الأيقونة.</system:String>
+    <system:String x:Key="TxtTrayShow">إظهار FROST</system:String>
+    <system:String x:Key="TxtTrayExit">الخروج من FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST ما زال يعمل هنا. انقر مرتين لاستعادة الواجهة.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST ما زال يعمل في الأيقونات المخفية.</system:String>
+    <system:String x:Key="StatusTrayRestored">تمت استعادة FROST.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">تم فتح المجلد الداخلي لـ FROST.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">تعذر فتح المجلد الداخلي لـ FROST: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — برنامج الإزالة</system:String>

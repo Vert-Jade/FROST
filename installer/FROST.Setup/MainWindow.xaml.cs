@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -346,6 +347,7 @@ public partial class MainWindow : Window
                             IProgress<(double, string)> progress)
     {
         string copying   = TryResourceSafe("InstallCopying")    ?? "Copie des fichiers...";
+        string closing   = TryResourceSafe("InstallClosingFrost") ?? "Fermeture de FROST...";
         string shortcuts = TryResourceSafe("InstallShortcuts")  ?? "Création des raccourcis...";
         string registering = TryResourceSafe("InstallRegistering") ?? "Enregistrement...";
 
@@ -354,9 +356,10 @@ public partial class MainWindow : Window
         Directory.CreateDirectory(installDir);
         Thread.Sleep(300);
 
-        // 2. Extract FROST.exe
-        progress.Report((15, copying));
+        // 2. Preserve user data and replace only the executable payload.
         string exeDest = Path.Combine(installDir, "FROST.exe");
+        CloseRunningFrostInstances(exeDest, progress, closing);
+        progress.Report((15, copying));
         ExtractPayload(exeDest, progress, 15, 80);
 
         // 3. Shortcuts
@@ -391,23 +394,165 @@ public partial class MainWindow : Window
     private static void ExtractPayload(string destPath, IProgress<(double, string)> progress,
                                        double startPct, double endPct)
     {
-        var asm    = Assembly.GetExecutingAssembly();
-        var stream = asm.GetManifestResourceStream("FROST.exe");
+        string? destDir = Path.GetDirectoryName(destPath);
+        if (!string.IsNullOrWhiteSpace(destDir))
+            Directory.CreateDirectory(destDir);
 
-        if (stream == null)
-            throw new InvalidOperationException("FROST.exe n'est pas embarqué dans l'installateur.");
+        string tempPath = destPath + ".installing";
+        Exception? lastError = null;
+        const int maxAttempts = 10;
 
-        long total = stream.Length;
-        using var fs = File.Create(destPath);
-        byte[] buffer = new byte[81920];
-        long copied = 0;
-        int read;
-        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+        for (int attempt = 1; attempt <= maxAttempts; attempt++)
         {
-            fs.Write(buffer, 0, read);
-            copied += read;
-            double pct = startPct + (endPct - startPct) * copied / total;
-            progress.Report((pct, $"Copie de FROST.exe... {(int)(copied * 100.0 / total)} %"));
+            try
+            {
+                TryDeleteFile(tempPath);
+
+                using Stream stream = OpenPayloadStream();
+                long total = stream.Length;
+                using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    byte[] buffer = new byte[81920];
+                    long copied = 0;
+                    int read;
+                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fs.Write(buffer, 0, read);
+                        copied += read;
+                        double pct = startPct + (endPct - startPct) * copied / total;
+                        progress.Report((pct, $"Copie de FROST.exe... {(int)(copied * 100.0 / total)} %"));
+                    }
+                    fs.Flush(true);
+                }
+
+                WaitForFileRelease(destPath, TimeSpan.FromSeconds(3));
+                if (File.Exists(destPath))
+                    File.Delete(destPath);
+
+                File.Move(tempPath, destPath);
+                return;
+            }
+            catch (Exception ex) when (IsRetriableFileError(ex) && attempt < maxAttempts)
+            {
+                lastError = ex;
+                TryDeleteFile(tempPath);
+                Thread.Sleep(500);
+            }
+        }
+
+        throw new IOException(
+            "Impossible de remplacer FROST.exe. Fermez FROST puis relancez l'installation.",
+            lastError);
+    }
+
+    private static Stream OpenPayloadStream()
+    {
+        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FROST.exe");
+        return stream ?? throw new InvalidOperationException("FROST.exe n'est pas embarqué dans l'installateur.");
+    }
+
+    private static void CloseRunningFrostInstances(string targetExePath,
+                                                  IProgress<(double, string)> progress,
+                                                  string status)
+    {
+        string targetFullPath = NormalizePath(targetExePath);
+        bool foundRunningInstance = false;
+
+        foreach (Process process in Process.GetProcessesByName("FROST"))
+        {
+            try
+            {
+                string? processPath = TryGetProcessPath(process);
+                if (string.IsNullOrWhiteSpace(processPath) ||
+                    !PathsEqual(processPath, targetFullPath))
+                {
+                    continue;
+                }
+
+                if (!foundRunningInstance)
+                {
+                    progress.Report((12, status));
+                    foundRunningInstance = true;
+                }
+
+                if (process.CloseMainWindow() && process.WaitForExit(3500))
+                    continue;
+
+                process.Kill(entireProcessTree: true);
+                process.WaitForExit(3500);
+            }
+            catch
+            {
+                // Best effort: the retry loop below still guards the file replacement.
+            }
+            finally
+            {
+                process.Dispose();
+            }
+        }
+
+        if (foundRunningInstance)
+            WaitForFileRelease(targetExePath, TimeSpan.FromSeconds(12));
+    }
+
+    private static string? TryGetProcessPath(Process process)
+    {
+        try { return process.MainModule?.FileName; }
+        catch { return null; }
+    }
+
+    private static void WaitForFileRelease(string path, TimeSpan timeout)
+    {
+        if (!File.Exists(path))
+            return;
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        Exception? lastError = null;
+
+        while (stopwatch.Elapsed < timeout)
+        {
+            try
+            {
+                using var stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                return;
+            }
+            catch (Exception ex) when (IsRetriableFileError(ex))
+            {
+                lastError = ex;
+                Thread.Sleep(250);
+            }
+        }
+
+        throw new IOException(
+            "FROST.exe est encore utilisé par Windows. Fermez FROST puis relancez l'installation.",
+            lastError);
+    }
+
+    private static bool IsRetriableFileError(Exception ex) =>
+        ex is IOException || ex is UnauthorizedAccessException;
+
+    private static void TryDeleteFile(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+        catch { }
+    }
+
+    private static bool PathsEqual(string left, string right) =>
+        string.Equals(NormalizePath(left), NormalizePath(right), StringComparison.OrdinalIgnoreCase);
+
+    private static string NormalizePath(string path)
+    {
+        try
+        {
+            return Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+        catch
+        {
+            return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
     }
 
@@ -447,7 +592,7 @@ public partial class MainWindow : Window
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FROST");
             if (key == null) return;
             key.SetValue("DisplayName",     "FROST");
-            key.SetValue("DisplayVersion",  "1.0.7");
+            key.SetValue("DisplayVersion",  "1.0.8");
             key.SetValue("Publisher",       "Dylan Fournier");
             key.SetValue("InstallLocation", installDir);
             key.SetValue("DisplayIcon",     exePath);

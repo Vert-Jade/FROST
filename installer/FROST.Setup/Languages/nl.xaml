@@ -32,10 +32,11 @@
     <s:String x:Key="PathDesc">Selecteer de map waarin FROST wordt geïnstalleerd.</s:String>
     <s:String x:Key="PathLabel">Doelmap:</s:String>
     <s:String x:Key="ChkDesktop">Snelkoppeling op bureaublad maken</s:String>
-    <s:String x:Key="ChkStartMenu">Toevoegen aan startmenu</s:String>
+    <s:String x:Key="ChkStartMenu">Snelkoppeling in startmenu maken</s:String>
     <s:String x:Key="InstallTitle">Installeren...</s:String>
     <s:String x:Key="InstallPreparing">Installatie voorbereiden...</s:String>
     <s:String x:Key="InstallCopying">Bestanden kopiëren...</s:String>
+    <s:String x:Key="InstallClosingFrost">FROST sluiten...</s:String>
     <s:String x:Key="InstallShortcuts">Snelkoppelingen aanmaken...</s:String>
     <s:String x:Key="InstallRegistering">Registreren...</s:String>
     <s:String x:Key="FinishTitle">Installatie geslaagd!</s:String>

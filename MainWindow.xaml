@@ -112,6 +112,65 @@
             <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
 
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#E5E7EB"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="Root"
+                                Background="#171A22"
+                                BorderBrush="#2E3442"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="Box"
+                                        Width="22"
+                                        Height="22"
+                                        CornerRadius="7"
+                                        Background="#11141B"
+                                        BorderBrush="#3A4354"
+                                        BorderThickness="1"
+                                        VerticalAlignment="Top"
+                                        Margin="0,1,12,0">
+                                    <Path x:Name="CheckMark"
+                                          Data="M5,11 L9,15 L17,7"
+                                          Stroke="#11141B"
+                                          StrokeThickness="2.4"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          Visibility="Collapsed"/>
+                                </Border>
+                                <ContentPresenter Grid.Column="1"
+                                                  VerticalAlignment="Center"
+                                                  RecognizesAccessKey="True"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource ThemeColorBrush}"/>
+                                <Setter TargetName="Root" Property="Background" Value="#1B202B"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Box" Property="Background" Value="{DynamicResource ThemeColorBrush}"/>
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{DynamicResource ThemeColorBrush}"/>
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Root" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="LegendColorCardSurfaceStyle" TargetType="Border">
             <Setter Property="Background" Value="#1B1F29"/>
             <Setter Property="BorderBrush" Value="#333B4C"/>
@@ -1269,6 +1328,29 @@
                                                 <TextBlock Text="{DynamicResource TxtSelectionOrderTargetFirst}" TextWrapping="Wrap" TextAlignment="Center"/>
                                             </Button>
                                         </UniformGrid>
+                                    </StackPanel>
+                                </Expander>
+
+                                <Expander Header="{DynamicResource TxtCatBehavior}" Style="{StaticResource ModernExpander}" IsExpanded="True">
+                                    <StackPanel Margin="0,5,0,5">
+                                        <CheckBox x:Name="ChkCloseToTray"
+                                                  Style="{StaticResource ModernCheckBoxStyle}"
+                                                  Checked="ChkCloseToTray_Changed"
+                                                  Unchecked="ChkCloseToTray_Changed">
+                                            <StackPanel>
+                                                <TextBlock Text="{DynamicResource TxtCloseToTray}"
+                                                           Foreground="#F3F4F6"
+                                                           FontSize="12.5"
+                                                           FontWeight="SemiBold"
+                                                           TextWrapping="Wrap"/>
+                                                <TextBlock Text="{DynamicResource TxtCloseToTrayDesc}"
+                                                           Foreground="#8F98AC"
+                                                           FontSize="11"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0,4,0,0"
+                                                           LineHeight="16"/>
+                                            </StackPanel>
+                                        </CheckBox>
                                     </StackPanel>
                                 </Expander>
 

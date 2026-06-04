@@ -52,6 +52,7 @@
     <system:String x:Key="TxtCatUsage">ANVÄNDNING</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ GENVÄGAR</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDA</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ BETEENDE</system:String>
     <system:String x:Key="TxtScreenSelect">Skärmval</system:String>
     <system:String x:Key="TxtScreen">Skärm</system:String>
     <system:String x:Key="TxtPrimary">Primär</system:String>
@@ -164,6 +165,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Ogiltig färgkod. Använd ett hexadecimalt format som #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Sök efter uppdateringar</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Öppna intern mapp</system:String>
+    <system:String x:Key="TxtCloseToTray">Minimera till dolda ikoner vid stängning</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Stängknappen låter FROST fortsätta i bakgrunden. Dubbelklicka på FROST-ikonen för att återställa, eller välj Avsluta från ikonen.</system:String>
+    <system:String x:Key="TxtTrayShow">Visa FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Avsluta FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST körs fortfarande här. Dubbelklicka för att återställa gränssnittet.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST körs fortfarande i dolda ikoner.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST återställt.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">FROSTs interna mapp öppnades.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Kunde inte öppna FROSTs interna mapp: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Avinstallerare</system:String>

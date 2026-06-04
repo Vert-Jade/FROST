@@ -52,6 +52,7 @@
     <system:String x:Key="TxtCatUsage">KULLANIM</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ KISAYOLLAR</system:String>
     <system:String x:Key="TxtCatLegend">📚 AÇIKLAMALAR</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ DAVRANIŞ</system:String>
     <system:String x:Key="TxtScreenSelect">Ekran seçimi</system:String>
     <system:String x:Key="TxtScreen">Ekran</system:String>
     <system:String x:Key="TxtPrimary">Birincil</system:String>
@@ -164,6 +165,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Geçersiz renk kodu. #20CFFF gibi onaltılık bir biçim kullanın.</system:String>
     <system:String x:Key="TxtCheckUpdates">Güncellemeleri denetle</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Dahili klasörü aç</system:String>
+    <system:String x:Key="TxtCloseToTray">Kapatırken gizli simgelere küçült</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Kapat düğmesi FROST&apos;u arka planda çalışır tutar. Geri yüklemek için FROST simgesine çift tıklayın veya simgeden Çıkış&apos;ı seçin.</system:String>
+    <system:String x:Key="TxtTrayShow">FROST&apos;u göster</system:String>
+    <system:String x:Key="TxtTrayExit">FROST&apos;tan çık</system:String>
+    <system:String x:Key="TxtTrayHint">FROST burada çalışmaya devam ediyor. Arayüzü geri yüklemek için çift tıklayın.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST gizli simgelerde çalışmaya devam ediyor.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST geri yüklendi.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">FROST dahili klasörü açıldı.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">FROST dahili klasörü açılamadı: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Kaldırıcı</system:String>

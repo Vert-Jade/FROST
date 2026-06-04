@@ -32,10 +32,11 @@
     <s:String x:Key="PathDesc">Выберите папку, в которую будет установлен FROST.</s:String>
     <s:String x:Key="PathLabel">Папка назначения:</s:String>
     <s:String x:Key="ChkDesktop">Создать ярлык на рабочем столе</s:String>
-    <s:String x:Key="ChkStartMenu">Добавить в меню Пуск</s:String>
+    <s:String x:Key="ChkStartMenu">Создать ярлык в меню Пуск</s:String>
     <s:String x:Key="InstallTitle">Установка...</s:String>
     <s:String x:Key="InstallPreparing">Подготовка к установке...</s:String>
     <s:String x:Key="InstallCopying">Копирование файлов...</s:String>
+    <s:String x:Key="InstallClosingFrost">Закрытие FROST...</s:String>
     <s:String x:Key="InstallShortcuts">Создание ярлыков...</s:String>
     <s:String x:Key="InstallRegistering">Регистрация...</s:String>
     <s:String x:Key="FinishTitle">Установка завершена!</s:String>

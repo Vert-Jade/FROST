@@ -32,10 +32,11 @@
     <s:String x:Key="PathDesc">FROST'un kurulacağı klasörü seçin.</s:String>
     <s:String x:Key="PathLabel">Hedef klasör:</s:String>
     <s:String x:Key="ChkDesktop">Masaüstünde kısayol oluştur</s:String>
-    <s:String x:Key="ChkStartMenu">Başlat Menüsü'ne ekle</s:String>
+    <s:String x:Key="ChkStartMenu">Başlat Menüsü kısayolu oluştur</s:String>
     <s:String x:Key="InstallTitle">Kuruluyor...</s:String>
     <s:String x:Key="InstallPreparing">Kurulum hazırlanıyor...</s:String>
     <s:String x:Key="InstallCopying">Dosyalar kopyalanıyor...</s:String>
+    <s:String x:Key="InstallClosingFrost">FROST kapatılıyor...</s:String>
     <s:String x:Key="InstallShortcuts">Kısayollar oluşturuluyor...</s:String>
     <s:String x:Key="InstallRegistering">Kayıt ediliyor...</s:String>
     <s:String x:Key="FinishTitle">Kurulum tamamlandı!</s:String>

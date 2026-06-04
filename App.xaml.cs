@@ -23,7 +23,10 @@ namespace FROST
                 MessageBox.Show("Le lancement a échoué car un fichier est introuvable ou mal nommé :\n\n" + msg, 
                                 "Erreur Critique - FROST", MessageBoxButton.OK, MessageBoxImage.Error);
                 args.Handled = true;
-                Application.Current.Shutdown();
+                if (Application.Current.MainWindow is FROST.MainWindow mainWindow)
+                    mainWindow.RequestApplicationExit();
+                else
+                    Application.Current.Shutdown();
             };
 
             try

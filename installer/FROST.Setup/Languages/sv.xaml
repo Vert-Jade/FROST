@@ -32,10 +32,11 @@
     <s:String x:Key="PathDesc">Välj den mapp där FROST ska installeras.</s:String>
     <s:String x:Key="PathLabel">Målmapp:</s:String>
     <s:String x:Key="ChkDesktop">Skapa genväg på skrivbordet</s:String>
-    <s:String x:Key="ChkStartMenu">Lägg till i startmenyn</s:String>
+    <s:String x:Key="ChkStartMenu">Skapa genväg i startmenyn</s:String>
     <s:String x:Key="InstallTitle">Installerar...</s:String>
     <s:String x:Key="InstallPreparing">Förbereder installation...</s:String>
     <s:String x:Key="InstallCopying">Kopierar filer...</s:String>
+    <s:String x:Key="InstallClosingFrost">Stänger FROST...</s:String>
     <s:String x:Key="InstallShortcuts">Skapar genvägar...</s:String>
     <s:String x:Key="InstallRegistering">Registrerar...</s:String>
     <s:String x:Key="FinishTitle">Installationen lyckades!</s:String>

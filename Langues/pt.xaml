@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">USO</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ ATALHOS</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDA</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ COMPORTAMENTO</system:String>
 
     <system:String x:Key="TxtScreenSelect">Seleção de tela</system:String>
     <system:String x:Key="TxtScreen">Tela</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Código de cor inválido. Use um formato hexadecimal como #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Verificar atualizações</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Abrir pasta interna</system:String>
+    <system:String x:Key="TxtCloseToTray">Minimizar para ícones ocultos ao fechar</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">O botão fechar mantém o FROST ativo em segundo plano. Clique duas vezes no ícone do FROST para restaurar, ou use Sair no ícone.</system:String>
+    <system:String x:Key="TxtTrayShow">Mostrar FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Sair do FROST</system:String>
+    <system:String x:Key="TxtTrayHint">O FROST continua ativo aqui. Clique duas vezes para restaurar a interface.</system:String>
+    <system:String x:Key="StatusTrayHidden">O FROST continua ativo nos ícones ocultos.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST restaurado.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Pasta interna do FROST aberta.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Não foi possível abrir a pasta interna do FROST: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Desinstalador</system:String>

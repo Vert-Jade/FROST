@@ -52,6 +52,7 @@
     <system:String x:Key="TxtCatUsage">ИСПОЛЬЗОВАНИЕ</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ ГОРЯЧИЕ КЛАВИШИ</system:String>
     <system:String x:Key="TxtCatLegend">📚 ЛЕГЕНДА</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ ПОВЕДЕНИЕ</system:String>
     <system:String x:Key="TxtScreenSelect">Выбор экрана</system:String>
     <system:String x:Key="TxtScreen">Экран</system:String>
     <system:String x:Key="TxtPrimary">Основной</system:String>
@@ -164,6 +165,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Неверный код цвета. Используйте шестнадцатеричный формат, например #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Проверить обновления</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Открыть внутреннюю папку</system:String>
+    <system:String x:Key="TxtCloseToTray">Сворачивать в скрытые значки при закрытии</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Кнопка закрытия оставляет FROST работать в фоне. Дважды щёлкните значок FROST, чтобы восстановить, или выберите Выход.</system:String>
+    <system:String x:Key="TxtTrayShow">Показать FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Выйти из FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST продолжает работать здесь. Дважды щёлкните, чтобы восстановить интерфейс.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST продолжает работать в скрытых значках.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST восстановлен.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Внутренняя папка FROST открыта.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Не удалось открыть внутреннюю папку FROST: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Деинсталлятор</system:String>

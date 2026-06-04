@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">UTILISATION</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ RACCOURCIS</system:String>
     <system:String x:Key="TxtCatLegend">📚 LÉGENDE</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ COMPORTEMENT</system:String>
 
     <system:String x:Key="TxtScreenSelect">Sélection de l'écran</system:String>
     <system:String x:Key="TxtScreen">Écran</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Code couleur invalide. Utilisez un format hexad&#233;cimal comme #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Rechercher une MAJ</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Ouvrir le dossier interne</system:String>
+    <system:String x:Key="TxtCloseToTray">Réduire dans les icônes cachées à la fermeture</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">La croix garde FROST actif en arrière-plan. Double-cliquez l&apos;icône FROST pour restaurer, ou utilisez Quitter depuis l&apos;icône.</system:String>
+    <system:String x:Key="TxtTrayShow">Afficher FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Quitter FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST reste actif ici. Double-cliquez pour restaurer l&apos;interface.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST reste actif dans les icônes cachées.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST restauré.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Dossier interne FROST ouvert.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Impossible d&apos;ouvrir le dossier interne FROST : {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — D&#233;sinstallateur</system:String>

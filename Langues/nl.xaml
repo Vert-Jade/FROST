@@ -52,6 +52,7 @@
     <system:String x:Key="TxtCatUsage">GEBRUIK</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ SNELTOETSEN</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDA</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ GEDRAG</system:String>
     <system:String x:Key="TxtScreenSelect">Schermselectie</system:String>
     <system:String x:Key="TxtScreen">Scherm</system:String>
     <system:String x:Key="TxtPrimary">Primair</system:String>
@@ -165,6 +166,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Ongeldige kleurcode. Gebruik een hexadecimaal formaat zoals #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Controleren op updates</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Interne map openen</system:String>
+    <system:String x:Key="TxtCloseToTray">Bij sluiten minimaliseren naar verborgen pictogrammen</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">De sluitknop laat FROST op de achtergrond actief. Dubbelklik op het FROST-pictogram om te herstellen, of kies Afsluiten via het pictogram.</system:String>
+    <system:String x:Key="TxtTrayShow">FROST tonen</system:String>
+    <system:String x:Key="TxtTrayExit">FROST afsluiten</system:String>
+    <system:String x:Key="TxtTrayHint">FROST blijft hier actief. Dubbelklik om de interface te herstellen.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST blijft actief in verborgen pictogrammen.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST hersteld.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Interne FROST-map geopend.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">De interne FROST-map kon niet worden geopend: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Verwijderen</system:String>

@@ -1,6 +1,6 @@
 # ❄️ FROST - Assistant Tactique pour le Comte Harebourg
 
-![Version](https://img.shields.io/badge/version-1.0.7-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
+![Version](https://img.shields.io/badge/version-1.0.8-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey) ![Status](https://img.shields.io/badge/status-stable-green)
 
 **FROST** est un overlay tactique pour **Dofus** pensé pour lire et calculer instantanément la mécanique de **Confusion** du **Comte Harebourg**, sans automatisation et sans perturber le gameplay.
@@ -9,16 +9,25 @@
 
 ---
 
-## ✨ Nouveautés v1.0.7
+## ✨ Nouveautés v1.0.8
+
+- 🔄 **Mise à jour vraiment robuste**
+  L'installateur ferme l'instance FROST installée, attend que Windows libère `FROST.exe`, puis remplace l'exécutable via un fichier temporaire pour éviter l'erreur de processus déjà utilisé.
+
+- 💾 **Paramètres conservés à chaque mise à jour**
+  Les sauvegardes, couleurs, profils, logs, mises à jour téléchargées et la Notice validée restent dans `%LOCALAPPDATA%\FROST` et ne sont pas supprimés par l'installateur.
+
+- 🧊 **Fermeture en arrière-plan optionnelle**
+  Les paramètres proposent maintenant de réduire FROST dans les icônes cachées au lieu de quitter totalement. Double-clic sur l'icône FROST pour restaurer, ou menu de l'icône pour quitter.
+
+- 📌 **Raccourci menu Démarrer clarifié**
+  L'installateur crée un vrai raccourci dans le menu Démarrer. L'épinglage à la barre des tâches reste une action Windows manuelle depuis ce raccourci.
 
 - 🧭 **Premier lancement verrouillé au premier plan**
   L'assistant de départ et la notice obligatoire restent visibles devant Dofus, même si le jeu est déjà ouvert.
 
 - 📐 **Hauteur initiale stabilisée**
   Le panneau recalcule sa hauteur au retour de l'écran d'attente Dofus pour éviter le vide fantôme en bas de l'UI.
-
-- 🔄 **Mise à jour fiabilisée**
-  FROST ferme maintenant son propre processus avant de lancer l'installeur téléchargé, ce qui évite l'erreur de fichier déjà utilisé.
 
 - 🪟 **Prompt de mise à jour accessible**
   Une mise à jour peut être proposée même lorsque Dofus est fermé et que FROST affiche l'écran d'attente, sans rouvrir l'UI principale hors jeu.
@@ -42,8 +51,8 @@
   L'installateur propose maintenant les mêmes langues que l'application :
   **français**, **anglais**, **espagnol**, **allemand**, **italien**, **néerlandais**, **polonais**, **portugais**, **russe**, **suédois**, **turc** et **arabe**.
 
-- 📦 **Distribution 1.0.7 prête pour GitHub Releases**
-  Le script de build génère l'installateur WPF moderne dans `release\modern-setup` et copie `FROST_v1.0.7_setup.exe` directement dans `release`.
+- 📦 **Distribution 1.0.8 prête pour GitHub Releases**
+  Le script de build génère l'installateur WPF moderne dans `release\modern-setup` et copie `FROST_v1.0.8_setup.exe` directement dans `release`.
 
 - 🎯 **Ordre de sélection configurable**
   FROST permet maintenant de choisir entre **Joueur -> Cible** et **Cible -> Joueur**. Le mode par défaut passe en **Cible -> Joueur**, et la légende ainsi que les calculs suivent automatiquement cet ordre.
@@ -144,7 +153,7 @@ Quand une analyse publique récente est disponible, elle peut être partagée de
 ### Option 1 - Installer la version prête à l'emploi
 
 1. Télécharge la dernière release.
-2. Lance l'installateur Windows `FROST_v1.0.7_setup.exe`.
+2. Lance l'installateur Windows `FROST_v1.0.8_setup.exe`.
 3. Suis l'assistant de configuration.
 
 💡 FROST vérifie automatiquement les nouvelles releases au démarrage et peut aussi les rechercher manuellement depuis les paramètres.
@@ -199,6 +208,7 @@ Ou en PowerShell :
 - FROST se recale pendant les redimensionnements
 - FROST se masque quand Dofus est réduit ou indisponible
 - FROST relâche le focus vers le jeu pendant la séquence de ciblage
+- FROST peut rester actif dans les icônes cachées au lieu de quitter quand l'option dédiée est activée
 
 ---
 
@@ -249,7 +259,7 @@ Le script :
 
 1. publie l'application en self-contained
 2. compile l'installateur WPF moderne en self-contained
-3. copie `FROST_v1.0.7_setup.exe` dans `release`
+3. copie `FROST_v1.0.8_setup.exe` dans `release`
 
 ---
 
@@ -297,6 +307,7 @@ Si le projet t'aide, n'hésite pas à :
 
 ## 🛡️ Vérification sécurité
 
-Analyse VirusTotal publiée pour le setup officiel `FROST_v1.0.7_setup.exe` :
+Analyse VirusTotal publiée pour le setup officiel `FROST_v1.0.8_setup.exe` :
 
-[Consulter l'analyse VirusTotal du setup v1.0.7](https://www.virustotal.com/gui/file-analysis/ZTUxYmVjNzAxOWFhMTdhYjZhOTJjNTVjNjk5MDhmMzc6MTc4MDU2MjQ1OA==)
+- SHA256 : `21811146AB7F6D351BEE6457B6BCE192978700834FE1BDF3752B140700BA5CCD`
+- [Consulter l'analyse VirusTotal du setup v1.0.8](https://www.virustotal.com/gui/file-analysis/MzJjMWI1YzkwMWMwN2Q1OGUzMzA2MDU1MWU0ZGUyNmI6MTc4MDU2NzEwNA==)

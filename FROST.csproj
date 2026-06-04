@@ -7,15 +7,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>FROST</AssemblyName>
     <RootNamespace>FROST</RootNamespace>
-    <Version>1.0.7</Version>
-    <FileVersion>1.0.7.0</FileVersion>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <InformationalVersion>1.0.7</InformationalVersion>
+    <Version>1.0.8</Version>
+    <FileVersion>1.0.8.0</FileVersion>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <InformationalVersion>1.0.8</InformationalVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Product>FROST</Product>
     <ApplicationIcon>Ressources\Icones\frost.ico</ApplicationIcon>
     <DebugType>none</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Ressources\Icones\frost.ico" />

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -14,8 +15,11 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Effects;
+using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Forms = System.Windows.Forms;
+using Drawing = System.Drawing;
 
 namespace FROST
 {
@@ -120,7 +124,7 @@ namespace FROST
         private const string GitHubOwner = "Vert-Jade";
         private const string GitHubRepo = "FROST";
         private const string GitHubApiVersion = "2022-11-28";
-        private const int GridConfigFormatVersion = 12;
+        private const int GridConfigFormatVersion = 13;
         private const double MinPanelOpacity = 0.8;
         private const double MaxPanelOpacity = 1.0;
         private const int GameWindowRescanTickInterval = 15;
@@ -426,6 +430,14 @@ namespace FROST
         private Color _themeColor = Color.FromRgb(77, 168, 218); // Bleu glace FROST (#4DA8DA)
         private bool _isLargeText = false;
         private bool _isTargetFirstSelectionOrder = true;
+        private bool _closeToTray = false;
+        private bool _isApplyingCloseToTraySetting = false;
+        private bool _isHiddenToTray = false;
+        private bool _isExitRequested = false;
+        private bool _hasShownTrayHintThisSession = false;
+        private Forms.NotifyIcon? _trayIcon;
+        private Forms.ToolStripMenuItem? _trayShowItem;
+        private Forms.ToolStripMenuItem? _trayExitItem;
         private LegendColorSlot _selectedLegendColorSlot = LegendColorSlot.Player;
         private LegendColorSlot? _previewLegendColorSlot;
         private bool _isUpdatingLegendColorEditor = false;
@@ -1032,6 +1044,7 @@ namespace FROST
             TryRestoreConfigFromBackupIfNeeded();
             InitializeComponent();
             ApplyFrostWindowIcon();
+            InitializeTrayIcon();
             LoadGridConfig();
             ApplyStartupCompactPanelDefaults();
             InitUIStates();
@@ -1123,6 +1136,158 @@ namespace FROST
             }
             catch { }
         }
+
+        private void InitializeTrayIcon()
+        {
+            if (_trayIcon != null)
+                return;
+
+            _trayShowItem = new Forms.ToolStripMenuItem("Afficher FROST");
+            _trayShowItem.Click += (_, _) => Dispatcher.Invoke(RestoreFromTray);
+
+            _trayExitItem = new Forms.ToolStripMenuItem("Quitter FROST");
+            _trayExitItem.Click += (_, _) => Dispatcher.Invoke(ExitApplication);
+
+            var menu = new Forms.ContextMenuStrip();
+            menu.Items.Add(_trayShowItem);
+            menu.Items.Add(new Forms.ToolStripSeparator());
+            menu.Items.Add(_trayExitItem);
+
+            _trayIcon = new Forms.NotifyIcon
+            {
+                Text = "FROST",
+                ContextMenuStrip = menu,
+                Visible = false
+            };
+            _trayIcon.DoubleClick += (_, _) => Dispatcher.Invoke(RestoreFromTray);
+
+            try
+            {
+                StreamResourceInfo? iconResource = Application.GetResourceStream(
+                    new Uri("pack://application:,,,/Ressources/Icones/frost.ico", UriKind.Absolute));
+                if (iconResource?.Stream != null)
+                {
+                    using Stream stream = iconResource.Stream;
+                    using var icon = new Drawing.Icon(stream);
+                    _trayIcon.Icon = (Drawing.Icon)icon.Clone();
+                }
+            }
+            catch { }
+
+            _trayIcon.Icon ??= Drawing.SystemIcons.Application;
+            UpdateTrayMenuTexts();
+            UpdateTrayIconVisibility();
+        }
+
+        private void UpdateTrayMenuTexts()
+        {
+            if (_trayIcon != null)
+            {
+                _trayIcon.Text = "FROST";
+            }
+
+            if (_trayShowItem != null)
+            {
+                _trayShowItem.Text = GetUiText("TxtTrayShow", "Afficher FROST");
+            }
+
+            if (_trayExitItem != null)
+            {
+                _trayExitItem.Text = GetUiText("TxtTrayExit", "Quitter FROST");
+            }
+        }
+
+        private void UpdateTrayIconVisibility()
+        {
+            if (_trayIcon == null)
+                return;
+
+            _trayIcon.Visible = _closeToTray || _isHiddenToTray;
+        }
+
+        private void ApplyCloseToTraySetting()
+        {
+            _isApplyingCloseToTraySetting = true;
+            try
+            {
+                if (ChkCloseToTray != null)
+                {
+                    ChkCloseToTray.IsChecked = _closeToTray;
+                }
+            }
+            finally
+            {
+                _isApplyingCloseToTraySetting = false;
+            }
+
+            UpdateTrayIconVisibility();
+        }
+
+        private void HideToTray()
+        {
+            if (_trayIcon == null)
+            {
+                ExitApplication();
+                return;
+            }
+
+            SaveGridConfig();
+            _isHiddenToTray = true;
+            _isAutoHiddenBecauseGameWindowUnavailable = false;
+            _shouldRestoreWindowAfterGameWindowReturns = false;
+            HideDofusWaitingOverlay();
+
+            Topmost = false;
+            ShowInTaskbar = false;
+            Visibility = Visibility.Hidden;
+            Opacity = 0.0;
+            SetWindowClickThrough(true);
+            UpdateTrayIconVisibility();
+
+            string status = GetUiText("StatusTrayHidden", "FROST reste actif dans les icônes cachées.");
+            SetStatus(status, Brushes.LightGreen);
+            Log("Application réduite dans la zone de notification.");
+
+            if (!_hasShownTrayHintThisSession)
+            {
+                _hasShownTrayHintThisSession = true;
+                try
+                {
+                    _trayIcon.ShowBalloonTip(
+                        2500,
+                        "FROST",
+                        GetUiText("TxtTrayHint", "FROST reste actif ici. Double-cliquez pour restaurer l'interface."),
+                        Forms.ToolTipIcon.Info);
+                }
+                catch { }
+            }
+        }
+
+        private void RestoreFromTray()
+        {
+            _isHiddenToTray = false;
+            ShowInTaskbar = true;
+
+            RevealWindowAfterStartupPreparation();
+            SetWindowClickThrough(false);
+            UpdateTrayIconVisibility();
+
+            if (!TrySnapToTrackedGameWindow(allowAutoHide: true))
+            {
+                Activate();
+            }
+
+            SetStatus(GetUiText("StatusTrayRestored", "FROST restauré."), Brushes.LightGreen);
+            Log("Application restaurée depuis la zone de notification.");
+        }
+
+        private void ExitApplication()
+        {
+            _isExitRequested = true;
+            Application.Current.Shutdown();
+        }
+
+        internal void RequestApplicationExit() => ExitApplication();
 
         private void RevealWindowAfterStartupPreparation()
         {
@@ -1680,6 +1845,7 @@ namespace FROST
                 SaveGridConfig();
                 ScheduleDownloadedInstallerAfterExit(_pendingUpdateInstallerPath);
                 Log($"Installeur de mise à jour planifié après fermeture de FROST : {_pendingUpdateInstallerPath}");
+                _isExitRequested = true;
                 Close();
             }
             catch (Exception ex)
@@ -1908,6 +2074,12 @@ namespace FROST
 
         private void TransparencyTimer_Tick(object? sender, EventArgs e)
         {
+            if (_isHiddenToTray)
+            {
+                SetWindowClickThrough(true);
+                return;
+            }
+
             UpdateTrackedGameWindowAnchor();
 
             // Pendant le ciblage ou les ecrans guides, la fenetre doit intercepter les clics
@@ -2329,6 +2501,12 @@ namespace FROST
         {
             if (IsInteractionLockedByMandatoryNotice()) return;
 
+            if (_isHiddenToTray)
+            {
+                RestoreFromTray();
+                return;
+            }
+
             TrySnapToTrackedGameWindow(allowAutoHide: false);
             _currentState = _isTargetFirstSelectionOrder ? AppState.WaitingForMonster : AppState.WaitingForPlayer;
             _isPlayerSet = false;
@@ -2350,6 +2528,12 @@ namespace FROST
         private void ToggleVisibility()
         {
             if (IsInteractionLockedByMandatoryNotice()) return;
+
+            if (_isHiddenToTray)
+            {
+                RestoreFromTray();
+                return;
+            }
 
             _isOverlayEnabled = !_isOverlayEnabled;
             _isAutoHiddenBecauseGameWindowUnavailable = false;
@@ -3327,7 +3511,13 @@ namespace FROST
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Log("Fermeture de l'application cliquée.");
-            Application.Current.Shutdown();
+            if (_closeToTray && !_isExitRequested)
+            {
+                HideToTray();
+                return;
+            }
+
+            ExitApplication();
         }
 
         // Bascule vers la Notice d'utilisation
@@ -3700,6 +3890,7 @@ namespace FROST
             ApplyIconTheme();
             ApplyThemeColor();
             ApplyLargeText();
+            ApplyCloseToTraySetting();
             UpdateLegendColors();
             ApplyViewMode();
             RefreshSelectionOrderButtons();
@@ -3846,6 +4037,17 @@ namespace FROST
 
             SaveGridConfig();
             Log($"Ordre de sélection changé : {(_isTargetFirstSelectionOrder ? "cible -> joueur" : "joueur -> cible")}");
+        }
+
+        private void ChkCloseToTray_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_isApplyingCloseToTraySetting)
+                return;
+
+            _closeToTray = ChkCloseToTray?.IsChecked == true;
+            UpdateTrayIconVisibility();
+            SaveGridConfig();
+            Log($"Fermeture vers la zone de notification : {(_closeToTray ? "activée" : "désactivée")}.");
         }
 
         private void LegendSwatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -4119,6 +4321,7 @@ namespace FROST
                 Application.Current?.Resources.MergedDictionaries.Add(dict);
 
                 RefreshDynamicTexts();
+                UpdateTrayMenuTexts();
             }
             catch { /* Fichier de langue manquant */ }
         }
@@ -4640,7 +4843,8 @@ namespace FROST
             if (_windowHandle == IntPtr.Zero ||
                 _isApplyingTrackedWindowBounds ||
                 _isApplyingInitialLayout ||
-                IsInitialInteractiveFlowActive())
+                IsInitialInteractiveFlowActive() ||
+                _isHiddenToTray)
             {
                 return false;
             }
@@ -5731,8 +5935,21 @@ namespace FROST
             SavePanelBoundsNow();
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!_isExitRequested && _closeToTray)
+            {
+                e.Cancel = true;
+                HideToTray();
+                return;
+            }
+
+            base.OnClosing(e);
+        }
+
         protected override void OnClosed(EventArgs e)
         {
+            _isExitRequested = true;
             _transparencyTimer?.Stop();
             StopUpdatePromptTimer();
             SavePanelBoundsNow();
@@ -5741,6 +5958,12 @@ namespace FROST
             UnregisterHotKey(_windowHandle, HOTKEY_ID_F3);
             UnregisterHotKey(_windowHandle, HOTKEY_ID_F4);
             UnregisterHotKey(_windowHandle, HOTKEY_ID_DEBUG);
+            if (_trayIcon != null)
+            {
+                _trayIcon.Visible = false;
+                _trayIcon.Dispose();
+                _trayIcon = null;
+            }
             Log("=== FROST FERMÉ NORMALEMENT ===");
             base.OnClosed(e);
         }
@@ -5821,7 +6044,8 @@ namespace FROST
                     SerializeOptionalColor(_customPlayerColor),
                     SerializeOptionalColor(_customBossColor),
                     SerializeOptionalColor(_customTargetColor),
-                    SerializeOptionalColor(_customTpColor)
+                    SerializeOptionalColor(_customTpColor),
+                    _closeToTray.ToString()
                 });
                 File.WriteAllText(GridConfigPath, data);
                 File.WriteAllText(GridConfigBackupPath, data);
@@ -5995,6 +6219,11 @@ namespace FROST
                         _customBossColor = ParseOptionalColor(parts[50]);
                         _customTargetColor = ParseOptionalColor(parts[51]);
                         _customTpColor = ParseOptionalColor(parts[52]);
+                    }
+                    if (parts.Length >= 54 &&
+                        bool.TryParse(parts[53], out bool closeToTray))
+                    {
+                        _closeToTray = closeToTray;
                     }
 
                     EnsureCalibrationProfileReferenceSize(_fullscreenCalibration);

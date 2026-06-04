@@ -52,6 +52,7 @@
     <system:String x:Key="TxtCatUsage">UŻYCIE</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ SKRÓTY KLAWISZOWE</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDA</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ ZACHOWANIE</system:String>
     <system:String x:Key="TxtScreenSelect">Wybór ekranu</system:String>
     <system:String x:Key="TxtScreen">Ekran</system:String>
     <system:String x:Key="TxtPrimary">Główny</system:String>
@@ -164,6 +165,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Nieprawidłowy kod koloru. Użyj formatu szesnastkowego, np. #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Sprawdź aktualizacje</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Otwórz folder wewnętrzny</system:String>
+    <system:String x:Key="TxtCloseToTray">Minimalizuj do ukrytych ikon przy zamknięciu</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Przycisk zamknięcia zostawia FROST w tle. Kliknij dwukrotnie ikonę FROST, aby przywrócić, albo wybierz Zakończ z ikony.</system:String>
+    <system:String x:Key="TxtTrayShow">Pokaż FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Zakończ FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST nadal działa tutaj. Kliknij dwukrotnie, aby przywrócić interfejs.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST nadal działa w ukrytych ikonach.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST przywrócony.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Otworzono wewnętrzny folder FROST.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Nie można otworzyć wewnętrznego folderu FROST: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Odinstalator</system:String>

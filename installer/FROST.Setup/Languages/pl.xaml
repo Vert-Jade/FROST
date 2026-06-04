@@ -32,10 +32,11 @@
     <s:String x:Key="PathDesc">Wybierz folder, w którym zostanie zainstalowany FROST.</s:String>
     <s:String x:Key="PathLabel">Folder docelowy:</s:String>
     <s:String x:Key="ChkDesktop">Utwórz skrót na pulpicie</s:String>
-    <s:String x:Key="ChkStartMenu">Dodaj do menu Start</s:String>
+    <s:String x:Key="ChkStartMenu">Utwórz skrót w menu Start</s:String>
     <s:String x:Key="InstallTitle">Instalowanie...</s:String>
     <s:String x:Key="InstallPreparing">Przygotowanie instalacji...</s:String>
     <s:String x:Key="InstallCopying">Kopiowanie plików...</s:String>
+    <s:String x:Key="InstallClosingFrost">Zamykanie FROST...</s:String>
     <s:String x:Key="InstallShortcuts">Tworzenie skrótów...</s:String>
     <s:String x:Key="InstallRegistering">Rejestrowanie...</s:String>
     <s:String x:Key="FinishTitle">Instalacja zakończona!</s:String>

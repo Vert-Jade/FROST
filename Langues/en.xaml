@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">USE</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ SHORTCUTS</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGEND</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ BEHAVIOR</system:String>
 
     <system:String x:Key="TxtScreenSelect">Screen selection</system:String>
     <system:String x:Key="TxtScreen">Screen</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Invalid color code. Use a hexadecimal format like #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Check for updates</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Open internal folder</system:String>
+    <system:String x:Key="TxtCloseToTray">Minimize to hidden icons when closing</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">The close button keeps FROST running in the background. Double-click the FROST icon to restore it, or choose Exit from the icon.</system:String>
+    <system:String x:Key="TxtTrayShow">Show FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Exit FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST is still running here. Double-click to restore the interface.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST is still running in hidden icons.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST restored.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">FROST internal folder opened.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Could not open the FROST internal folder: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Uninstaller</system:String>

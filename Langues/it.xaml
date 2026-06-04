@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">USO</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ SCORCIATOIE</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDA</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ COMPORTAMENTO</system:String>
 
     <system:String x:Key="TxtScreenSelect">Selezione dello schermo</system:String>
     <system:String x:Key="TxtScreen">Schermo</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Codice colore non valido. Usa un formato esadecimale come #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Cerca aggiornamenti</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Apri cartella interna</system:String>
+    <system:String x:Key="TxtCloseToTray">Riduci nelle icone nascoste alla chiusura</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Il pulsante di chiusura mantiene FROST attivo in background. Doppio clic sull&apos;icona FROST per ripristinare, oppure usare Esci dall&apos;icona.</system:String>
+    <system:String x:Key="TxtTrayShow">Mostra FROST</system:String>
+    <system:String x:Key="TxtTrayExit">Esci da FROST</system:String>
+    <system:String x:Key="TxtTrayHint">FROST resta attivo qui. Doppio clic per ripristinare l&apos;interfaccia.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST resta attivo nelle icone nascoste.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST ripristinato.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Cartella interna di FROST aperta.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Impossibile aprire la cartella interna di FROST: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Disinstallazione</system:String>

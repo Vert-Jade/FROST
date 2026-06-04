@@ -56,6 +56,7 @@
     <system:String x:Key="TxtCatUsage">VERWENDUNG</system:String>
     <system:String x:Key="TxtCatShortcuts">⌨️ TASTENKÜRZEL</system:String>
     <system:String x:Key="TxtCatLegend">📚 LEGENDE</system:String>
+    <system:String x:Key="TxtCatBehavior">⚙️ VERHALTEN</system:String>
 
     <system:String x:Key="TxtScreenSelect">Bildschirmauswahl</system:String>
     <system:String x:Key="TxtScreen">Bildschirm</system:String>
@@ -178,6 +179,13 @@
     <system:String x:Key="StatusLegendColorInvalid">Ungültiger Farbcode. Verwenden Sie ein Hex-Format wie #20CFFF.</system:String>
     <system:String x:Key="TxtCheckUpdates">Nach Updates suchen</system:String>
     <system:String x:Key="TxtOpenInternalFolder">Internen Ordner öffnen</system:String>
+    <system:String x:Key="TxtCloseToTray">Beim Schließen in ausgeblendete Symbole minimieren</system:String>
+    <system:String x:Key="TxtCloseToTrayDesc">Die Schaltfläche Schließen lässt FROST im Hintergrund laufen. Doppelklicken Sie auf das FROST-Symbol zum Wiederherstellen oder wählen Sie Beenden.</system:String>
+    <system:String x:Key="TxtTrayShow">FROST anzeigen</system:String>
+    <system:String x:Key="TxtTrayExit">FROST beenden</system:String>
+    <system:String x:Key="TxtTrayHint">FROST läuft hier weiter. Doppelklicken Sie, um die Oberfläche wiederherzustellen.</system:String>
+    <system:String x:Key="StatusTrayHidden">FROST läuft in den ausgeblendeten Symbolen weiter.</system:String>
+    <system:String x:Key="StatusTrayRestored">FROST wiederhergestellt.</system:String>
     <system:String x:Key="StatusInternalFolderOpened">Interner FROST-Ordner geöffnet.</system:String>
     <system:String x:Key="StatusInternalFolderOpenFailed">Der interne FROST-Ordner konnte nicht geöffnet werden: {0}</system:String>
     <system:String x:Key="TxtUninstallWindowTitle">FROST — Deinstallation</system:String>
