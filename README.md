@@ -76,7 +76,7 @@
 
 ## 🖼️ Aperçu
 
-<img width="1595" height="915" alt="image" src="https://github.com/user-attachments/assets/56e63722-73dc-4ef9-969b-a1e8e65699f2" />
+<img width="1920" height="1080" alt="FROST" src="https://github.com/user-attachments/assets/018fadb6-6e16-4e7c-9334-6e967bfd42f4" />
 
 ---
 
