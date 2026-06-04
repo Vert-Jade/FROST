@@ -291,6 +291,6 @@ Si le projet t'aide, n'hésite pas à :
 
 ## 🛡️ Vérification sécurité
 
-Analyse VirusTotal publiée pour le setup officiel `FROST_v1.0.5_setup.exe` :
+Analyse VirusTotal publiée pour le setup officiel `FROST_v1.0.6_setup.exe` :
 
-[Consulter l'analyse VirusTotal du setup v1.0.5](https://www.virustotal.com/gui/file-analysis/ZDg0MmM2ZDE5NzY5NzFkZWExOGQxMjNmZWMwZWMzZGI6MTc4MDUzNjU1Mg==)
+[Consulter l'analyse VirusTotal du setup v1.0.6](https://www.virustotal.com/gui/file-analysis/OWNlMjgyMzMzYjRkZGU2Mjk5YjNhNmE3YWU0YjcwZmE6MTc4MDUzODIxNA==)
