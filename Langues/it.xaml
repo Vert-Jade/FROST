@@ -22,6 +22,9 @@
     <system:String x:Key="StatusHidden">Overlay nascosto.</system:String>
     <system:String x:Key="StatusActive">Overlay attivo.</system:String>
     <system:String x:Key="StatusCalculated">Bersaglio calcolato! Focus rilasciato.</system:String>
+    <system:String x:Key="TxtDofusWaitingTitle">FROST attende Dofus</system:String>
+    <system:String x:Key="TxtDofusWaitingMessage">FROST è collegato alla finestra di Dofus. Se Dofus non è aperto o è minimizzato, l'interfaccia resta nascosta: non è un bug.</system:String>
+    <system:String x:Key="TxtDofusWaitingHint">Avvia o ripristina Dofus e FROST riapparirà automaticamente.</system:String>
     <system:String x:Key="StatusStep1Target">Fase 1: Clicca sul BERSAGLIO.</system:String>
     <system:String x:Key="StatusStep2Player">Fase 2: Clicca sul TUO personaggio.</system:String>
 
@@ -168,8 +171,35 @@
     <system:String x:Key="TxtLegendTP">Teletrasporto (Effetto Soffietto)</system:String>
     <system:String x:Key="TxtLegendColorClickHint">Fai clic su una casella colorata per personalizzarne il colore.</system:String>
     <system:String x:Key="TxtLegendColorEditorTitle">COLORE PERSONALIZZATO</system:String>
+    <system:String x:Key="TxtLegendColorHexLabel">CODICE HEX</system:String>
     <system:String x:Key="TxtLegendColorHexHint">Inserisci un colore esadecimale come #20CFFF</system:String>
     <system:String x:Key="TxtLegendColorPicker">Scegli colore</system:String>
     <system:String x:Key="TxtLegendColorReset">Reimposta</system:String>
     <system:String x:Key="StatusLegendColorInvalid">Codice colore non valido. Usa un formato esadecimale come #20CFFF.</system:String>
+    <system:String x:Key="TxtCheckUpdates">Cerca aggiornamenti</system:String>
+    <system:String x:Key="TxtOpenInternalFolder">Apri cartella interna</system:String>
+    <system:String x:Key="StatusInternalFolderOpened">Cartella interna di FROST aperta.</system:String>
+    <system:String x:Key="StatusInternalFolderOpenFailed">Impossibile aprire la cartella interna di FROST: {0}</system:String>
+    <system:String x:Key="TxtUninstallWindowTitle">FROST — Disinstallazione</system:String>
+    <system:String x:Key="TxtUninstallSubtitle">Disinstallazione</system:String>
+    <system:String x:Key="TxtUninstallTitle">Disinstalla FROST</system:String>
+    <system:String x:Key="TxtUninstallDesc">Questa operazione rimuove FROST da questo PC. Impostazioni e salvataggi possono essere conservati nella cartella interna.</system:String>
+    <system:String x:Key="TxtUninstallInternalFolderLabel">CARTELLA INTERNA</system:String>
+    <system:String x:Key="TxtUninstallRemoveData">Rimuovi anche impostazioni, salvataggi, log e aggiornamenti scaricati.</system:String>
+    <system:String x:Key="TxtUninstallRemoveDataHint">Lascia deselezionato per reinstallare FROST mantenendo la configurazione.</system:String>
+    <system:String x:Key="TxtUninstallButton">Disinstalla</system:String>
+    <system:String x:Key="TxtUninstallCancel">Annulla</system:String>
+    <system:String x:Key="TxtUninstallClose">Chiudi</system:String>
+    <system:String x:Key="TxtUninstallProgressTitle">Disinstallazione in corso</system:String>
+    <system:String x:Key="TxtUninstallCompleteTitle">Disinstallazione completata</system:String>
+    <system:String x:Key="TxtUninstallCompleteDesc">FROST è stato rimosso da questo PC. Gli ultimi file verranno puliti automaticamente dopo la chiusura.</system:String>
+    <system:String x:Key="TxtUninstallFailedTitle">Disinstallazione incompleta</system:String>
+    <system:String x:Key="TxtUninstallFailedDesc">FROST non è stato disinstallato completamente.&#x0a;&#x0a;{0}</system:String>
+    <system:String x:Key="StatusUninstallPreparing">Preparazione della disinstallazione...</system:String>
+    <system:String x:Key="StatusUninstallClosingApp">Chiusura delle istanze FROST...</system:String>
+    <system:String x:Key="StatusUninstallShortcuts">Rimozione dei collegamenti...</system:String>
+    <system:String x:Key="StatusUninstallRegistry">Pulizia della registrazione Windows...</system:String>
+    <system:String x:Key="StatusUninstallFiles">Rimozione dei file...</system:String>
+    <system:String x:Key="StatusUninstallDone">Disinstallazione completata.</system:String>
+    <system:String x:Key="StatusUninstallScheduled">Gli ultimi file verranno rimossi dopo la chiusura.</system:String>
 </ResourceDictionary>

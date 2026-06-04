@@ -1038,6 +1038,7 @@ namespace FROST
             {
                 ApplySavedWindowBounds();
                 ApplySavedControlPanelBounds();
+                ApplyViewMode();
             });
             LoadIcons();
             Log("=== FROST DÉMARRÉ ===");
@@ -1058,11 +1059,6 @@ namespace FROST
 
                 try
                 {
-                    if (shouldDelayInitialReveal)
-                    {
-                        Opacity = 0.0;
-                    }
-
                     List<DisplayScreen> screens = GetScreens();
                     DisplayScreen targetScreen = screens.FirstOrDefault(sc => sc.DeviceName == _selectedScreenDeviceName)
                                                  ?? screens.FirstOrDefault(sc => sc.IsPrimary)
@@ -1075,9 +1071,10 @@ namespace FROST
                             ClampWindowToScreen(targetScreen);
                         }
                         ApplySavedControlPanelBounds();
+                        ApplyViewMode();
                         ClampControlPanelToWindow();
                     });
-                    QueueAutoFitControlPanelHeight();
+                    QueueAutoFitControlPanelHeight(saveAfterFit: _hasSavedGridConfig && _hasCompletedMandatoryNoticeFlow);
                     if (targetScreen != null)
                     {
                         MoveToScreen(targetScreen);
@@ -1086,30 +1083,43 @@ namespace FROST
                 finally
                 {
                     _isApplyingInitialLayout = false;
-                    TrySnapToTrackedGameWindow(allowAutoHide: shouldDelayInitialReveal);
 
                     if (shouldDelayInitialReveal)
                     {
+                        TrySnapToTrackedGameWindow(allowAutoHide: true);
+
                         if (!_isAutoHiddenBecauseGameWindowUnavailable && Opacity <= 0.01)
                         {
-                            Opacity = 1.0;
-                            Topmost = false;
+                            RevealWindowAfterStartupPreparation();
                         }
                     }
 
                     if (!_hasSavedGridConfig)
                     {
                         StartOnboarding();
+                        RevealWindowAfterStartupPreparation();
                     }
                     else if (!_hasCompletedMandatoryNoticeFlow)
                     {
                         StartMandatoryNoticeFlow();
+                        RevealWindowAfterStartupPreparation();
                     }
 
                     QueuePreviouslyDownloadedUpdateIfNeeded();
                     StartAutoUpdateCheck();
                 }
             };
+        }
+
+        private void RevealWindowAfterStartupPreparation()
+        {
+            if (Visibility != Visibility.Visible)
+            {
+                Visibility = Visibility.Visible;
+            }
+
+            Opacity = 1.0;
+            Topmost = false;
         }
 
         private void ApplyStartupCompactPanelDefaults()
@@ -1915,6 +1925,8 @@ namespace FROST
 
         private void RestoreWindowForInteractiveFlow()
         {
+            HideDofusWaitingOverlay();
+
             bool needsRestore = _isAutoHiddenBecauseGameWindowUnavailable ||
                                 Visibility != Visibility.Visible ||
                                 Opacity <= 0.01;
@@ -3521,9 +3533,9 @@ namespace FROST
             _isMandatoryNoticeFlowActive = true;
             _mandatoryNoticeStep = 1;
             SuccessOverlay.Visibility = Visibility.Collapsed;
-            RestoreWindowForInteractiveFlow();
             RestoreControlPanelAfterOnboarding(saveAfterFit: false);
             ShowMandatoryNoticeStep(_mandatoryNoticeStep);
+            RestoreWindowForInteractiveFlow();
         }
 
         private void ShowMandatoryNoticeStep(int step)
@@ -3569,6 +3581,7 @@ namespace FROST
 
             QueueAutoFitControlPanelHeight(saveAfterFit: true);
             SaveGridConfig();
+            TrySnapToTrackedGameWindow(allowAutoHide: true);
             Log("Notice obligatoire terminée.");
         }
 
@@ -3900,6 +3913,30 @@ namespace FROST
         private async void BtnCheckUpdates_Click(object sender, RoutedEventArgs e)
         {
             await CheckForUpdatesManuallyAsync();
+        }
+
+        private void BtnOpenInternalFolder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Directory.CreateDirectory(AppDataDirectory);
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = AppDataDirectory,
+                    UseShellExecute = true
+                });
+                SetStatus(GetUiText("StatusInternalFolderOpened", "Dossier interne FROST ouvert."), Brushes.LightGreen);
+            }
+            catch (Exception ex)
+            {
+                Log($"Impossible d'ouvrir le dossier interne : {ex.Message}");
+                string message = string.Format(
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    GetUiText("StatusInternalFolderOpenFailed", "Impossible d'ouvrir le dossier interne FROST : {0}"),
+                    ex.Message);
+                SetStatus(message, Brushes.OrangeRed);
+                MessageBox.Show(message, "FROST", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void TxtLegendColorHex_TextChanged(object sender, TextChangedEventArgs e)
@@ -4398,6 +4435,13 @@ namespace FROST
                 _shouldRestoreWindowAfterGameWindowReturns = Visibility == Visibility.Visible;
                 _trackedWindowInteractionSuppressionUntilUtc = DateTime.UtcNow.AddMilliseconds(250);
 
+                if (ShouldShowDofusWaitingOverlay())
+                {
+                    ShowDofusWaitingOverlay();
+                    Log("Message affiché : fenêtre Dofus indisponible ou réduite.");
+                    return;
+                }
+
                 RunWithoutLayoutPersistence(() =>
                 {
                     if (Visibility != Visibility.Visible)
@@ -4416,6 +4460,71 @@ namespace FROST
                 });
 
                 Log("Application masquée automatiquement : fenêtre Dofus indisponible ou réduite.");
+            }
+        }
+
+        private bool ShouldShowDofusWaitingOverlay()
+        {
+            return _hasSavedGridConfig &&
+                   _hasCompletedMandatoryNoticeFlow &&
+                   !_isMandatoryNoticeFlowActive &&
+                   _isOverlayEnabled;
+        }
+
+        private void ShowDofusWaitingOverlay()
+        {
+            if (!ShouldShowDofusWaitingOverlay())
+            {
+                HideDofusWaitingOverlay();
+                return;
+            }
+
+            DisplayScreen? targetScreen = GetSelectedOrPrimaryScreen();
+            Rect bounds = targetScreen?.Bounds ?? new Rect(
+                SystemParameters.VirtualScreenLeft,
+                SystemParameters.VirtualScreenTop,
+                SystemParameters.VirtualScreenWidth,
+                SystemParameters.VirtualScreenHeight);
+
+            RunWithoutLayoutPersistence(() =>
+            {
+                if (Visibility != Visibility.Visible)
+                {
+                    Visibility = Visibility.Visible;
+                }
+
+                Left = bounds.Left;
+                Top = bounds.Top;
+                Width = bounds.Width;
+                Height = bounds.Height;
+                Opacity = 1.0;
+                Topmost = false;
+
+                if (ControlPanel != null) ControlPanel.Visibility = Visibility.Collapsed;
+                if (OverlayCanvas != null) OverlayCanvas.Visibility = Visibility.Collapsed;
+                if (DofusWaitingOverlay != null) DofusWaitingOverlay.Visibility = Visibility.Visible;
+
+                UpdateLayout();
+            });
+
+            SetWindowClickThrough(true);
+        }
+
+        private void HideDofusWaitingOverlay()
+        {
+            if (DofusWaitingOverlay != null)
+            {
+                DofusWaitingOverlay.Visibility = Visibility.Collapsed;
+            }
+
+            if (OverlayCanvas != null)
+            {
+                OverlayCanvas.Visibility = Visibility.Visible;
+            }
+
+            if (ControlPanel != null && _hasCompletedMandatoryNoticeFlow && !_isMandatoryNoticeFlowActive)
+            {
+                ControlPanel.Visibility = Visibility.Visible;
             }
         }
 
@@ -4481,6 +4590,8 @@ namespace FROST
             {
                 return;
             }
+
+            HideDofusWaitingOverlay();
 
             bool shouldRestoreAutoHiddenWindow =
                 _isAutoHiddenBecauseGameWindowUnavailable &&
@@ -5235,6 +5346,32 @@ namespace FROST
             QueueAutoFitControlPanelHeight(saveAfterFit: true);
         }
 
+        private bool IsExpandedControlPanelContentVisible()
+        {
+            return (PanelContent != null && PanelContent.Visibility == Visibility.Visible) ||
+                   (SettingsContent != null && SettingsContent.Visibility == Visibility.Visible) ||
+                   (NoticeContent != null && NoticeContent.Visibility == Visibility.Visible);
+        }
+
+        private void RememberAutoFittedControlPanelHeight()
+        {
+            if (ControlPanel == null || !IsExpandedControlPanelContentVisible())
+            {
+                return;
+            }
+
+            double fittedHeight = ControlPanel.ActualHeight > 0
+                ? ControlPanel.ActualHeight
+                : (!double.IsNaN(ControlPanel.Height) && ControlPanel.Height > 0
+                    ? ControlPanel.Height
+                    : ControlPanel.DesiredSize.Height);
+
+            if (IsUsablePanelHeight(fittedHeight))
+            {
+                _panelHeight = ClampFinite(fittedHeight, ControlPanelMinHeightValue, GetControlPanelMaxHeight());
+            }
+        }
+
         private void QueueAutoFitControlPanelHeight(bool saveAfterFit = false)
         {
             if (ControlPanel == null) return;
@@ -5290,6 +5427,8 @@ namespace FROST
                     }
 
                     ClampControlPanelToWindow();
+                    ControlPanel.UpdateLayout();
+                    RememberAutoFittedControlPanelHeight();
                 });
             }
             finally

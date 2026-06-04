@@ -396,7 +396,7 @@
                     </StackPanel>
 
                     <!-- Version -->
-                    <TextBlock Grid.Row="2" Text="FROST v1.0.4  ·  © 2025"
+                    <TextBlock Grid.Row="2" Text="FROST v1.0.5  ·  © 2025"
                                FontSize="10" Foreground="#2A3040"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
@@ -473,7 +473,7 @@
                             <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1"
                                     CornerRadius="8" Padding="14,8" HorizontalAlignment="Left">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="v1.0.4" FontSize="12" FontWeight="SemiBold"
+                                    <TextBlock Text="v1.0.5" FontSize="12" FontWeight="SemiBold"
                                                Foreground="#8FEFFF"/>
                                     <TextBlock Text="   ·   Windows 10 / 11 x64" FontSize="12"
                                                Foreground="#4A5168"/>

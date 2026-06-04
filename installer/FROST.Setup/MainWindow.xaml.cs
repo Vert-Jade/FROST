@@ -14,22 +14,22 @@ namespace FROST.Setup;
 public partial class MainWindow : Window
 {
     // ── Language definitions ──────────────────────────────────────────────
-    private record LangDef(string Code, string Flag, string NativeName);
+    private record LangDef(string Code, string Flag, string NameKey);
 
     private static readonly LangDef[] Languages =
     [
-        new("fr", "fr", "Français"),
-        new("en", "en", "English"),
-        new("de", "de", "Deutsch"),
-        new("es", "es", "Español"),
-        new("it", "it", "Italiano"),
-        new("nl", "nl", "Nederlands"),
-        new("pl", "pl", "Polski"),
-        new("pt", "pt", "Português"),
-        new("ru", "ru", "Русский"),
-        new("sv", "sv", "Svenska"),
-        new("tr", "tr", "Türkçe"),
-        new("ar", "ar", "العربية"),
+        new("fr", "fr", "TxtLangFr"),
+        new("en", "en", "TxtLangEn"),
+        new("de", "de", "TxtLangDe"),
+        new("es", "es", "TxtLangEs"),
+        new("it", "it", "TxtLangIt"),
+        new("nl", "nl", "TxtLangNl"),
+        new("pl", "pl", "TxtLangPl"),
+        new("pt", "pt", "TxtLangPt"),
+        new("ru", "ru", "TxtLangRu"),
+        new("sv", "sv", "TxtLangSv"),
+        new("tr", "tr", "TxtLangTr"),
+        new("ar", "ar", "TxtLangAr"),
     ];
 
     // ── State ─────────────────────────────────────────────────────────────
@@ -112,13 +112,16 @@ public partial class MainWindow : Window
             }
 
             // Language name
-            panel.Children.Add(new TextBlock
+            var label = new TextBlock
             {
-                Text = lang.NativeName,
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(0xA0, 0xA5, 0xB5)),
                 HorizontalAlignment = HorizontalAlignment.Center,
-            });
+                TextAlignment = TextAlignment.Center,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+            };
+            label.SetResourceReference(TextBlock.TextProperty, lang.NameKey);
+            panel.Children.Add(label);
 
             btn.Content = panel;
             btn.Click += LangBtn_Click;
@@ -374,10 +377,11 @@ public partial class MainWindow : Window
         }
         Thread.Sleep(300);
 
-        // 4. Uninstaller + Registry
+        // 4. Uninstaller shortcut + Registry
         progress.Report((92, registering));
-        string uninstallScript = WriteUninstallScript(installDir, desktop, startMenu);
-        WriteUninstallKey(installDir, exePath, uninstallScript);
+        DeleteLegacyUninstallScript(installDir);
+        CreateShortcut(Path.Combine(installDir, "Desinstaller FROST.lnk"), exePath, installDir, "--uninstall");
+        WriteUninstallKey(installDir, exePath);
         Thread.Sleep(200);
 
         progress.Report((100, "✓"));
@@ -407,7 +411,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private static void CreateShortcut(string linkPath, string targetPath, string workDir)
+    private static void CreateShortcut(string linkPath, string targetPath, string workDir, string arguments = "")
     {
         try
         {
@@ -416,6 +420,7 @@ public partial class MainWindow : Window
             dynamic shell    = Activator.CreateInstance(wshType)!;
             dynamic shortcut = shell.CreateShortcut(linkPath);
             shortcut.TargetPath       = targetPath;
+            shortcut.Arguments        = arguments;
             shortcut.WorkingDirectory = workDir;
             shortcut.IconLocation     = targetPath;
             shortcut.Save();
@@ -423,34 +428,18 @@ public partial class MainWindow : Window
         catch { /* non-fatal */ }
     }
 
-    private static string WriteUninstallScript(string installDir, bool desktop, bool startMenu)
+    private static void DeleteLegacyUninstallScript(string installDir)
     {
-        string scriptPath = Path.Combine(installDir, "Uninstall-FROST.ps1");
-        string desktopShortcut = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "FROST.lnk");
-        string startMenuDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "FROST");
-
-        static string Ps(string value) => value.Replace("'", "''");
-        var lines = new List<string>
+        try
         {
-            "$ErrorActionPreference = 'SilentlyContinue'"
-        };
-
-        if (desktop)
-            lines.Add($"Remove-Item -LiteralPath '{Ps(desktopShortcut)}' -Force");
-        if (startMenu)
-            lines.Add($"Remove-Item -LiteralPath '{Ps(startMenuDir)}' -Recurse -Force");
-
-        lines.Add("Remove-Item -LiteralPath 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\FROST' -Recurse -Force");
-        lines.Add("Start-Sleep -Milliseconds 300");
-        lines.Add($"Remove-Item -LiteralPath '{Ps(installDir)}' -Recurse -Force");
-
-        File.WriteAllText(scriptPath, string.Join(Environment.NewLine, lines), System.Text.Encoding.UTF8);
-        return scriptPath;
+            string scriptPath = Path.Combine(installDir, "Uninstall-FROST.ps1");
+            if (File.Exists(scriptPath))
+                File.Delete(scriptPath);
+        }
+        catch { /* non-fatal */ }
     }
 
-    private static void WriteUninstallKey(string installDir, string exePath, string uninstallScript)
+    private static void WriteUninstallKey(string installDir, string exePath)
     {
         try
         {
@@ -458,12 +447,12 @@ public partial class MainWindow : Window
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FROST");
             if (key == null) return;
             key.SetValue("DisplayName",     "FROST");
-            key.SetValue("DisplayVersion",  "1.0.4");
+            key.SetValue("DisplayVersion",  "1.0.5");
             key.SetValue("Publisher",       "Dylan Fournier");
             key.SetValue("InstallLocation", installDir);
             key.SetValue("DisplayIcon",     exePath);
-            key.SetValue("UninstallString", $"powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"{uninstallScript}\"");
-            key.SetValue("QuietUninstallString", $"powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"{uninstallScript}\"");
+            key.SetValue("UninstallString", $"\"{exePath}\" --uninstall");
+            key.SetValue("QuietUninstallString", $"\"{exePath}\" --uninstall --quiet");
             key.SetValue("NoModify",        1, RegistryValueKind.DWord);
             key.SetValue("NoRepair",        1, RegistryValueKind.DWord);
         }

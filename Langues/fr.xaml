@@ -22,6 +22,11 @@
     <system:String x:Key="StatusHidden">Affichage masqué.</system:String>
     <system:String x:Key="StatusActive">Affichage actif.</system:String>
     <system:String x:Key="StatusCalculated">Cible calculée ! Focus libéré.</system:String>
+    <system:String x:Key="StatusStep1Target">Étape 1 : Cliquez sur la CIBLE.</system:String>
+    <system:String x:Key="StatusStep2Player">Étape 2 : Cliquez sur VOTRE personnage.</system:String>
+    <system:String x:Key="TxtDofusWaitingTitle">FROST attend Dofus</system:String>
+    <system:String x:Key="TxtDofusWaitingMessage">FROST est lié à la fenêtre Dofus. Si Dofus n'est pas ouvert ou est réduit, l'interface reste masquée : ce n'est pas un bug.</system:String>
+    <system:String x:Key="TxtDofusWaitingHint">Lancez ou restaurez Dofus, FROST réapparaîtra automatiquement.</system:String>
 
     <system:String x:Key="TxtSettingsHeader">PARAMÈTRES</system:String>
     <system:String x:Key="TxtOpacity">Opacité de l'application</system:String>
@@ -166,8 +171,35 @@
     <system:String x:Key="TxtLegendTP">Téléportation (Effet Gousset)</system:String>
     <system:String x:Key="TxtLegendColorClickHint">Cliquez sur une case color&#233;e pour personnaliser sa couleur.</system:String>
     <system:String x:Key="TxtLegendColorEditorTitle">COULEUR PERSONNALIS&#201;E</system:String>
+    <system:String x:Key="TxtLegendColorHexLabel">CODE HEX</system:String>
     <system:String x:Key="TxtLegendColorHexHint">Saisissez un code hexad&#233;cimal, par exemple #20CFFF.</system:String>
     <system:String x:Key="TxtLegendColorPicker">Valider</system:String>
     <system:String x:Key="TxtLegendColorReset">R&#233;initialiser</system:String>
     <system:String x:Key="StatusLegendColorInvalid">Code couleur invalide. Utilisez un format hexad&#233;cimal comme #20CFFF.</system:String>
+    <system:String x:Key="TxtCheckUpdates">Rechercher une MAJ</system:String>
+    <system:String x:Key="TxtOpenInternalFolder">Ouvrir le dossier interne</system:String>
+    <system:String x:Key="StatusInternalFolderOpened">Dossier interne FROST ouvert.</system:String>
+    <system:String x:Key="StatusInternalFolderOpenFailed">Impossible d&apos;ouvrir le dossier interne FROST : {0}</system:String>
+    <system:String x:Key="TxtUninstallWindowTitle">FROST — D&#233;sinstallateur</system:String>
+    <system:String x:Key="TxtUninstallSubtitle">D&#233;sinstallateur</system:String>
+    <system:String x:Key="TxtUninstallTitle">D&#233;sinstaller FROST</system:String>
+    <system:String x:Key="TxtUninstallDesc">Cette op&#233;ration supprime FROST de ce PC. Vos r&#233;glages et sauvegardes peuvent &#234;tre conserv&#233;s dans le dossier interne.</system:String>
+    <system:String x:Key="TxtUninstallInternalFolderLabel">DOSSIER INTERNE</system:String>
+    <system:String x:Key="TxtUninstallRemoveData">Supprimer aussi mes r&#233;glages, sauvegardes, logs et mises &#224; jour t&#233;l&#233;charg&#233;es.</system:String>
+    <system:String x:Key="TxtUninstallRemoveDataHint">Laissez d&#233;coch&#233; pour pouvoir r&#233;installer FROST en conservant votre configuration.</system:String>
+    <system:String x:Key="TxtUninstallButton">D&#233;sinstaller</system:String>
+    <system:String x:Key="TxtUninstallCancel">Annuler</system:String>
+    <system:String x:Key="TxtUninstallClose">Fermer</system:String>
+    <system:String x:Key="TxtUninstallProgressTitle">D&#233;sinstallation en cours</system:String>
+    <system:String x:Key="TxtUninstallCompleteTitle">D&#233;sinstallation termin&#233;e</system:String>
+    <system:String x:Key="TxtUninstallCompleteDesc">FROST a &#233;t&#233; supprim&#233; de ce PC. Les derniers fichiers se nettoient automatiquement apr&#232;s fermeture.</system:String>
+    <system:String x:Key="TxtUninstallFailedTitle">D&#233;sinstallation incompl&#232;te</system:String>
+    <system:String x:Key="TxtUninstallFailedDesc">FROST n&apos;a pas pu &#234;tre compl&#232;tement d&#233;sinstall&#233;.&#x0a;&#x0a;{0}</system:String>
+    <system:String x:Key="StatusUninstallPreparing">Pr&#233;paration de la d&#233;sinstallation...</system:String>
+    <system:String x:Key="StatusUninstallClosingApp">Fermeture des instances FROST...</system:String>
+    <system:String x:Key="StatusUninstallShortcuts">Suppression des raccourcis...</system:String>
+    <system:String x:Key="StatusUninstallRegistry">Nettoyage de Windows...</system:String>
+    <system:String x:Key="StatusUninstallFiles">Suppression des fichiers...</system:String>
+    <system:String x:Key="StatusUninstallDone">D&#233;sinstallation termin&#233;e.</system:String>
+    <system:String x:Key="StatusUninstallScheduled">Les derniers fichiers seront supprim&#233;s apr&#232;s fermeture.</system:String>
 </ResourceDictionary>

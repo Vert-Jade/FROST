@@ -22,6 +22,9 @@
     <system:String x:Key="StatusHidden">Overlay versteckt.</system:String>
     <system:String x:Key="StatusActive">Overlay aktiv.</system:String>
     <system:String x:Key="StatusCalculated">Ziel berechnet! Fokus freigegeben.</system:String>
+    <system:String x:Key="TxtDofusWaitingTitle">FROST wartet auf Dofus</system:String>
+    <system:String x:Key="TxtDofusWaitingMessage">FROST ist mit dem Dofus-Fenster verbunden. Wenn Dofus nicht geöffnet oder minimiert ist, bleibt die Oberfläche ausgeblendet: Das ist kein Fehler.</system:String>
+    <system:String x:Key="TxtDofusWaitingHint">Starte oder stelle Dofus wieder her, FROST erscheint automatisch wieder.</system:String>
     <system:String x:Key="StatusStep1Target">Schritt 1: Klicken Sie auf das ZIEL.</system:String>
     <system:String x:Key="StatusStep2Player">Schritt 2: Klicken Sie auf IHREN Charakter.</system:String>
 
@@ -168,8 +171,35 @@
     <system:String x:Key="TxtLegendTP">Teleportation (Gusset-Effekt)</system:String>
     <system:String x:Key="TxtLegendColorClickHint">Klicken Sie auf ein farbiges Feld, um seine Farbe anzupassen.</system:String>
     <system:String x:Key="TxtLegendColorEditorTitle">BENUTZERDEFINIERTE FARBE</system:String>
+    <system:String x:Key="TxtLegendColorHexLabel">HEX-CODE</system:String>
     <system:String x:Key="TxtLegendColorHexHint">Geben Sie eine Hex-Farbe wie #20CFFF ein</system:String>
     <system:String x:Key="TxtLegendColorPicker">Farbe wählen</system:String>
     <system:String x:Key="TxtLegendColorReset">Zurücksetzen</system:String>
     <system:String x:Key="StatusLegendColorInvalid">Ungültiger Farbcode. Verwenden Sie ein Hex-Format wie #20CFFF.</system:String>
+    <system:String x:Key="TxtCheckUpdates">Nach Updates suchen</system:String>
+    <system:String x:Key="TxtOpenInternalFolder">Internen Ordner öffnen</system:String>
+    <system:String x:Key="StatusInternalFolderOpened">Interner FROST-Ordner geöffnet.</system:String>
+    <system:String x:Key="StatusInternalFolderOpenFailed">Der interne FROST-Ordner konnte nicht geöffnet werden: {0}</system:String>
+    <system:String x:Key="TxtUninstallWindowTitle">FROST — Deinstallation</system:String>
+    <system:String x:Key="TxtUninstallSubtitle">Deinstallation</system:String>
+    <system:String x:Key="TxtUninstallTitle">FROST deinstallieren</system:String>
+    <system:String x:Key="TxtUninstallDesc">Dadurch wird FROST von diesem PC entfernt. Einstellungen und Spielstände können im internen Ordner erhalten bleiben.</system:String>
+    <system:String x:Key="TxtUninstallInternalFolderLabel">INTERNER ORDNER</system:String>
+    <system:String x:Key="TxtUninstallRemoveData">Auch Einstellungen, Spielstände, Logs und heruntergeladene Updates entfernen.</system:String>
+    <system:String x:Key="TxtUninstallRemoveDataHint">Nicht aktivieren, wenn du FROST später mit deiner Konfiguration neu installieren möchtest.</system:String>
+    <system:String x:Key="TxtUninstallButton">Deinstallieren</system:String>
+    <system:String x:Key="TxtUninstallCancel">Abbrechen</system:String>
+    <system:String x:Key="TxtUninstallClose">Schließen</system:String>
+    <system:String x:Key="TxtUninstallProgressTitle">Deinstallation läuft</system:String>
+    <system:String x:Key="TxtUninstallCompleteTitle">Deinstallation abgeschlossen</system:String>
+    <system:String x:Key="TxtUninstallCompleteDesc">FROST wurde von diesem PC entfernt. Die letzten Dateien werden nach dem Schließen automatisch bereinigt.</system:String>
+    <system:String x:Key="TxtUninstallFailedTitle">Deinstallation unvollständig</system:String>
+    <system:String x:Key="TxtUninstallFailedDesc">FROST konnte nicht vollständig deinstalliert werden.&#x0a;&#x0a;{0}</system:String>
+    <system:String x:Key="StatusUninstallPreparing">Deinstallation wird vorbereitet...</system:String>
+    <system:String x:Key="StatusUninstallClosingApp">FROST-Instanzen werden geschlossen...</system:String>
+    <system:String x:Key="StatusUninstallShortcuts">Verknüpfungen werden entfernt...</system:String>
+    <system:String x:Key="StatusUninstallRegistry">Windows-Registrierung wird bereinigt...</system:String>
+    <system:String x:Key="StatusUninstallFiles">Dateien werden entfernt...</system:String>
+    <system:String x:Key="StatusUninstallDone">Deinstallation abgeschlossen.</system:String>
+    <system:String x:Key="StatusUninstallScheduled">Die letzten Dateien werden nach dem Schließen entfernt.</system:String>
 </ResourceDictionary>

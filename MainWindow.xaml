@@ -4,7 +4,7 @@
         Title="FROST" WindowState="Normal" Width="1534.4" Height="814.4" MinWidth="80" MinHeight="60"
         Icon="pack://application:,,,/Ressources/Icones/frost.ico"
         WindowStyle="None" AllowsTransparency="True" Background="{x:Null}"
-        Topmost="False" ShowInTaskbar="True" ResizeMode="CanResize">
+        Topmost="False" ShowInTaskbar="True" ResizeMode="CanResize" Opacity="0">
 
     <Window.Resources>
         <!-- Pinceau dynamique pour lier toutes les surbrillances au thème choisi -->
@@ -634,7 +634,7 @@
                         <!-- Titre centré avec effet moderne -->
                         <TextBlock Foreground="#F3F4F6" FontSize="12" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Run Text="FROST"/>
-                            <Run Text=" v1.0.4" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
+                            <Run Text=" v1.0.5" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
                             <TextBlock.Effect>
                                 <DropShadowEffect Color="#4DA8DA" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
                             </TextBlock.Effect>
@@ -1329,20 +1329,26 @@
                                                 <TextBlock Text="{DynamicResource TxtLegendColorEditorTitle}" Foreground="#8F98AC" FontSize="11" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
                                                 <TextBlock x:Name="TxtLegendColorSelectionLabel" Foreground="#F3F4F6" FontSize="15" FontWeight="Bold" Margin="0,0,0,10" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
                                                 <Grid Margin="0,0,0,12" VerticalAlignment="Center">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="10"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="10"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border x:Name="LegendColorPreview" Width="36" Height="36" CornerRadius="9" BorderThickness="1" VerticalAlignment="Center"/>
-                                                    <TextBox x:Name="TxtLegendColorHex" Grid.Column="2" Height="40" MaxLength="7" MinWidth="92" VerticalContentAlignment="Center" Background="#141821" Foreground="#F3F4F6" BorderBrush="#343C4F" BorderThickness="1" Padding="12,0" FontSize="15" FontWeight="Bold" PreviewKeyDown="TxtLegendColorHex_PreviewKeyDown" TextChanged="TxtLegendColorHex_TextChanged" LostKeyboardFocus="TxtLegendColorHex_LostKeyboardFocus" ToolTip="{DynamicResource TxtLegendColorHexHint}"/>
-                                                    <Button x:Name="BtnLegendColorPalette" Grid.Column="4" Style="{StaticResource LegendColorPaletteButtonStyle}" Click="BtnLegendColorPalette_Click" ToolTip="{DynamicResource TxtLegendColorClickHint}">
-                                                        <Grid Width="24" Height="24" ClipToBounds="True">
-                                                            <Image Source="pack://application:,,,/Ressources/Icones/Palette%20de%20couleur.png" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Margin="-4"/>
-                                                        </Grid>
-                                                    </Button>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="8"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border x:Name="LegendColorPreview" Width="36" Height="36" CornerRadius="9" BorderThickness="1" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="1" Text="{DynamicResource TxtLegendColorHexLabel}" Foreground="#8F98AC" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="8,0"/>
+                                                        <Button x:Name="BtnLegendColorPalette" Grid.Column="2" Style="{StaticResource LegendColorPaletteButtonStyle}" Click="BtnLegendColorPalette_Click" ToolTip="{DynamicResource TxtLegendColorClickHint}">
+                                                            <Grid Width="24" Height="24" ClipToBounds="True">
+                                                                <Image Source="pack://application:,,,/Ressources/Icones/Palette%20de%20couleur.png" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Margin="-4"/>
+                                                            </Grid>
+                                                        </Button>
+                                                    </Grid>
+                                                    <TextBox x:Name="TxtLegendColorHex" Grid.Row="2" Height="40" MaxLength="7" MinWidth="0" VerticalContentAlignment="Center" Background="#141821" Foreground="#F3F4F6" BorderBrush="#343C4F" BorderThickness="1" Padding="10,0" FontSize="14" FontWeight="Bold" TextAlignment="Center" PreviewKeyDown="TxtLegendColorHex_PreviewKeyDown" TextChanged="TxtLegendColorHex_TextChanged" LostKeyboardFocus="TxtLegendColorHex_LostKeyboardFocus" ToolTip="{DynamicResource TxtLegendColorHexHint}"/>
                                                 </Grid>
                                                 <Popup x:Name="LegendColorPickerPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnLegendColorPalette}" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False" VerticalOffset="8">
                                                     <Border Background="#11141B" BorderBrush="{DynamicResource ThemeColorBrush}" BorderThickness="1" CornerRadius="14" Padding="12" Width="344">
@@ -1433,7 +1439,8 @@
                                 <Border Background="#171A22" BorderBrush="#2E3442" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,12,0,0">
                                     <StackPanel>
                                         <TextBlock Text="{DynamicResource TxtUpdateReadyTitle}" Style="{StaticResource SettingsSectionLabelStyle}" Margin="0,0,0,8"/>
-                                        <Button x:Name="BtnCheckUpdates" Content="Rechercher une MAJ" Style="{StaticResource DofusButtonStyle}" Click="BtnCheckUpdates_Click" HorizontalContentAlignment="Center"/>
+                                        <Button x:Name="BtnCheckUpdates" Content="{DynamicResource TxtCheckUpdates}" Style="{StaticResource DofusButtonStyle}" Click="BtnCheckUpdates_Click" HorizontalContentAlignment="Center"/>
+                                        <Button x:Name="BtnOpenInternalFolder" Content="{DynamicResource TxtOpenInternalFolder}" Style="{StaticResource DofusButtonStyle}" Click="BtnOpenInternalFolder_Click" HorizontalContentAlignment="Center" Margin="0,2,0,0"/>
                                     </StackPanel>
                                 </Border>
 
@@ -1461,6 +1468,48 @@
                     </Thumb>
                 </Grid>
             </Grid>
+        </Border>
+
+        <Border x:Name="DofusWaitingOverlay" Visibility="Collapsed" Panel.ZIndex="80"
+                HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
+            <Border Background="#F214161A" BorderBrush="{DynamicResource ThemeColorBrush}" BorderThickness="1"
+                    CornerRadius="10" Width="460" MaxWidth="460" Padding="26,24">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="30" ShadowDepth="10" Opacity="0.72" Color="Black"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0" Source="pack://application:,,,/Ressources/Icones/frost.ico"
+                           Width="58" Height="58" Stretch="Uniform"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,18"/>
+
+                    <TextBlock Grid.Row="1" Text="{DynamicResource TxtDofusWaitingTitle}"
+                               Foreground="{DynamicResource ThemeColorBrush}" FontSize="22" FontWeight="Black"
+                               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,12">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#4DA8DA" BlurRadius="8" ShadowDepth="0" Opacity="0.45"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+
+                    <StackPanel Grid.Row="2">
+                        <TextBlock Text="{DynamicResource TxtDofusWaitingMessage}"
+                                   Foreground="#E5E7EB" FontSize="14" TextWrapping="Wrap"
+                                   TextAlignment="Center" LineHeight="21" Margin="0,0,0,14"/>
+                        <Border Background="#1A1D26" BorderBrush="#303847" BorderThickness="1"
+                                CornerRadius="8" Padding="14,10">
+                            <TextBlock Text="{DynamicResource TxtDofusWaitingHint}"
+                                       Foreground="#A0A5B5" FontSize="12.5" FontWeight="SemiBold"
+                                       TextWrapping="Wrap" TextAlignment="Center" LineHeight="18"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Border>
 
         <!-- ASSISTANT PREMIER LANCEMENT (WIZARD MINIMALISTE) -->

@@ -1,6 +1,6 @@
 # ❄️ FROST - Assistant Tactique pour le Comte Harebourg
 
-![Version](https://img.shields.io/badge/version-1.0.4-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
+![Version](https://img.shields.io/badge/version-1.0.5-blue) ![Release](https://img.shields.io/github/v/release/Vert-Jade/FROST)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey) ![Status](https://img.shields.io/badge/status-stable-green)
 
 **FROST** est un overlay tactique pour **Dofus** pensé pour lire et calculer instantanément la mécanique de **Confusion** du **Comte Harebourg**, sans automatisation et sans perturber le gameplay.
@@ -9,7 +9,16 @@
 
 ---
 
-## ✨ Nouveautés v1.0.4
+## ✨ Nouveautés v1.0.5
+
+- 🧩 **Démarrage initial plus propre**
+  Le setup de départ s'affiche directement, sans flash du panneau principal avant l'assistant.
+
+- 🧹 **Désinstallateur FROST intégré**
+  Windows lance maintenant un vrai désinstallateur visuel via `FROST.exe --uninstall`, sans script `.ps1`, avec conservation optionnelle des réglages.
+
+- 📁 **Accès direct au dossier interne**
+  Les paramètres proposent un bouton pour ouvrir le dossier `%LOCALAPPDATA%\FROST`, où se trouvent les sauvegardes, logs, mises à jour téléchargées et le raccourci de désinstallation.
 
 - 🧊 **Installateur modernisé**
   Le setup Windows adopte un visuel FROST dédié, une identité plus propre et une sortie de build prête à publier.
@@ -18,8 +27,8 @@
   L'installateur propose maintenant les mêmes langues que l'application :
   **français**, **anglais**, **espagnol**, **allemand**, **italien**, **néerlandais**, **polonais**, **portugais**, **russe**, **suédois**, **turc** et **arabe**.
 
-- 📦 **Distribution 1.0.4 prête pour GitHub Releases**
-  Le script de build génère l'installateur WPF moderne dans `release\modern-setup` et copie `FROST_v1.0.4_setup.exe` directement dans `release`.
+- 📦 **Distribution 1.0.5 prête pour GitHub Releases**
+  Le script de build génère l'installateur WPF moderne dans `release\modern-setup` et copie `FROST_v1.0.5_setup.exe` directement dans `release`.
 
 - 🎯 **Ordre de sélection configurable**
   FROST permet maintenant de choisir entre **Joueur -> Cible** et **Cible -> Joueur**. Le mode par défaut passe en **Cible -> Joueur**, et la légende ainsi que les calculs suivent automatiquement cet ordre.
@@ -120,7 +129,7 @@ Quand une analyse publique récente est disponible, elle peut être partagée de
 ### Option 1 - Installer la version prête à l'emploi
 
 1. Télécharge la dernière release.
-2. Lance l'installateur Windows `FROST_v1.0.4_setup.exe`.
+2. Lance l'installateur Windows `FROST_v1.0.5_setup.exe`.
 3. Suis l'assistant de configuration.
 
 💡 FROST vérifie automatiquement les nouvelles releases au démarrage et peut aussi les rechercher manuellement depuis les paramètres.
@@ -225,7 +234,7 @@ Le script :
 
 1. publie l'application en self-contained
 2. compile l'installateur WPF moderne en self-contained
-3. copie `FROST_v1.0.4_setup.exe` dans `release`
+3. copie `FROST_v1.0.5_setup.exe` dans `release`
 
 ---
 

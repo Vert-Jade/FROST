@@ -22,6 +22,9 @@
     <system:String x:Key="StatusHidden">Overlay hidden.</system:String>
     <system:String x:Key="StatusActive">Overlay active.</system:String>
     <system:String x:Key="StatusCalculated">Target calculated! Focus released.</system:String>
+    <system:String x:Key="TxtDofusWaitingTitle">FROST is waiting for Dofus</system:String>
+    <system:String x:Key="TxtDofusWaitingMessage">FROST is linked to the Dofus window. If Dofus is not open or is minimized, the interface stays hidden: this is not a bug.</system:String>
+    <system:String x:Key="TxtDofusWaitingHint">Launch or restore Dofus and FROST will reappear automatically.</system:String>
     <system:String x:Key="StatusStep1Target">Step 1: Click the TARGET.</system:String>
     <system:String x:Key="StatusStep2Player">Step 2: Click on YOUR character.</system:String>
 
@@ -168,8 +171,35 @@
     <system:String x:Key="TxtLegendTP">Teleportation (Gusset Effect)</system:String>
     <system:String x:Key="TxtLegendColorClickHint">Click a colored marker to customize its color.</system:String>
     <system:String x:Key="TxtLegendColorEditorTitle">CUSTOM COLOR</system:String>
+    <system:String x:Key="TxtLegendColorHexLabel">HEX CODE</system:String>
     <system:String x:Key="TxtLegendColorHexHint">Enter a hexadecimal color code, for example #20CFFF.</system:String>
     <system:String x:Key="TxtLegendColorPicker">Pick a color</system:String>
     <system:String x:Key="TxtLegendColorReset">Reset</system:String>
     <system:String x:Key="StatusLegendColorInvalid">Invalid color code. Use a hexadecimal format like #20CFFF.</system:String>
+    <system:String x:Key="TxtCheckUpdates">Check for updates</system:String>
+    <system:String x:Key="TxtOpenInternalFolder">Open internal folder</system:String>
+    <system:String x:Key="StatusInternalFolderOpened">FROST internal folder opened.</system:String>
+    <system:String x:Key="StatusInternalFolderOpenFailed">Could not open the FROST internal folder: {0}</system:String>
+    <system:String x:Key="TxtUninstallWindowTitle">FROST — Uninstaller</system:String>
+    <system:String x:Key="TxtUninstallSubtitle">Uninstaller</system:String>
+    <system:String x:Key="TxtUninstallTitle">Uninstall FROST</system:String>
+    <system:String x:Key="TxtUninstallDesc">This removes FROST from this PC. Your settings and saves can be kept in the internal folder.</system:String>
+    <system:String x:Key="TxtUninstallInternalFolderLabel">INTERNAL FOLDER</system:String>
+    <system:String x:Key="TxtUninstallRemoveData">Also remove my settings, saves, logs, and downloaded updates.</system:String>
+    <system:String x:Key="TxtUninstallRemoveDataHint">Leave unchecked to reinstall FROST later while keeping your configuration.</system:String>
+    <system:String x:Key="TxtUninstallButton">Uninstall</system:String>
+    <system:String x:Key="TxtUninstallCancel">Cancel</system:String>
+    <system:String x:Key="TxtUninstallClose">Close</system:String>
+    <system:String x:Key="TxtUninstallProgressTitle">Uninstalling</system:String>
+    <system:String x:Key="TxtUninstallCompleteTitle">Uninstall complete</system:String>
+    <system:String x:Key="TxtUninstallCompleteDesc">FROST has been removed from this PC. The last files will be cleaned automatically after closing.</system:String>
+    <system:String x:Key="TxtUninstallFailedTitle">Uninstall incomplete</system:String>
+    <system:String x:Key="TxtUninstallFailedDesc">FROST could not be completely uninstalled.&#x0a;&#x0a;{0}</system:String>
+    <system:String x:Key="StatusUninstallPreparing">Preparing uninstall...</system:String>
+    <system:String x:Key="StatusUninstallClosingApp">Closing FROST instances...</system:String>
+    <system:String x:Key="StatusUninstallShortcuts">Removing shortcuts...</system:String>
+    <system:String x:Key="StatusUninstallRegistry">Cleaning Windows registration...</system:String>
+    <system:String x:Key="StatusUninstallFiles">Removing files...</system:String>
+    <system:String x:Key="StatusUninstallDone">Uninstall complete.</system:String>
+    <system:String x:Key="StatusUninstallScheduled">The last files will be removed after closing.</system:String>
 </ResourceDictionary>

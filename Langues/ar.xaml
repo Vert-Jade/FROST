@@ -22,6 +22,9 @@
     <system:String x:Key="StatusHidden">العرض مخفي.</system:String>
     <system:String x:Key="StatusActive">العرض نشط.</system:String>
     <system:String x:Key="StatusCalculated">تم حساب الهدف! تم تحرير التركيز.</system:String>
+    <system:String x:Key="TxtDofusWaitingTitle">FROST ينتظر Dofus</system:String>
+    <system:String x:Key="TxtDofusWaitingMessage">FROST مرتبط بنافذة Dofus. إذا لم يكن Dofus مفتوحًا أو كان مصغرًا، فستبقى الواجهة مخفية: هذا ليس خللًا.</system:String>
+    <system:String x:Key="TxtDofusWaitingHint">افتح Dofus أو أعد عرضه، وسيظهر FROST تلقائيًا.</system:String>
     <system:String x:Key="StatusStep1Target">الخطوة 1: انقر على الهدف.</system:String>
     <system:String x:Key="StatusStep2Player">الخطوة 2: انقر على شخصيتك.</system:String>
 
@@ -168,8 +171,35 @@
     <system:String x:Key="TxtLegendTP">الانتقال عن بعد (تأثير المنفاخ)</system:String>
     <system:String x:Key="TxtLegendColorClickHint">انقر على مربع ملون لتخصيص لونه.</system:String>
     <system:String x:Key="TxtLegendColorEditorTitle">لون مخصص</system:String>
+    <system:String x:Key="TxtLegendColorHexLabel">رمز HEX</system:String>
     <system:String x:Key="TxtLegendColorHexHint">أدخل لونًا بصيغة ست عشرية مثل #20CFFF</system:String>
     <system:String x:Key="TxtLegendColorPicker">اختيار لون</system:String>
     <system:String x:Key="TxtLegendColorReset">إعادة تعيين</system:String>
     <system:String x:Key="StatusLegendColorInvalid">رمز اللون غير صالح. استخدم تنسيقًا ست عشريًا مثل #20CFFF.</system:String>
+    <system:String x:Key="TxtCheckUpdates">البحث عن تحديثات</system:String>
+    <system:String x:Key="TxtOpenInternalFolder">فتح المجلد الداخلي</system:String>
+    <system:String x:Key="StatusInternalFolderOpened">تم فتح المجلد الداخلي لـ FROST.</system:String>
+    <system:String x:Key="StatusInternalFolderOpenFailed">تعذر فتح المجلد الداخلي لـ FROST: {0}</system:String>
+    <system:String x:Key="TxtUninstallWindowTitle">FROST — برنامج الإزالة</system:String>
+    <system:String x:Key="TxtUninstallSubtitle">برنامج الإزالة</system:String>
+    <system:String x:Key="TxtUninstallTitle">إزالة FROST</system:String>
+    <system:String x:Key="TxtUninstallDesc">سيؤدي هذا إلى إزالة FROST من هذا الكمبيوتر. يمكن الاحتفاظ بإعداداتك وملفات الحفظ في المجلد الداخلي.</system:String>
+    <system:String x:Key="TxtUninstallInternalFolderLabel">المجلد الداخلي</system:String>
+    <system:String x:Key="TxtUninstallRemoveData">إزالة الإعدادات وملفات الحفظ والسجلات والتحديثات التي تم تنزيلها أيضًا.</system:String>
+    <system:String x:Key="TxtUninstallRemoveDataHint">اتركه غير محدد لإعادة تثبيت FROST لاحقًا مع الاحتفاظ بإعداداتك.</system:String>
+    <system:String x:Key="TxtUninstallButton">إزالة</system:String>
+    <system:String x:Key="TxtUninstallCancel">إلغاء</system:String>
+    <system:String x:Key="TxtUninstallClose">إغلاق</system:String>
+    <system:String x:Key="TxtUninstallProgressTitle">جارٍ الإزالة</system:String>
+    <system:String x:Key="TxtUninstallCompleteTitle">اكتملت الإزالة</system:String>
+    <system:String x:Key="TxtUninstallCompleteDesc">تمت إزالة FROST من هذا الكمبيوتر. سيتم تنظيف آخر الملفات تلقائيًا بعد الإغلاق.</system:String>
+    <system:String x:Key="TxtUninstallFailedTitle">الإزالة غير مكتملة</system:String>
+    <system:String x:Key="TxtUninstallFailedDesc">تعذرت إزالة FROST بالكامل.&#x0a;&#x0a;{0}</system:String>
+    <system:String x:Key="StatusUninstallPreparing">جارٍ تحضير الإزالة...</system:String>
+    <system:String x:Key="StatusUninstallClosingApp">جارٍ إغلاق مثيلات FROST...</system:String>
+    <system:String x:Key="StatusUninstallShortcuts">جارٍ إزالة الاختصارات...</system:String>
+    <system:String x:Key="StatusUninstallRegistry">جارٍ تنظيف تسجيل Windows...</system:String>
+    <system:String x:Key="StatusUninstallFiles">جارٍ إزالة الملفات...</system:String>
+    <system:String x:Key="StatusUninstallDone">اكتملت الإزالة.</system:String>
+    <system:String x:Key="StatusUninstallScheduled">ستتم إزالة آخر الملفات بعد الإغلاق.</system:String>
 </ResourceDictionary>
