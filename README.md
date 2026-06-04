@@ -277,3 +277,11 @@ Si le projet t'aide, n'hésite pas à :
 - laisser une étoile sur le repo
 - ouvrir une issue en cas de bug
 - proposer des améliorations
+
+---
+
+## 🛡️ Vérification sécurité
+
+Le setup officiel `FROST_v1.0.5_setup.exe` a été analysé sur VirusTotal :
+
+[Consulter l'analyse VirusTotal du setup v1.0.5](https://www.virustotal.com/gui/file-analysis/ZDg0MmM2ZDE5NzY5NzFkZWExOGQxMjNmZWMwZWMzZGI6MTc4MDUzNjU1Mg==)
