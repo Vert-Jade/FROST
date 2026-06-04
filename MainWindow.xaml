@@ -693,7 +693,7 @@
                         <!-- Titre centré avec effet moderne -->
                         <TextBlock Foreground="#F3F4F6" FontSize="12" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Run Text="FROST"/>
-                            <Run Text=" v1.0.7" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
+                            <Run x:Name="TxtAppVersion" Text=" v1.0.9" FontSize="9" FontWeight="Normal" Foreground="#7A8090"/>
                             <TextBlock.Effect>
                                 <DropShadowEffect Color="#4DA8DA" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
                             </TextBlock.Effect>

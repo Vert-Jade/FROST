@@ -14,6 +14,108 @@ namespace FROST.Setup;
 
 public partial class MainWindow : Window
 {
+    private const string FrostAppUserModelId = "VertJade.FROST";
+
+    [ComImport]
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    private sealed class ShellLinkComObject
+    {
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    private interface IShellLinkW
+    {
+        [PreserveSig] int GetPath(IntPtr pszFile, int cchMaxPath, IntPtr pfd, uint fFlags);
+        [PreserveSig] int GetIDList(out IntPtr ppidl);
+        [PreserveSig] int SetIDList(IntPtr pidl);
+        [PreserveSig] int GetDescription(IntPtr pszName, int cchMaxName);
+        [PreserveSig] int SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        [PreserveSig] int GetWorkingDirectory(IntPtr pszDir, int cchMaxPath);
+        [PreserveSig] int SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        [PreserveSig] int GetArguments(IntPtr pszArgs, int cchMaxPath);
+        [PreserveSig] int SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        [PreserveSig] int GetHotkey(out short pwHotkey);
+        [PreserveSig] int SetHotkey(short wHotkey);
+        [PreserveSig] int GetShowCmd(out int piShowCmd);
+        [PreserveSig] int SetShowCmd(int iShowCmd);
+        [PreserveSig] int GetIconLocation(IntPtr pszIconPath, int cchIconPath, out int piIcon);
+        [PreserveSig] int SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        [PreserveSig] int SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, uint dwReserved);
+        [PreserveSig] int Resolve(IntPtr hwnd, uint fFlags);
+        [PreserveSig] int SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("0000010B-0000-0000-C000-000000000046")]
+    private interface IPersistFile
+    {
+        [PreserveSig] int GetClassID(out Guid pClassID);
+        [PreserveSig] int IsDirty();
+        [PreserveSig] int Load([MarshalAs(UnmanagedType.LPWStr)] string pszFileName, uint dwMode);
+        [PreserveSig] int Save([MarshalAs(UnmanagedType.LPWStr)] string? pszFileName, bool fRemember);
+        [PreserveSig] int SaveCompleted([MarshalAs(UnmanagedType.LPWStr)] string? pszFileName);
+        [PreserveSig] int GetCurFile(out IntPtr ppszFileName);
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("00000138-0000-0000-C000-000000000046")]
+    private interface IPropertyStore
+    {
+        [PreserveSig] int GetCount(out uint cProps);
+        [PreserveSig] int GetAt(uint iProp, out PropertyKey pkey);
+        [PreserveSig] int GetValue(ref PropertyKey key, out PropVariant pv);
+        [PreserveSig] int SetValue(ref PropertyKey key, ref PropVariant pv);
+        [PreserveSig] int Commit();
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    private struct PropertyKey
+    {
+        public Guid FormatId;
+        public uint PropertyId;
+
+        public PropertyKey(Guid formatId, uint propertyId)
+        {
+            FormatId = formatId;
+            PropertyId = propertyId;
+        }
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    private struct PropVariant : IDisposable
+    {
+        [FieldOffset(0)]
+        private ushort _valueType;
+
+        [FieldOffset(8)]
+        private IntPtr _pointerValue;
+
+        [DllImport("ole32.dll")]
+        private static extern int PropVariantClear(ref PropVariant pvar);
+
+        public static PropVariant FromString(string value)
+        {
+            return new PropVariant
+            {
+                _valueType = 31,
+                _pointerValue = Marshal.StringToCoTaskMemUni(value)
+            };
+        }
+
+        public void Dispose()
+        {
+            PropVariantClear(ref this);
+        }
+    }
+
+    private static readonly PropertyKey AppUserModelIdPropertyKey = new(
+        new Guid("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3"),
+        5);
+
     // ── Language definitions ──────────────────────────────────────────────
     private record LangDef(string Code, string Flag, string NameKey);
 
@@ -59,6 +161,7 @@ public partial class MainWindow : Window
         BuildLanguageGrid();
         TxtPath.Text = DefaultInstallPath();
         TxtDiskSpace.Text = (string?)TryResource("DiskSpaceRequired") ?? "~8 MB";
+        LoadExistingOptions();
         ApplyStep();
     }
 
@@ -187,13 +290,13 @@ public partial class MainWindow : Window
     {
         // Hide all content panels
         StepLang.Visibility    = Visibility.Collapsed;
-        StepWelcome.Visibility = Visibility.Collapsed;
         StepPath.Visibility    = Visibility.Collapsed;
+        StepOptions.Visibility = Visibility.Collapsed;
         StepInstall.Visibility = Visibility.Collapsed;
         StepFinish.Visibility  = Visibility.Collapsed;
 
         // Show current
-        var panels = new[] { StepLang, StepWelcome, StepPath, StepInstall, StepFinish };
+        var panels = new[] { StepLang, StepPath, StepOptions, StepInstall, StepFinish };
         FadeIn(panels[_step]);
         panels[_step].Visibility = Visibility.Visible;
 
@@ -291,7 +394,10 @@ public partial class MainWindow : Window
             InitialDirectory = TxtPath.Text,
         };
         if (dialog.ShowDialog() == true)
+        {
             TxtPath.Text = dialog.FolderName;
+            LoadExistingOptions();
+        }
     }
 
     // ══════════════════════════════════════════════════════════════════════
@@ -311,8 +417,9 @@ public partial class MainWindow : Window
         TxtPercent.Text = "0 %";
 
         string installDir = TxtPath.Text;
-        bool desktop   = ChkDesktop.IsChecked  == true;
-        bool startMenu = ChkStartMenu.IsChecked == true;
+        bool desktop     = ChkDesktop.IsChecked == true;
+        bool startup     = ChkStartup.IsChecked == true;
+        bool closeToTray = ChkCloseToTray.IsChecked == true;
 
         var progress = new Progress<(double pct, string status)>(report =>
         {
@@ -321,7 +428,7 @@ public partial class MainWindow : Window
             TxtInstallStatus.Text = report.status;
         });
 
-        Task.Run(() => RunInstall(installDir, desktop, startMenu, progress))
+        Task.Run(() => RunInstall(installDir, desktop, startup, closeToTray, progress))
             .ContinueWith(t =>
             {
                 Dispatcher.Invoke(() =>
@@ -343,7 +450,7 @@ public partial class MainWindow : Window
             });
     }
 
-    private void RunInstall(string installDir, bool desktop, bool startMenu,
+    private void RunInstall(string installDir, bool desktop, bool startup, bool closeToTray,
                             IProgress<(double, string)> progress)
     {
         string copying   = TryResourceSafe("InstallCopying")    ?? "Copie des fichiers...";
@@ -365,25 +472,31 @@ public partial class MainWindow : Window
         // 3. Shortcuts
         progress.Report((82, shortcuts));
         string exePath = exeDest;
+        string desktopShortcut = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "FROST.lnk");
+        string startMenuDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "FROST");
+
+        DeleteLegacyUninstallScript(installDir);
+        EnsureUninstallerShortcut(installDir, exePath);
+        WriteInstallerOptions(installDir, closeToTray);
+
         if (desktop)
         {
-            string link = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "FROST.lnk");
-            CreateShortcut(link, exePath, installDir);
+            CreateShortcut(desktopShortcut, exePath, installDir);
         }
-        if (startMenu)
+        else
         {
-            string smDir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "FROST");
-            Directory.CreateDirectory(smDir);
-            CreateShortcut(Path.Combine(smDir, "FROST.lnk"), exePath, installDir);
+            TryDeleteFile(desktopShortcut);
         }
+
+        CleanupLegacyPinShortcuts(startMenuDir);
+        ConfigureStartup(startup, exePath);
         Thread.Sleep(300);
 
         // 4. Uninstaller shortcut + Registry
         progress.Report((92, registering));
-        DeleteLegacyUninstallScript(installDir);
-        CreateShortcut(Path.Combine(installDir, "Desinstaller FROST.lnk"), exePath, installDir, "--uninstall");
+        EnsureUninstallerShortcut(installDir, exePath);
         WriteUninstallKey(installDir, exePath);
         Thread.Sleep(200);
 
@@ -556,19 +669,176 @@ public partial class MainWindow : Window
         }
     }
 
-    private static void CreateShortcut(string linkPath, string targetPath, string workDir, string arguments = "")
+    private static bool CreateShortcut(string linkPath, string targetPath, string workDir, string arguments = "")
+    {
+        bool created = TryCreateShortcutWithShellLink(linkPath, targetPath, workDir, arguments)
+            || TryCreateShortcutWithWScript(linkPath, targetPath, workDir, arguments);
+
+        if (created)
+            SetShortcutAppUserModelId(linkPath);
+
+        return created && File.Exists(linkPath);
+    }
+
+    private static bool TryCreateShortcutWithShellLink(string linkPath, string targetPath, string workDir, string arguments)
+    {
+        object? shellLink = null;
+
+        try
+        {
+            string? directory = Path.GetDirectoryName(linkPath);
+            if (!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
+
+            shellLink = new ShellLinkComObject();
+            var link = (IShellLinkW)shellLink;
+            link.SetPath(targetPath);
+            link.SetArguments(arguments);
+            link.SetWorkingDirectory(workDir);
+            link.SetIconLocation(targetPath, 0);
+
+            var persistFile = (IPersistFile)shellLink;
+            return persistFile.Save(linkPath, true) >= 0 && File.Exists(linkPath);
+        }
+        catch { /* non-fatal */ }
+        finally
+        {
+            if (shellLink != null && Marshal.IsComObject(shellLink))
+                Marshal.FinalReleaseComObject(shellLink);
+        }
+
+        return false;
+    }
+
+    private static bool TryCreateShortcutWithWScript(string linkPath, string targetPath, string workDir, string arguments)
     {
         try
         {
+            string? directory = Path.GetDirectoryName(linkPath);
+            if (!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
+
             var wshType = Type.GetTypeFromProgID("WScript.Shell");
-            if (wshType == null) return;
-            dynamic shell    = Activator.CreateInstance(wshType)!;
+            if (wshType == null)
+                return false;
+
+            dynamic shell = Activator.CreateInstance(wshType)!;
             dynamic shortcut = shell.CreateShortcut(linkPath);
-            shortcut.TargetPath       = targetPath;
-            shortcut.Arguments        = arguments;
+            shortcut.TargetPath = targetPath;
+            shortcut.Arguments = arguments;
             shortcut.WorkingDirectory = workDir;
-            shortcut.IconLocation     = targetPath;
+            shortcut.IconLocation = $"{targetPath},0";
             shortcut.Save();
+            return File.Exists(linkPath);
+        }
+        catch { /* non-fatal */ }
+
+        return false;
+    }
+
+    private static void EnsureUninstallerShortcut(string installDir, string exePath)
+    {
+        string shortcutPath = Path.Combine(installDir, "Desinstaller FROST.lnk");
+        if (CreateShortcut(shortcutPath, exePath, installDir, "--uninstall"))
+            return;
+
+        throw new IOException("Le raccourci de désinstallation FROST n'a pas pu être créé.");
+    }
+
+    private static void SetShortcutAppUserModelId(string linkPath)
+    {
+        object? shellLink = null;
+
+        try
+        {
+            if (!File.Exists(linkPath))
+                return;
+
+            shellLink = new ShellLinkComObject();
+            var persistFile = (IPersistFile)shellLink;
+            if (persistFile.Load(linkPath, 0) < 0)
+                return;
+
+            var propertyStore = (IPropertyStore)shellLink;
+            PropertyKey key = AppUserModelIdPropertyKey;
+            PropVariant value = PropVariant.FromString(FrostAppUserModelId);
+            try
+            {
+                if (propertyStore.SetValue(ref key, ref value) >= 0)
+                {
+                    propertyStore.Commit();
+                    persistFile.Save(linkPath, true);
+                }
+            }
+            finally
+            {
+                value.Dispose();
+            }
+        }
+        catch { /* non-fatal */ }
+        finally
+        {
+            if (shellLink != null && Marshal.IsComObject(shellLink))
+                Marshal.FinalReleaseComObject(shellLink);
+        }
+    }
+
+    private static void CleanupLegacyPinShortcuts(string startMenuDir)
+    {
+        string taskbarDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "Microsoft",
+            "Internet Explorer",
+            "Quick Launch",
+            "User Pinned",
+            "TaskBar");
+        string taskbarShortcut = Path.Combine(taskbarDir, "FROST.lnk");
+
+        TryDeleteFile(taskbarShortcut);
+        TryDeleteDirectory(startMenuDir);
+    }
+
+    private static void ConfigureStartup(bool shouldStartWithWindows, string exePath)
+    {
+        try
+        {
+            using RegistryKey? key = Registry.CurrentUser.CreateSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+            if (key == null)
+                return;
+
+            if (shouldStartWithWindows)
+                key.SetValue("FROST", $"\"{exePath}\"", RegistryValueKind.String);
+            else
+                key.DeleteValue("FROST", throwOnMissingValue: false);
+        }
+        catch { /* non-fatal */ }
+    }
+
+    private static void WriteInstallerOptions(string installDir, bool closeToTray)
+    {
+        try
+        {
+            string content = $"CloseToTray={closeToTray}";
+            string appDataDir = DefaultInstallPath();
+            Directory.CreateDirectory(appDataDir);
+            File.WriteAllText(Path.Combine(appDataDir, "installer_options.ini"), content);
+
+            if (!string.IsNullOrWhiteSpace(installDir) && !PathsEqual(installDir, appDataDir))
+            {
+                Directory.CreateDirectory(installDir);
+                File.WriteAllText(Path.Combine(installDir, "installer_options.ini"), content);
+            }
+        }
+        catch { /* non-fatal */ }
+    }
+
+    private static void TryDeleteDirectory(string path)
+    {
+        try
+        {
+            if (Directory.Exists(path))
+                Directory.Delete(path, recursive: true);
         }
         catch { /* non-fatal */ }
     }
@@ -592,7 +862,7 @@ public partial class MainWindow : Window
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FROST");
             if (key == null) return;
             key.SetValue("DisplayName",     "FROST");
-            key.SetValue("DisplayVersion",  "1.0.8");
+            key.SetValue("DisplayVersion",  "1.0.9");
             key.SetValue("Publisher",       "Dylan Fournier");
             key.SetValue("InstallLocation", installDir);
             key.SetValue("DisplayIcon",     exePath);
@@ -625,6 +895,92 @@ public partial class MainWindow : Window
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "FROST");
+
+    private void LoadExistingOptions()
+    {
+        try
+        {
+            string installDir = TxtPath.Text;
+            bool existingInstall = File.Exists(Path.Combine(installDir, "FROST.exe"));
+
+            ChkDesktop.IsChecked = !existingInstall || File.Exists(GetDesktopShortcutPath());
+            ChkStartup.IsChecked = IsStartupRegistered();
+
+            if (TryReadCloseToTrayOption(out bool closeToTray))
+                ChkCloseToTray.IsChecked = closeToTray;
+            else if (!existingInstall)
+                ChkCloseToTray.IsChecked = false;
+        }
+        catch { /* non-fatal */ }
+    }
+
+    private static string GetDesktopShortcutPath() =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "FROST.lnk");
+
+    private static bool IsStartupRegistered()
+    {
+        try
+        {
+            using RegistryKey? key = Registry.CurrentUser.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                writable: false);
+            return key?.GetValue("FROST") is string value &&
+                value.Contains("FROST.exe", StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool TryReadCloseToTrayOption(out bool closeToTray)
+    {
+        closeToTray = false;
+
+        try
+        {
+            string installerOptionsPath = Path.Combine(DefaultInstallPath(), "installer_options.ini");
+            if (File.Exists(installerOptionsPath) &&
+                TryReadCloseToTrayFromInstallerOptions(installerOptionsPath, out closeToTray))
+            {
+                return true;
+            }
+
+            string gridConfigPath = Path.Combine(DefaultInstallPath(), "grid_config.txt");
+            if (!File.Exists(gridConfigPath))
+                return false;
+
+            string[] parts = File.ReadAllText(gridConfigPath).Split(';');
+            return parts.Length >= 54 && bool.TryParse(parts[53], out closeToTray);
+        }
+        catch
+        {
+            closeToTray = false;
+            return false;
+        }
+    }
+
+    private static bool TryReadCloseToTrayFromInstallerOptions(string path, out bool closeToTray)
+    {
+        closeToTray = false;
+
+        foreach (string rawLine in File.ReadAllLines(path))
+        {
+            string line = rawLine.Trim();
+            if (line.Length == 0 || line.StartsWith("#", StringComparison.Ordinal))
+                continue;
+
+            string[] parts = line.Split('=', 2, StringSplitOptions.TrimEntries);
+            if (parts.Length == 2 &&
+                string.Equals(parts[0], "CloseToTray", StringComparison.OrdinalIgnoreCase) &&
+                bool.TryParse(parts[1], out closeToTray))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private object? TryResource(string key)
     {

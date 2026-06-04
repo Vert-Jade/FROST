@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Dil</s:String>
     <s:String x:Key="SetupStepWelcome">Hoş Geldiniz</s:String>
     <s:String x:Key="SetupStepPath">Konum</s:String>
+    <s:String x:Key="SetupStepOptions">Seçenekler</s:String>
     <s:String x:Key="SetupStepInstall">Kurulum</s:String>
     <s:String x:Key="SetupStepFinish">Bitti</s:String>
     <s:String x:Key="BtnNext">İleri →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">FROST'un kurulacağı klasörü seçin.</s:String>
     <s:String x:Key="PathLabel">Hedef klasör:</s:String>
     <s:String x:Key="ChkDesktop">Masaüstünde kısayol oluştur</s:String>
-    <s:String x:Key="ChkStartMenu">Başlat Menüsü kısayolu oluştur</s:String>
+    <s:String x:Key="OptionsTitle">Ek seçenekler</s:String>
+    <s:String x:Key="OptionsDesc">Kısayolları ve FROST'un başlangıç davranışını seçin.</s:String>
+    <s:String x:Key="ChkStartup">FROST'u Windows ile başlat</s:String>
+    <s:String x:Key="ChkCloseToTray">Kapatırken FROST'u gizli simgelere küçült</s:String>
     <s:String x:Key="InstallTitle">Kuruluyor...</s:String>
     <s:String x:Key="InstallPreparing">Kurulum hazırlanıyor...</s:String>
     <s:String x:Key="InstallCopying">Dosyalar kopyalanıyor...</s:String>

@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Язык</s:String>
     <s:String x:Key="SetupStepWelcome">Добро пожаловать</s:String>
     <s:String x:Key="SetupStepPath">Расположение</s:String>
+    <s:String x:Key="SetupStepOptions">Параметры</s:String>
     <s:String x:Key="SetupStepInstall">Установка</s:String>
     <s:String x:Key="SetupStepFinish">Готово</s:String>
     <s:String x:Key="BtnNext">Далее →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">Выберите папку, в которую будет установлен FROST.</s:String>
     <s:String x:Key="PathLabel">Папка назначения:</s:String>
     <s:String x:Key="ChkDesktop">Создать ярлык на рабочем столе</s:String>
-    <s:String x:Key="ChkStartMenu">Создать ярлык в меню Пуск</s:String>
+    <s:String x:Key="OptionsTitle">Дополнительные параметры</s:String>
+    <s:String x:Key="OptionsDesc">Выберите ярлыки и начальное поведение FROST.</s:String>
+    <s:String x:Key="ChkStartup">Запускать FROST вместе с Windows</s:String>
+    <s:String x:Key="ChkCloseToTray">Сворачивать FROST в скрытые значки при закрытии</s:String>
     <s:String x:Key="InstallTitle">Установка...</s:String>
     <s:String x:Key="InstallPreparing">Подготовка к установке...</s:String>
     <s:String x:Key="InstallCopying">Копирование файлов...</s:String>

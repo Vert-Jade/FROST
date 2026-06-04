@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Langue</s:String>
     <s:String x:Key="SetupStepWelcome">Bienvenue</s:String>
     <s:String x:Key="SetupStepPath">Emplacement</s:String>
+    <s:String x:Key="SetupStepOptions">Options</s:String>
     <s:String x:Key="SetupStepInstall">Installation</s:String>
     <s:String x:Key="SetupStepFinish">Terminé</s:String>
     <s:String x:Key="BtnNext">Suivant →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">Sélectionnez le dossier dans lequel FROST sera installé.</s:String>
     <s:String x:Key="PathLabel">Dossier de destination :</s:String>
     <s:String x:Key="ChkDesktop">Créer un raccourci sur le Bureau</s:String>
-    <s:String x:Key="ChkStartMenu">Créer un raccourci dans le menu Démarrer</s:String>
+    <s:String x:Key="OptionsTitle">Options supplémentaires</s:String>
+    <s:String x:Key="OptionsDesc">Choisissez les raccourcis et le comportement initial de FROST.</s:String>
+    <s:String x:Key="ChkStartup">Lancer FROST au démarrage de Windows</s:String>
+    <s:String x:Key="ChkCloseToTray">Réduire FROST dans les icônes cachées à la fermeture</s:String>
     <s:String x:Key="InstallTitle">Installation en cours...</s:String>
     <s:String x:Key="InstallPreparing">Préparation de l'installation...</s:String>
     <s:String x:Key="InstallCopying">Copie des fichiers...</s:String>

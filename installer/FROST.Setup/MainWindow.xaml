@@ -334,7 +334,7 @@
                                            VerticalAlignment="Center"/>
                             </Border>
                             <TextBlock x:Name="SideLabel1" Grid.Column="1"
-                                       Text="{DynamicResource SetupStepWelcome}"
+                                       Text="{DynamicResource SetupStepPath}"
                                        FontSize="13" Foreground="#4A5168"
                                        VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </Grid>
@@ -352,7 +352,7 @@
                                            VerticalAlignment="Center"/>
                             </Border>
                             <TextBlock x:Name="SideLabel2" Grid.Column="1"
-                                       Text="{DynamicResource SetupStepPath}"
+                                       Text="{DynamicResource SetupStepOptions}"
                                        FontSize="13" Foreground="#4A5168"
                                        VerticalAlignment="Center" Margin="8,0,0,0"/>
                         </Grid>
@@ -396,7 +396,7 @@
                     </StackPanel>
 
                     <!-- Version -->
-                    <TextBlock Grid.Row="2" Text="FROST v1.0.8  ·  © 2025"
+                    <TextBlock Grid.Row="2" Text="FROST v1.0.9  ·  © 2025"
                                FontSize="10" Foreground="#2A3040"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
@@ -452,46 +452,7 @@
                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     </Grid>
 
-                    <!-- ─── STEP 1 : Bienvenue ─── -->
-                    <Grid x:Name="StepWelcome" Visibility="Collapsed">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="230"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Text content -->
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,36,0">
-                            <Border Width="36" Height="3" Background="#8FEFFF"
-                                    HorizontalAlignment="Left" CornerRadius="2" Margin="0,0,0,22"/>
-                            <TextBlock Text="{DynamicResource WelcomeTitle}"
-                                       FontSize="24" FontWeight="Bold" Foreground="#E5E7EB"
-                                       TextWrapping="Wrap" FontFamily="Segoe UI" Margin="0,0,0,14"/>
-                            <TextBlock Text="{DynamicResource WelcomeDesc}"
-                                       FontSize="13" Foreground="#8890A0"
-                                       TextWrapping="Wrap" LineHeight="21" Margin="0,0,0,22"/>
-                            <!-- Info badge -->
-                            <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1"
-                                    CornerRadius="8" Padding="14,8" HorizontalAlignment="Left">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="v1.0.8" FontSize="12" FontWeight="SemiBold"
-                                               Foreground="#8FEFFF"/>
-                                    <TextBlock Text="   ·   Windows 10 / 11 x64" FontSize="12"
-                                               Foreground="#4A5168"/>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Artwork -->
-                        <Border Grid.Column="1" CornerRadius="10" Background="#11151D" Padding="10">
-                            <Image Source="pack://application:,,,/Resources/Bienvenue.png"
-                                   Stretch="Uniform"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Border>
-                    </Grid>
-
-                    <!-- ─── STEP 2 : Emplacement ─── -->
+                    <!-- ─── STEP 1 : Emplacement ─── -->
                     <Grid x:Name="StepPath" Visibility="Collapsed">
                         <StackPanel VerticalAlignment="Center">
                             <Border Width="36" Height="3" Background="#8FEFFF"
@@ -503,12 +464,10 @@
                                        FontSize="13" Foreground="#8890A0"
                                        TextWrapping="Wrap" Margin="0,0,0,30"/>
 
-                            <!-- Path label -->
                             <TextBlock Text="{DynamicResource PathLabel}"
                                        FontSize="11" FontWeight="SemiBold" Foreground="#7A8090"
                                        Margin="0,0,0,8"/>
 
-                            <!-- Path row -->
                             <Grid Margin="0,0,0,20">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -522,10 +481,8 @@
                                         Click="BtnBrowse_Click"/>
                             </Grid>
 
-                            <!-- Disk space pill -->
                             <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1"
-                                    CornerRadius="8" Padding="14,8" Margin="0,0,0,24"
-                                    HorizontalAlignment="Left">
+                                    CornerRadius="8" Padding="14,8" HorizontalAlignment="Left">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="💾" FontSize="13" Margin="0,0,8,0"
                                                VerticalAlignment="Center"/>
@@ -533,13 +490,38 @@
                                                Foreground="#8890A0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
+                        </StackPanel>
+                    </Grid>
 
-                            <!-- Checkboxes -->
-                            <CheckBox x:Name="ChkDesktop" Style="{StaticResource ChkStyle}"
-                                      Content="{DynamicResource ChkDesktop}" IsChecked="True"
-                                      Margin="0,0,0,12"/>
-                            <CheckBox x:Name="ChkStartMenu" Style="{StaticResource ChkStyle}"
-                                      Content="{DynamicResource ChkStartMenu}" IsChecked="True"/>
+                    <!-- ─── STEP 2 : Options supplémentaires ─── -->
+                    <Grid x:Name="StepOptions" Visibility="Collapsed">
+                        <StackPanel VerticalAlignment="Center">
+                            <Border Width="36" Height="3" Background="#8FEFFF"
+                                    HorizontalAlignment="Left" CornerRadius="2" Margin="0,0,0,22"/>
+                            <TextBlock Text="{DynamicResource OptionsTitle}"
+                                       FontSize="24" FontWeight="Bold" Foreground="#E5E7EB"
+                                       FontFamily="Segoe UI" Margin="0,0,0,8"/>
+                            <TextBlock Text="{DynamicResource OptionsDesc}"
+                                       FontSize="13" Foreground="#8890A0"
+                                       TextWrapping="Wrap" Margin="0,0,0,24"/>
+
+                            <UniformGrid Columns="2" Rows="2">
+                                <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1" CornerRadius="9" Padding="14" Margin="0,0,8,10">
+                                    <CheckBox x:Name="ChkDesktop" Style="{StaticResource ChkStyle}" IsChecked="True">
+                                        <TextBlock Text="{DynamicResource ChkDesktop}" TextWrapping="Wrap" Foreground="#D8DEE9"/>
+                                    </CheckBox>
+                                </Border>
+                                <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1" CornerRadius="9" Padding="14" Margin="8,0,0,10">
+                                    <CheckBox x:Name="ChkStartup" Style="{StaticResource ChkStyle}">
+                                        <TextBlock Text="{DynamicResource ChkStartup}" TextWrapping="Wrap" Foreground="#D8DEE9"/>
+                                    </CheckBox>
+                                </Border>
+                                <Border Background="#141820" BorderBrush="#252A38" BorderThickness="1" CornerRadius="9" Padding="14" Margin="0,0,8,0">
+                                    <CheckBox x:Name="ChkCloseToTray" Style="{StaticResource ChkStyle}">
+                                        <TextBlock Text="{DynamicResource ChkCloseToTray}" TextWrapping="Wrap" Foreground="#D8DEE9"/>
+                                    </CheckBox>
+                                </Border>
+                            </UniformGrid>
                         </StackPanel>
                     </Grid>
 

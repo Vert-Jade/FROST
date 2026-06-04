@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Språk</s:String>
     <s:String x:Key="SetupStepWelcome">Välkommen</s:String>
     <s:String x:Key="SetupStepPath">Plats</s:String>
+    <s:String x:Key="SetupStepOptions">Alternativ</s:String>
     <s:String x:Key="SetupStepInstall">Installation</s:String>
     <s:String x:Key="SetupStepFinish">Klar</s:String>
     <s:String x:Key="BtnNext">Nästa →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">Välj den mapp där FROST ska installeras.</s:String>
     <s:String x:Key="PathLabel">Målmapp:</s:String>
     <s:String x:Key="ChkDesktop">Skapa genväg på skrivbordet</s:String>
-    <s:String x:Key="ChkStartMenu">Skapa genväg i startmenyn</s:String>
+    <s:String x:Key="OptionsTitle">Ytterligare alternativ</s:String>
+    <s:String x:Key="OptionsDesc">Välj genvägar och FROSTs startbeteende.</s:String>
+    <s:String x:Key="ChkStartup">Starta FROST med Windows</s:String>
+    <s:String x:Key="ChkCloseToTray">Minimera FROST till dolda ikoner vid stängning</s:String>
     <s:String x:Key="InstallTitle">Installerar...</s:String>
     <s:String x:Key="InstallPreparing">Förbereder installation...</s:String>
     <s:String x:Key="InstallCopying">Kopierar filer...</s:String>

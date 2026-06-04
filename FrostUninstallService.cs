@@ -107,8 +107,17 @@ internal static class FrostUninstallService
             "Programs",
             "FROST");
         string uninstallShortcut = Path.Combine(installDir, UninstallShortcutName);
+        string taskbarShortcut = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "Microsoft",
+            "Internet Explorer",
+            "Quick Launch",
+            "User Pinned",
+            "TaskBar",
+            "FROST.lnk");
 
         TryDeleteFile(desktopShortcut);
+        TryDeleteFile(taskbarShortcut);
         TryDeleteFile(uninstallShortcut);
         TryDeleteDirectory(startMenuDir);
     }
@@ -120,6 +129,11 @@ internal static class FrostUninstallService
             Registry.CurrentUser.DeleteSubKeyTree(
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FROST",
                 throwOnMissingSubKey: false);
+
+            using RegistryKey? runKey = Registry.CurrentUser.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                writable: true);
+            runKey?.DeleteValue("FROST", throwOnMissingValue: false);
         }
         catch
         {

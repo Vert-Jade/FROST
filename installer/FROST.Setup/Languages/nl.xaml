@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Taal</s:String>
     <s:String x:Key="SetupStepWelcome">Welkom</s:String>
     <s:String x:Key="SetupStepPath">Locatie</s:String>
+    <s:String x:Key="SetupStepOptions">Opties</s:String>
     <s:String x:Key="SetupStepInstall">Installatie</s:String>
     <s:String x:Key="SetupStepFinish">Voltooien</s:String>
     <s:String x:Key="BtnNext">Volgende →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">Selecteer de map waarin FROST wordt geïnstalleerd.</s:String>
     <s:String x:Key="PathLabel">Doelmap:</s:String>
     <s:String x:Key="ChkDesktop">Snelkoppeling op bureaublad maken</s:String>
-    <s:String x:Key="ChkStartMenu">Snelkoppeling in startmenu maken</s:String>
+    <s:String x:Key="OptionsTitle">Extra opties</s:String>
+    <s:String x:Key="OptionsDesc">Kies snelkoppelingen en het startgedrag van FROST.</s:String>
+    <s:String x:Key="ChkStartup">FROST starten met Windows</s:String>
+    <s:String x:Key="ChkCloseToTray">FROST naar verborgen pictogrammen minimaliseren bij sluiten</s:String>
     <s:String x:Key="InstallTitle">Installeren...</s:String>
     <s:String x:Key="InstallPreparing">Installatie voorbereiden...</s:String>
     <s:String x:Key="InstallCopying">Bestanden kopiëren...</s:String>

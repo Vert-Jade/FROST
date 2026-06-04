@@ -534,6 +534,7 @@ namespace FROST
         private static readonly string AppDataDirectory = InitializeAppDataDirectory();
         private static readonly string GridConfigPath = System.IO.Path.Combine(AppDataDirectory, "grid_config.txt");
         private static readonly string GridConfigBackupPath = System.IO.Path.Combine(AppDataDirectory, "grid_config.backup.txt");
+        private static readonly string InstallerOptionsPath = System.IO.Path.Combine(AppDataDirectory, "installer_options.ini");
         private static readonly string DebugLogPath = System.IO.Path.Combine(AppDataDirectory, "frost_debug.log");
         private static readonly string LegacyGridConfigPath = System.IO.Path.Combine(AppContext.BaseDirectory, "grid_config.txt");
         private static readonly string UpdatesDirectory = System.IO.Path.Combine(AppDataDirectory, "Updates");
@@ -1043,6 +1044,7 @@ namespace FROST
             TryMigrateLegacyConfig();
             TryRestoreConfigFromBackupIfNeeded();
             InitializeComponent();
+            ApplyDisplayedAppVersion();
             ApplyFrostWindowIcon();
             InitializeTrayIcon();
             LoadGridConfig();
@@ -1471,6 +1473,20 @@ namespace FROST
             catch { }
 
             return typeof(MainWindow).Assembly.GetName().Version ?? new Version(0, 0, 0, 0);
+        }
+
+        private void ApplyDisplayedAppVersion()
+        {
+            try
+            {
+                Version version = GetCurrentApplicationVersion();
+                int build = Math.Max(version.Build, 0);
+                TxtAppVersion.Text = $" v{version.Major}.{version.Minor}.{build}";
+            }
+            catch
+            {
+                TxtAppVersion.Text = " v1.0.8";
+            }
         }
 
         private static bool IsReleaseNewerThanCurrent(string? releaseTag)
@@ -6250,6 +6266,48 @@ namespace FROST
                 }
                 catch { }
             }
+
+            ApplyPendingInstallerOptions();
+        }
+
+        private void ApplyPendingInstallerOptions()
+        {
+            try
+            {
+                if (!File.Exists(InstallerOptionsPath))
+                    return;
+
+                bool? closeToTray = null;
+                foreach (string rawLine in File.ReadAllLines(InstallerOptionsPath))
+                {
+                    string line = rawLine.Trim();
+                    if (line.Length == 0 || line.StartsWith("#", StringComparison.Ordinal))
+                        continue;
+
+                    string[] parts = line.Split('=', 2, StringSplitOptions.TrimEntries);
+                    if (parts.Length != 2)
+                        continue;
+
+                    if (string.Equals(parts[0], "CloseToTray", StringComparison.OrdinalIgnoreCase) &&
+                        bool.TryParse(parts[1], out bool value))
+                    {
+                        closeToTray = value;
+                    }
+                }
+
+                if (closeToTray.HasValue)
+                {
+                    _closeToTray = closeToTray.Value;
+                    ApplyCloseToTraySetting();
+                    UpdateTrayIconVisibility();
+
+                    if (_canPersistGridConfig)
+                        SaveGridConfig(rememberBounds: false);
+                }
+
+                File.Delete(InstallerOptionsPath);
+            }
+            catch { }
         }
     }
 }

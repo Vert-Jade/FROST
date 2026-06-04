@@ -5,6 +5,7 @@
     <s:String x:Key="SetupStepLang">Lingua</s:String>
     <s:String x:Key="SetupStepWelcome">Benvenuto</s:String>
     <s:String x:Key="SetupStepPath">Percorso</s:String>
+    <s:String x:Key="SetupStepOptions">Opzioni</s:String>
     <s:String x:Key="SetupStepInstall">Installazione</s:String>
     <s:String x:Key="SetupStepFinish">Fine</s:String>
     <s:String x:Key="BtnNext">Avanti →</s:String>
@@ -32,7 +33,10 @@
     <s:String x:Key="PathDesc">Seleziona la cartella in cui verrà installato FROST.</s:String>
     <s:String x:Key="PathLabel">Cartella di destinazione:</s:String>
     <s:String x:Key="ChkDesktop">Crea collegamento sul Desktop</s:String>
-    <s:String x:Key="ChkStartMenu">Crea collegamento nel menu Start</s:String>
+    <s:String x:Key="OptionsTitle">Opzioni aggiuntive</s:String>
+    <s:String x:Key="OptionsDesc">Scegli i collegamenti e il comportamento iniziale di FROST.</s:String>
+    <s:String x:Key="ChkStartup">Avvia FROST all'avvio di Windows</s:String>
+    <s:String x:Key="ChkCloseToTray">Riduci FROST nelle icone nascoste alla chiusura</s:String>
     <s:String x:Key="InstallTitle">Installazione in corso...</s:String>
     <s:String x:Key="InstallPreparing">Preparazione installazione...</s:String>
     <s:String x:Key="InstallCopying">Copia dei file...</s:String>
