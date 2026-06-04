@@ -2,12 +2,16 @@ using System.Windows;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace FROST
 {
     public partial class App : Application
     {
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int SetCurrentProcessExplicitAppUserModelID(string appID);
+
         internal static string CurrentLanguageCode { get; private set; } = "fr";
 
         protected override void OnStartup(StartupEventArgs e)
@@ -25,6 +29,7 @@ namespace FROST
             try
             {
                 base.OnStartup(e);
+                TryApplyAppUserModelId();
 
                 bool uninstallMode = e.Args.Any(arg => string.Equals(arg, "--uninstall", StringComparison.OrdinalIgnoreCase));
                 bool quietMode = e.Args.Any(arg => string.Equals(arg, "--quiet", StringComparison.OrdinalIgnoreCase));
@@ -39,7 +44,7 @@ namespace FROST
                         int exitCode = 0;
                         try
                         {
-                            FrostUninstallService.Run(removeUserData: false, progress: null, texts: FrostUninstallTexts.Default);
+                            FrostUninstallService.Run(removeUserData: true, progress: null, texts: FrostUninstallTexts.Default);
                         }
                         catch
                         {
@@ -65,6 +70,15 @@ namespace FROST
                     MessageBoxImage.Error);
                 Shutdown(1);
             }
+        }
+
+        private static void TryApplyAppUserModelId()
+        {
+            try
+            {
+                SetCurrentProcessExplicitAppUserModelID("VertJade.FROST");
+            }
+            catch { }
         }
 
         private static void LoadLanguage(string code)

@@ -1031,6 +1031,7 @@ namespace FROST
             TryMigrateLegacyConfig();
             TryRestoreConfigFromBackupIfNeeded();
             InitializeComponent();
+            ApplyFrostWindowIcon();
             LoadGridConfig();
             ApplyStartupCompactPanelDefaults();
             InitUIStates();
@@ -1109,6 +1110,15 @@ namespace FROST
                     StartAutoUpdateCheck();
                 }
             };
+        }
+
+        private void ApplyFrostWindowIcon()
+        {
+            try
+            {
+                Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Ressources/Icones/frost.ico", UriKind.Absolute));
+            }
+            catch { }
         }
 
         private void RevealWindowAfterStartupPreparation()
@@ -1539,6 +1549,9 @@ namespace FROST
             if (OnboardingOverlay?.Visibility == Visibility.Visible || SuccessOverlay?.Visibility == Visibility.Visible)
                 return false;
 
+            if (DofusWaitingOverlay?.Visibility == Visibility.Visible)
+                return true;
+
             if (ControlPanel == null || ControlPanel.Visibility != Visibility.Visible || !ControlPanel.IsVisible)
                 return false;
 
@@ -1618,13 +1631,8 @@ namespace FROST
             try
             {
                 SaveGridConfig();
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = _pendingUpdateInstallerPath,
-                    WorkingDirectory = System.IO.Path.GetDirectoryName(_pendingUpdateInstallerPath),
-                    UseShellExecute = true
-                });
-                Log($"Installeur de mise à jour lancé : {_pendingUpdateInstallerPath}");
+                ScheduleDownloadedInstallerAfterExit(_pendingUpdateInstallerPath);
+                Log($"Installeur de mise à jour planifié après fermeture de FROST : {_pendingUpdateInstallerPath}");
                 Close();
             }
             catch (Exception ex)
@@ -1647,6 +1655,9 @@ namespace FROST
 
             if (OnboardingOverlay?.Visibility == Visibility.Visible || SuccessOverlay?.Visibility == Visibility.Visible)
                 return false;
+
+            if (DofusWaitingOverlay?.Visibility == Visibility.Visible)
+                return true;
 
             if (ControlPanel == null || ControlPanel.Visibility != Visibility.Visible || !ControlPanel.IsVisible)
                 return false;
@@ -3536,6 +3547,30 @@ namespace FROST
             RestoreControlPanelAfterOnboarding(saveAfterFit: false);
             ShowMandatoryNoticeStep(_mandatoryNoticeStep);
             RestoreWindowForInteractiveFlow();
+        }
+
+        private static void ScheduleDownloadedInstallerAfterExit(string installerPath)
+        {
+            string workingDirectory = System.IO.Path.GetDirectoryName(installerPath) ?? AppContext.BaseDirectory;
+            string command = string.Join(" & ", new[]
+            {
+                "ping 127.0.0.1 -n 4 > nul",
+                $"start \"\" /D {CmdQuote(workingDirectory)} {CmdQuote(installerPath)}"
+            });
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = "/d /c " + command,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false
+            });
+        }
+
+        private static string CmdQuote(string value)
+        {
+            return "\"" + value.Replace("\"", string.Empty) + "\"";
         }
 
         private void ShowMandatoryNoticeStep(int step)

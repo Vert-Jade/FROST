@@ -447,7 +447,7 @@ public partial class MainWindow : Window
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FROST");
             if (key == null) return;
             key.SetValue("DisplayName",     "FROST");
-            key.SetValue("DisplayVersion",  "1.0.5");
+            key.SetValue("DisplayVersion",  "1.0.6");
             key.SetValue("Publisher",       "Dylan Fournier");
             key.SetValue("InstallLocation", installDir);
             key.SetValue("DisplayIcon",     exePath);
