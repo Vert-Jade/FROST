@@ -1057,6 +1057,7 @@ namespace FROST
             this.Loaded += (s, e) =>
             {
                 bool shouldDelayInitialReveal = _hasSavedGridConfig && _hasCompletedMandatoryNoticeFlow;
+                bool isInitialInteractiveFlowPending = !_hasSavedGridConfig || !_hasCompletedMandatoryNoticeFlow;
 
                 try
                 {
@@ -1078,7 +1079,7 @@ namespace FROST
                     QueueAutoFitControlPanelHeight(saveAfterFit: _hasSavedGridConfig && _hasCompletedMandatoryNoticeFlow);
                     if (targetScreen != null)
                     {
-                        MoveToScreen(targetScreen);
+                        MoveToScreen(targetScreen, allowGameSnap: !isInitialInteractiveFlowPending);
                     }
                 }
                 finally
@@ -1099,11 +1100,13 @@ namespace FROST
                     {
                         StartOnboarding();
                         RevealWindowAfterStartupPreparation();
+                        BringInitialInteractiveFlowToFront();
                     }
                     else if (!_hasCompletedMandatoryNoticeFlow)
                     {
                         StartMandatoryNoticeFlow();
                         RevealWindowAfterStartupPreparation();
+                        BringInitialInteractiveFlowToFront();
                     }
 
                     QueuePreviouslyDownloadedUpdateIfNeeded();
@@ -1129,7 +1132,51 @@ namespace FROST
             }
 
             Opacity = 1.0;
-            Topmost = false;
+            Topmost = ShouldKeepInteractiveFlowTopmost();
+        }
+
+        private bool IsInitialInteractiveFlowActive()
+        {
+            return !_hasSavedGridConfig ||
+                   !_hasCompletedMandatoryNoticeFlow ||
+                   _isMandatoryNoticeFlowActive ||
+                   (OnboardingOverlay != null && OnboardingOverlay.Visibility == Visibility.Visible) ||
+                   (SuccessOverlay != null && SuccessOverlay.Visibility == Visibility.Visible);
+        }
+
+        private bool ShouldKeepInteractiveFlowTopmost()
+        {
+            return IsInitialInteractiveFlowActive();
+        }
+
+        private void BringInitialInteractiveFlowToFront()
+        {
+            if (!IsInitialInteractiveFlowActive())
+            {
+                return;
+            }
+
+            HideDofusWaitingOverlay();
+            _trackedGameWindowHandle = IntPtr.Zero;
+            _isAutoHiddenBecauseGameWindowUnavailable = false;
+            _shouldRestoreWindowAfterGameWindowReturns = false;
+            Topmost = true;
+            ShowInTaskbar = true;
+            if (_windowHandle != IntPtr.Zero)
+            {
+                SetWindowClickThrough(false);
+            }
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!IsInitialInteractiveFlowActive())
+                {
+                    return;
+                }
+
+                Topmost = true;
+                Activate();
+            }), DispatcherPriority.ApplicationIdle);
         }
 
         private void ApplyStartupCompactPanelDefaults()
@@ -1970,10 +2017,17 @@ namespace FROST
                 ClampControlPanelToWindow();
 
                 Opacity = 1.0;
-                Topmost = false;
+                Topmost = ShouldKeepInteractiveFlowTopmost();
             });
 
-            SyncWindowAboveTrackedGameWindow();
+            if (IsInitialInteractiveFlowActive())
+            {
+                BringInitialInteractiveFlowToFront();
+            }
+            else
+            {
+                SyncWindowAboveTrackedGameWindow();
+            }
             SetWindowClickThrough(false);
         }
 
@@ -3392,6 +3446,7 @@ namespace FROST
             OnboardingOverlay.Visibility = Visibility.Visible;
             ControlPanel.Visibility = Visibility.Collapsed; // Cache le menu temporairement
             ShowOnboardingStep(1);
+            BringInitialInteractiveFlowToFront();
         }
 
         private bool _isDraggingOnboarding = false;
@@ -3537,6 +3592,10 @@ namespace FROST
             ControlPanel.Visibility = Visibility.Visible;
             ApplyViewMode();
             QueueAutoFitControlPanelHeight(saveAfterFit);
+            if (IsInitialInteractiveFlowActive())
+            {
+                BringInitialInteractiveFlowToFront();
+            }
         }
 
         private void StartMandatoryNoticeFlow()
@@ -3613,9 +3672,16 @@ namespace FROST
             NoticeContent.Visibility = Visibility.Collapsed;
             SettingsContent.Visibility = Visibility.Collapsed;
             PanelContent.Visibility = Visibility.Visible;
+            ControlPanel.Height = double.NaN;
+            _panelHeight = double.NaN;
+            _savedPanelHeight = double.NaN;
+            ApplyViewMode();
+            UpdateLayout();
+            AutoFitControlPanelHeight(saveAfterFit: false);
 
             QueueAutoFitControlPanelHeight(saveAfterFit: true);
             SaveGridConfig();
+            Topmost = false;
             TrySnapToTrackedGameWindow(allowAutoHide: true);
             Log("Notice obligatoire terminée.");
         }
@@ -4346,6 +4412,11 @@ namespace FROST
 
         private bool TrySnapToTrackedGameWindow(bool allowAutoHide = true)
         {
+            if (IsInitialInteractiveFlowActive())
+            {
+                return false;
+            }
+
             GameWindowCandidate? candidate = FindBestGameWindowCandidate();
             if (candidate == null)
             {
@@ -4560,12 +4631,16 @@ namespace FROST
             if (ControlPanel != null && _hasCompletedMandatoryNoticeFlow && !_isMandatoryNoticeFlowActive)
             {
                 ControlPanel.Visibility = Visibility.Visible;
+                ControlPanel.Height = double.NaN;
             }
         }
 
         private bool ShouldTrackGameWindowAnchor()
         {
-            if (_windowHandle == IntPtr.Zero || _isApplyingTrackedWindowBounds || _isApplyingInitialLayout)
+            if (_windowHandle == IntPtr.Zero ||
+                _isApplyingTrackedWindowBounds ||
+                _isApplyingInitialLayout ||
+                IsInitialInteractiveFlowActive())
             {
                 return false;
             }
@@ -4626,6 +4701,13 @@ namespace FROST
                 return;
             }
 
+            bool wasShowingDofusWaitingOverlay = DofusWaitingOverlay != null &&
+                                                 DofusWaitingOverlay.Visibility == Visibility.Visible;
+            if (wasShowingDofusWaitingOverlay)
+            {
+                _panelHeight = double.NaN;
+                _savedPanelHeight = double.NaN;
+            }
             HideDofusWaitingOverlay();
 
             bool shouldRestoreAutoHiddenWindow =
@@ -4702,6 +4784,23 @@ namespace FROST
             finally
             {
                 _isApplyingTrackedWindowBounds = false;
+            }
+
+            if (wasShowingDofusWaitingOverlay)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (ControlPanel == null ||
+                        DofusWaitingOverlay == null ||
+                        DofusWaitingOverlay.Visibility == Visibility.Visible)
+                    {
+                        return;
+                    }
+
+                    ApplyViewMode();
+                    ControlPanel.Height = double.NaN;
+                    QueueAutoFitControlPanelHeight(saveAfterFit: true);
+                }), DispatcherPriority.Loaded);
             }
         }
 
@@ -5105,7 +5204,7 @@ namespace FROST
             }
         }
 
-        private void MoveToScreen(DisplayScreen screen)
+        private void MoveToScreen(DisplayScreen screen, bool allowGameSnap = true)
         {
             InvalidateTrackedGameWindowAnchor(keepCurrentBounds: false, allowAutoHide: false);
 
@@ -5131,10 +5230,14 @@ namespace FROST
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                TrySnapToTrackedGameWindow(allowAutoHide: false);
+                if (allowGameSnap && !IsInitialInteractiveFlowActive())
+                {
+                    TrySnapToTrackedGameWindow(allowAutoHide: false);
+                }
                 ClampControlPanelToWindow();
                 if (!_isAutoHiddenBecauseGameWindowUnavailable && Opacity > 0.01)
                 {
+                    Topmost = ShouldKeepInteractiveFlowTopmost();
                     Activate();
                 }
             }), DispatcherPriority.Loaded);
@@ -5176,7 +5279,7 @@ namespace FROST
                 var target = screens.FirstOrDefault(s => s.DeviceName == deviceName);
                 if (target != null)
                 {
-                    MoveToScreen(target);
+                    MoveToScreen(target, allowGameSnap: !IsInitialInteractiveFlowActive());
                     RefreshScreenList();
                     SaveGridConfig();
                 }
@@ -5221,7 +5324,7 @@ namespace FROST
                 var target = screens.FirstOrDefault(s => s.DeviceName == deviceName);
                 if (target != null)
                 {
-                    MoveToScreen(target);
+                    MoveToScreen(target, allowGameSnap: !IsInitialInteractiveFlowActive());
                     RefreshOnbScreenList();
                     RefreshScreenList();
                     SaveGridConfig();
